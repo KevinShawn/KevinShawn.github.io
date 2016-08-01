@@ -1050,6 +1050,131 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
+                  Search API
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS9/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS9</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
+<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
+<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
+<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
+<p>下面写一下简单得步骤：</p>
+<p>1 引入CoreSpotlight.framework</p>
+<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
+<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
+<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
+<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/12/NSURLProtocol/" itemprop="url">
                   NSURLProtocol
                 </a>
@@ -1139,131 +1264,6 @@
 <h2 id="总结">总结</h2><p><a href="http://cdn5.raywenderlich.com/wp-content/uploads/2013/12/NSURLProtocolExample1.zip" target="_blank" rel="external">Finished Project</a></p>
 <h3 id="附加1">附加1</h3><p>重定向到github<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">NSURLRequest</span> *) canonicalRequestForRequest:(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">    <span class="built_in">NSMutableURLRequest</span> *mutableReqeust = [request mutableCopy];</div><div class="line">    mutableReqeust = [<span class="keyword">self</span> redirectHostInRequset:mutableReqeust];</div><div class="line">    <span class="keyword">return</span> mutableReqeust;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+(<span class="built_in">NSMutableURLRequest</span>*)redirectHostInRequset:(<span class="built_in">NSMutableURLRequest</span>*)request</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> ([request.URL host].length == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">NSString</span> *originUrlString = [request.URL absoluteString];</div><div class="line">    <span class="built_in">NSString</span> *originHostString = [request.URL host];</div><div class="line">    <span class="built_in">NSRange</span> hostRange = [originUrlString rangeOfString:originHostString];</div><div class="line">    <span class="keyword">if</span> (hostRange.location == <span class="built_in">NSNotFound</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//定向到github主页</span></div><div class="line">    <span class="built_in">NSString</span> *ip = <span class="string">@"github.com"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 替换域名</span></div><div class="line">    <span class="built_in">NSString</span> *urlString = [originUrlString stringByReplacingCharactersInRange:hostRange withString:ip];</div><div class="line">    <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:urlString];</div><div class="line">    request.URL = url;</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="附加2">附加2</h3><p>没有实现足够的回调方法导致各种奇葩问题。如connection:willSendRequest:redirectResponse: 内如果没有通过[self client]回传消息，那么需要重定向的网页就会出现问题:host不对或者造成跨域调用导致资源无法加载。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
-                  Search API
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS9/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS9</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
-<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
-<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
-<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
-<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
-<p>下面写一下简单得步骤：</p>
-<p>1 引入CoreSpotlight.framework</p>
-<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
-<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
-<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
-<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
 
           
         
