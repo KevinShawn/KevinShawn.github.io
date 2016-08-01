@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next mist use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -96,7 +96,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Pisces',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -372,8 +372,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/12/3DTouch/" itemprop="url">
-                  3D touch
+                <a class="post-title-link" href="/2015/11/12/Hello!/" itemprop="url">
+                  随想
                 </a>
               
             
@@ -400,8 +400,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS9/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS9</span>
+                  <a href="/categories/思考人生/" itemprop="url" rel="index">
+                    <span itemprop="name">思考人生</span>
                   </a>
                 </span>
 
@@ -435,40 +435,7 @@
       
         
           
-            <p>iOS9已经出来一段时间了，今天我们来感受一下新的API 3D Touch<br>翻译自<a href="http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115" target="_blank" rel="external">http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115</a><br><a href="https://github.com/tutsplus/iOS-3DTouch-Introduction-Starter" target="_blank" rel="external">start Project</a></p>
-<h2 id="前言">前言</h2><p>iOS 9提供了如下3D Touch APIs:</p>
-<ul>
-<li>Home Screen quick action API，使你可以给应用图标添加快速选项,从而让应用预料和加速其与APP的交互。</li>
-<li><p>UIKit peek and pop API，可让你在应用中为用户提供快速访问更多内容的功能，而无需离开当前上下文环境。使用peek quick actions的API提供的按压功能来替换你应用的触摸长按操作。</p>
-</li>
-<li><p>Web view peek and pop API，让你使用系统提供的HTML链接预览功能。</p>
-</li>
-<li><p>UITouch force properties，让你在应用增加自定义的基于压力的用户交互。</p>
-</li>
-<li><p>Tips<br>1.没有iPhone6可以先用这个勉强测一下<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator" target="_blank" rel="external">SBShortcutMenuSimulator</a><br>2.不管你使用以上哪些APIs，你的应用必须在运行时检测3D Touch的可用性。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self<span class="selector-class">.traitCollection</span><span class="selector-class">.forceTouchCapability</span> == UIForceTouchCapabilityAvailable</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="Home_Screen_Quick_Actions">Home Screen Quick Actions</h2><p>创建方式分为动态创建和静态创建2种</p>
-<h3 id="静态创建就是在info-plist里面创建">静态创建就是在info.plist里面创建</h3><p><img src="http://chuantu.biz/t2/18/1447436590x-1566679573.png" alt=""></p>
-<h3 id="动态创建">动态创建</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">多一步先判断  application.shortcutItems <span class="keyword">where</span> shortcutItems.isEmpty</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line"></div><div class="line"><span class="comment">// Override point for customization after application launch.</span></div><div class="line"><span class="keyword">var</span> shouldPerformAdditionalDelegateHandling = <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment">// If a shortcut was launched, display its information and take the appropriate action</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> shortcutItem = launchOptions?[<span class="type">UIApplicationLaunchOptionsShortcutItemKey</span>] <span class="keyword">as</span>? <span class="type">UIApplicationShortcutItem</span> &#123;</div><div class="line"></div><div class="line">launchedShortcutItem = shortcutItem</div><div class="line"></div><div class="line"><span class="comment">// This will block "performActionForShortcutItem:completionHandler" from being called.</span></div><div class="line">shouldPerformAdditionalDelegateHandling = <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Install initial versions of our two extra dynamic shortcuts.</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> shortcutItems = application.shortcutItems <span class="keyword">where</span> shortcutItems.isEmpty &#123;</div><div class="line"><span class="comment">// Construct the items.</span></div><div class="line"><span class="keyword">let</span> shortcut3 = <span class="type">UIMutableApplicationShortcutItem</span>(type: <span class="type">ShortcutIdentifier</span>.<span class="type">Third</span>.type, localizedTitle: <span class="string">"Play"</span>, localizedSubtitle: <span class="string">"Will Play an item"</span>, icon: <span class="type">UIApplicationShortcutIcon</span>(type: .<span class="type">Play</span>), userInfo: [</div><div class="line"><span class="type">AppDelegate</span>.applicationShortcutUserInfoIconKey: <span class="type">UIApplicationShortcutIconType</span>.<span class="type">Play</span>.rawValue</div><div class="line">]</div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">let</span> shortcut4 = <span class="type">UIMutableApplicationShortcutItem</span>(type: <span class="type">ShortcutIdentifier</span>.<span class="type">Fourth</span>.type, localizedTitle: <span class="string">"Pause"</span>, localizedSubtitle: <span class="string">"Will Pause an item"</span>, icon: <span class="type">UIApplicationShortcutIcon</span>(type: .<span class="type">Pause</span>), userInfo: [</div><div class="line"><span class="type">AppDelegate</span>.applicationShortcutUserInfoIconKey: <span class="type">UIApplicationShortcutIconType</span>.<span class="type">Pause</span>.rawValue</div><div class="line">]</div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">// Update the application providing the initial 'dynamic' shortcut items.</span></div><div class="line">application.shortcutItems = [shortcut3, shortcut4]</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">return</span> shouldPerformAdditionalDelegateHandling</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ShortcutIdentifier</span>: <span class="title">String</span> </span>&#123;</div><div class="line"><span class="keyword">case</span> <span class="type">First</span></div><div class="line"><span class="keyword">case</span> <span class="type">Second</span></div><div class="line"><span class="keyword">case</span> <span class="type">Third</span></div><div class="line"><span class="keyword">case</span> <span class="type">Fourth</span></div><div class="line"></div><div class="line"><span class="comment">// MARK: Initializers</span></div><div class="line"></div><div class="line"><span class="keyword">init</span>?(fullType: <span class="type">String</span>) &#123;</div><div class="line"><span class="keyword">guard</span> <span class="keyword">let</span> last = fullType.componentsSeparatedByString(<span class="string">"."</span>).last <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line"></div><div class="line"><span class="keyword">self</span>.<span class="keyword">init</span>(rawValue: last)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// MARK: Properties</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> type: <span class="type">String</span> &#123;</div><div class="line"><span class="keyword">return</span> <span class="type">NSBundle</span>.mainBundle().bundleIdentifier! + <span class="string">".<span class="subst">\(<span class="keyword">self</span>.rawValue)</span>"</span></div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>说明一下这些属性的意思</p>
-<ul>
-<li>localizedTitle  标题</li>
-<li>localizedSubtitle副标题</li>
-<li>type 独有的标志 等下点击跳转的识别就靠他了</li>
-<li>icon 图标可以用自己的也可以用系统的</li>
-<li>userInfo 你可以传一些信息进去</li>
-</ul>
-<h2 id="Peek_and_Pop_in_Storyboards">Peek and Pop in Storyboards</h2><p><img src="http://chuantu.biz/t2/18/1447438565x-1566679576.png" alt=""><br><img src="http://chuantu.biz/t2/18/1447438412x-1566679576.png" alt=""><br>选择那条蓝色的线 打开Attributes Inspector 设置看图<br>运行一下程序 点一下+号<br>peek一下将弹出预览框 咦好像显示的不太对啊。我们回到项目的MasterViewController.swif  用下面的代码替代一下项目的代码<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">你还需要在prepareForSegue添加跳转逻辑</div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepareForSegue</span><span class="params">(segue: UIStoryboardSegue, sender: AnyObject?)</span></span> &#123;</div><div class="line"><span class="keyword">if</span> segue.identifier == <span class="string">"showDetail"</span> &#123;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> indexPath = <span class="keyword">self</span>.tableView.indexPathForSelectedRow &#123;</div><div class="line"><span class="keyword">let</span> object = objects[indexPath.row] <span class="keyword">as</span>! <span class="type">NSDate</span></div><div class="line"><span class="keyword">let</span> controller = (segue.destinationViewController <span class="keyword">as</span>! <span class="type">UINavigationController</span>).topViewController <span class="keyword">as</span>! <span class="type">DetailViewController</span></div><div class="line">controller.detailItem = object</div><div class="line">controller.navigationItem.leftBarButtonItem = <span class="keyword">self</span>.splitViewController?.displayModeButtonItem()</div><div class="line">controller.navigationItem.leftItemsSupplementBackButton = <span class="literal">true</span></div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> <span class="keyword">let</span> cell = sender <span class="keyword">as</span>? <span class="type">UITableViewCell</span> <span class="keyword">where</span> segue.identifier == <span class="string">"showDetailPeek"</span> &#123;</div><div class="line"><span class="keyword">let</span> controller = (segue.destinationViewController <span class="keyword">as</span>! <span class="type">UINavigationController</span>).topViewController <span class="keyword">as</span>! <span class="type">DetailViewController</span></div><div class="line">controller.detailItem = cell.textLabel?.text</div><div class="line">controller.navigationItem.leftBarButtonItem = <span class="keyword">self</span>.splitViewController?.displayModeButtonItem()</div><div class="line">controller.navigationItem.leftItemsSupplementBackButton = <span class="literal">true</span></div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上面那个if是正常的界面跳转<br>下面那个if是peek的预览页<br>在运行就能看到正常的界面<br>悲剧的是这个只能在iOS9.1下面才能用还是老老实实用用代码写吧</p>
-<h2 id="Peek_and_Pop_in_Code">Peek and Pop in Code</h2><p>想使用peek pop需要UIViewControllerPreviewingDelegate这个协议<br>iOS &gt; Source &gt; Swift File 创建一个MasterPreviewing.<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> UIKit</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MasterViewController</span>: <span class="title">UIViewControllerPreviewingDelegate</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint)</span></span> -&gt; <span class="type">UIViewController</span>? &#123;</div><div class="line"><span class="keyword">guard</span> <span class="keyword">let</span> viewController = <span class="keyword">self</span>.storyboard?.instantiateViewControllerWithIdentifier(<span class="string">"forceViewController"</span>) <span class="keyword">as</span>? <span class="type">ForceViewController</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line">viewController.preferredContentSize = <span class="type">CGSize</span>(width: <span class="number">0</span>, height: <span class="number">0</span>)</div><div class="line"><span class="keyword">return</span> viewController</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController)</span></span> &#123;</div><div class="line">showViewController(viewControllerToCommit, sender: <span class="keyword">self</span>)</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>MasterViewController遵循一下这个协议<br>peek协议<br>previewingContext(<em>:viewControllerForLocation:) 方法里面返回你想preview<br>ForceViewController。preferredContentSize设置为（0， 0）时 预览图将尽其所能显示到当前屏幕<br>pop协议<br>previewingContext(</em>:commitViewController:)<br>显示pop界面<br>还差一步Register 判断3D touch是否可用如果可以就注册preview  sourceView 就是可以进行peek pop的view</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> traitCollection<span class="selector-class">.forceTouchCapability</span> == <span class="selector-class">.Available</span> &#123;</div><div class="line">    self.registerForPreviewingWithDelegate(self, sourceView: forceButton)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后一步 在ForceViewController.swift 里面加入下面代码<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">override func previewActionItems<span class="function"><span class="params">()</span> -&gt;</span> [UIPreviewActionItem] &#123;</div><div class="line"><span class="keyword">let</span> regularAction = UIPreviewAction<span class="function"><span class="params">(title: <span class="string">"Regular"</span>, style: .Default)</span> &#123; <span class="params">(action: UIPreviewAction, vc: UIViewController)</span> -&gt;</span> Void <span class="keyword">in</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> destructiveAction = UIPreviewAction<span class="function"><span class="params">(title: <span class="string">"Destructive"</span>, style: .Destructive)</span> &#123; <span class="params">(action: UIPreviewAction, vc: UIViewController)</span> -&gt;</span> Void <span class="keyword">in</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> actionGroup = UIPreviewActionGroup(title: <span class="string">"Group..."</span>, style: .Default, actions: [regularAction, destructiveAction])</div><div class="line">    <span class="keyword">return</span> [regularAction, destructiveAction, actionGroup]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="Detecting_Force_Through">Detecting Force Through</h2><p>检测压力<br>UITouch增加了2个属性force and maximumPossibleForce<br>这2个属性能帮你准确的检测点击的压力</p>
-<p>在ForceViewController类里面增加<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">touchesMoved</span><span class="params">(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> touch = touches.first <span class="keyword">where</span> traitCollection.forceTouchCapability == .<span class="type">Available</span> &#123;</div><div class="line">    <span class="keyword">self</span>.forceOutput.text = <span class="string">"<span class="subst">\(touch.force)</span>\n<span class="subst">\(touch.maximumPossibleForce)</span>"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这里的属性和目前市面上所用的kg 什么的都没什么关系 是3D touch自有的 1.0表示平均接触施加的力的大小。？<br>人家是这么用的<br>基于 3D Touch 做一台同时可称多个较轻物体电子秤<br><a href="https://github.com/FlexMonkey/Plum-O-Meter" target="_blank" rel="external">https://github.com/FlexMonkey/Plum-O-Meter</a><br>结果几天后被下架了</p>
+            <p>一转眼2015年已不足百日。Never Too Late！！！以后要坚持每天来写点东西</p>
 
           
         
@@ -661,8 +628,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/12/Hello!/" itemprop="url">
-                  随想
+                <a class="post-title-link" href="/2015/11/12/UIPopoverPresentationController/" itemprop="url">
+                  UIPopoverPresentationController
                 </a>
               
             
@@ -689,8 +656,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/思考人生/" itemprop="url" rel="index">
-                    <span itemprop="name">思考人生</span>
+                  <a href="/categories/iOS8/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS8</span>
                   </a>
                 </span>
 
@@ -724,7 +691,14 @@
       
         
           
-            <p>一转眼2015年已不足百日。Never Too Late！！！以后要坚持每天来写点东西</p>
+            <p>UIPopoverPresentationController是提供高级视图切换的类。它让管理present ViewController的过程变得简单。<br>先讲一些presentation基础知识，在iPad的设置页面，可以通过popOver弹出一个UIViewController，这个弹出的，可以和用户交互的Controller叫做PresentedViewController，而后面那个被部分遮挡的UIViewController叫做PresentingViewController<br>接下来我们就一步步的看UIPopoverPresentationController该如何使用</p>
+<h2 id="创建项目">创建项目</h2><p>创建ViewController 创建一个按钮 点击弹出列表页<br>创建ListTableVC 列表页</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">IBAction</span>)presentAction:(<span class="built_in">UIButton</span> *)sender &#123;</div><div class="line">    <span class="keyword">self</span>.vc = [[ListTableVC alloc] init];</div><div class="line">    <span class="keyword">self</span>.vc.modalPresentationStyle = <span class="built_in">UIModalPresentationPopover</span>;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.sourceView = sender;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.sourceRect = sender.bounds;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.permittedArrowDirections = <span class="built_in">UIPopoverArrowDirectionAny</span>;</div><div class="line">    <span class="keyword">self</span>.vc.preferredContentSize = <span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">200</span>);</div><div class="line">    [<span class="keyword">self</span> presentViewController:<span class="keyword">self</span>.vc animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>好像设置这些属性没用怎么回事，为什么还是全屏的<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.vc.modalPresentationStyle = <span class="built_in">UIModalPresentationPopover</span>;</div><div class="line"><span class="keyword">self</span>.vc.popoverPresentationController.sourceView = sender;</div><div class="line"><span class="keyword">self</span>.vc.popoverPresentationController.sourceRect = sender.bounds;</div><div class="line"><span class="keyword">self</span>.vc.popoverPresentationController.permittedArrowDirections = <span class="built_in">UIPopoverArrowDirectionAny</span>;</div><div class="line"><span class="keyword">self</span>.vc.preferredContentSize = <span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">200</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="UIPopoverPresentationControllerDelegate">UIPopoverPresentationControllerDelegate</h2><p>看看源文件里面有个UIPopoverPresentationControllerDelegate<uiadaptivepresentationcontrollerdelegate><br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* For iOS8.0, the only supported adaptive presentation styles are UIModalPresentationFullScreen and UIModalPresentationOverFullScreen. */</span></div><div class="line">- (<span class="built_in">UIModalPresentationStyle</span>)adaptivePresentationStyleForPresentationController:(<span class="built_in">UIPresentationController</span> *)controller;</div><div class="line"></div><div class="line"><span class="comment">// Returning UIModalPresentationNone will indicate that an adaptation should not happen.</span></div><div class="line">- (<span class="built_in">UIModalPresentationStyle</span>)adaptivePresentationStyleForPresentationController:(<span class="built_in">UIPresentationController</span> *)controller traitCollection:(<span class="built_in">UITraitCollection</span> *)traitCollection <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">8</span>_3);</div></pre></td></tr></table></figure></uiadaptivepresentationcontrollerdelegate></p>
+<p>adaptive 试试看<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()&lt;<span class="title">UIPopoverPresentationControllerDelegate</span>&gt;</span></div><div class="line"></div><div class="line">- (<span class="keyword">IBAction</span>)presentAction:(<span class="built_in">UIButton</span> *)sender &#123;</div><div class="line">    <span class="keyword">self</span>.vc = [[ListTableVC alloc] init];</div><div class="line">    <span class="keyword">self</span>.vc.modalPresentationStyle = <span class="built_in">UIModalPresentationPopover</span>;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.sourceView = sender;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.sourceRect = sender.bounds;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.permittedArrowDirections = <span class="built_in">UIPopoverArrowDirectionAny</span>;</div><div class="line">    <span class="comment">//    self.vc.popoverPresentationController.delegate = self;</span></div><div class="line">    <span class="keyword">self</span>.vc.preferredContentSize = <span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">200</span>);</div><div class="line">    [<span class="keyword">self</span> presentViewController:<span class="keyword">self</span>.vc animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">UIModalPresentationStyle</span>)adaptivePresentationStyleForPresentationController:(<span class="built_in">UIPresentationController</span> *)controller&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">UIModalPresentationNone</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>run<br><img src="http://i5.tietuku.com/16acb05d08a0c9bb.png" alt=""></p>
+<h2 id="DismissPopover">DismissPopover</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)popoverPresentationControllerShouldDismissPopover:(<span class="built_in">UIPopoverPresentationController</span> *)popoverPresentationController&#123;</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;   <span class="comment">//点击蒙版popover不消失， 默认yes</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -774,8 +748,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/12/HttpBasic/" itemprop="url">
-                  Http-网络基础
+                <a class="post-title-link" href="/2015/11/12/3DTouch/" itemprop="url">
+                  3D touch
                 </a>
               
             
@@ -802,8 +776,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络基础/" itemprop="url" rel="index">
-                    <span itemprop="name">网络基础</span>
+                  <a href="/categories/iOS9/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS9</span>
                   </a>
                 </span>
 
@@ -837,28 +811,165 @@
       
         
           
-            <p>网络基础，大部分都参考自网上博客</p>
-<h2 id="TCP/IP五层网络结构模型">TCP/IP五层网络结构模型</h2><h3 id="应用层">应用层</h3><p>应用层决定了向用户提供应用服务时通信的活动。<br>TCP/IP 协议族内预存了各类通用的应用服务。比如，FTP（File Transfer Protocol，文件传输协议）和 DNS（Domain Name System，域名系统）服务就是其中两类。HTTP 协议也处于该层。</p>
-<h3 id="传输层">传输层</h3><p>负责主机中进程间的通信。在传输层有两个性质不同的协议：TCP和UDP</p>
-<h3 id="网络层">网络层</h3><p>网络层用来处理在网络上的流动的数据包。数据包是网络传输的最小数据单元。该层规定了通过怎样的路径到达对方的计算机，并把数据包传给对方。网络层的作用在于选择一条传输线路</p>
-<h3 id="数据链路层">数据链路层</h3><p>在物理层提供比特流服务的基础上，建立相邻结点之间的数据链路，通过差错控制提供数据帧（Frame）在信道上无差错的传输，并进行各电路上的动作系列。数据的单位称为帧（frame）</p>
-<h3 id="物理层">物理层</h3><p>物理层建立在物理通信介质的基础上，作为系统和通信介质的接口，用来实现数据链路实体间透明的比特 (bit) 流传输。只有该层为真实物理通信，其它各层为虚拟通信</p>
-<p><img src="http://img.hoop8.com/1607D/fnZl16at.png" alt=""></p>
-<h2 id="网络通信流程">网络通信流程</h2><p>举个例子说明一下，客户端发送一个http请求。<br><img src="http://img.hoop8.com/1607D/Da55tHhz.png" alt=""></p>
-<p>通信路程如下图<br><img src="http://img.hoop8.com/1607D/qkoofTOn.png" alt=""></p>
-<p>过程解析：</p>
-<h3 id="DNS解析">DNS解析</h3><p>DNS协议提供通过域名查找IP地址，或逆向从IP地址反查域名的服务。根据请求链接从DNS服务器查找到域名。</p>
-<h3 id="应用层封装">应用层封装</h3><p>应用层把请求封装成http请求报文。HTTP部分的内容，类似于下面这样：</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</div><div class="line">　　<span class="attribute">Host</span>: www.google.com</div><div class="line">　　<span class="attribute">Connection</span>: keep-alive</div><div class="line">　　<span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows NT 6.1) ......</div><div class="line">　　<span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">　　<span class="attribute">Accept-Encoding</span>: gzip,deflate,sdch</div><div class="line">　　<span class="attribute">Accept-Language</span>: zh-CN,zh;q=0.8</div><div class="line">　　<span class="attribute">Accept-Charset</span>: GBK,utf-8;q=0.7,*;q=0.3</div><div class="line">　　<span class="attribute">Cookie</span>: ... ...</div></pre></td></tr></table></figure>
-<p>我们假定这个部分的长度为4960字节，它会被嵌在TCP数据包之中。</p>
-<h3 id="传输层建立”端口到端口”的通信">传输层建立”端口到端口”的通信</h3><p>传输层的UDP和TCP都使用了端口与上层应用程序进行通信，端口就是与应用程序的接口。不同的程序需要不同的端口。”端口”是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。</p>
-<p>TCP首部的源端口和目的端口包括源IP地址、源端口、目的IP地址、目的端口。<br>TCP数据包需要设置端口，接收方（Google）的HTTP端口默认是80，发送方（本机）的端口是一个随机生成的1024-65535之间的整数，假定为51775。<br>TCP数据包的标头长度为20字节，加上嵌入HTTP的数据包，总长度变为4980字节。<br>“传输层”的功能，就是建立”端口到端口”的通信。</p>
-<h3 id="网络层建立”主机到主机”的通信">网络层建立”主机到主机”的通信</h3><p>然后，TCP数据包再嵌入IP数据包。IP数据包需要设置双方的IP地址，这是已知的，发送方是192.168.1.100（本机），接收方是172.194.72.105（Google）。<br>IP数据包的标头长度为20字节，加上嵌入的TCP数据包，总长度变为5000字节。</p>
-<h3 id="数据链路层-1">数据链路层</h3><p>因为IP数据包是放在以太网数据包里发送的，所以我们必须同时知道两个地址，一个是对方的MAC地址，另一个是对方的IP地址。通常情况下，对方的IP地址是已知的（后文会解释），但是我们不知道它的MAC地址。</p>
-<p>所以，我们需要一种机制，能够从IP地址得到MAC地址。<br>这里又可以分成两种情况。第一种情况，如果两台主机不在同一个子网络，那么事实上没有办法得到对方的MAC地址，只能把数据包传送到两个子网络连接处的”网关”（gateway），让网关去处理。</p>
-<p>第二种情况，如果两台主机在同一个子网络，那么我们可以用ARP协议，得到对方的MAC地址。ARP协议也是发出一个数据包（包含在以太网数据包中），其中包含它所要查询主机的IP地址，在对方的MAC地址这一栏，填的是FF:FF:FF:FF:FF:FF，表示这是一个”广播”地址。它所在子网络的每一台主机，都会收到这个数据包，从中取出IP地址，与自身的IP地址进行比较。如果两者相同，都做出回复，向对方报告自己的MAC地址，否则就丢弃这个包。</p>
-<p>总之，有了ARP协议之后，我们就可以得到同一个子网络内的主机MAC地址，可以把数据包发送到任意一台主机之上了。</p>
-<h2 id="参考">参考</h2><p>图解http<br><a href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html" target="_blank" rel="external">互联网协议入门（一）</a><br><a href="http://www.ruanyifeng.com/blog/2012/06/internet_protocol_suite_part_ii.html" target="_blank" rel="external">互联网协议入门（二）</a> </p>
+            <p>iOS9已经出来一段时间了，今天我们来感受一下新的API 3D Touch<br>翻译自<a href="http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115" target="_blank" rel="external">http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115</a><br><a href="https://github.com/tutsplus/iOS-3DTouch-Introduction-Starter" target="_blank" rel="external">start Project</a></p>
+<h2 id="前言">前言</h2><p>iOS 9提供了如下3D Touch APIs:</p>
+<ul>
+<li>Home Screen quick action API，使你可以给应用图标添加快速选项,从而让应用预料和加速其与APP的交互。</li>
+<li><p>UIKit peek and pop API，可让你在应用中为用户提供快速访问更多内容的功能，而无需离开当前上下文环境。使用peek quick actions的API提供的按压功能来替换你应用的触摸长按操作。</p>
+</li>
+<li><p>Web view peek and pop API，让你使用系统提供的HTML链接预览功能。</p>
+</li>
+<li><p>UITouch force properties，让你在应用增加自定义的基于压力的用户交互。</p>
+</li>
+<li><p>Tips<br>1.没有iPhone6可以先用这个勉强测一下<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator" target="_blank" rel="external">SBShortcutMenuSimulator</a><br>2.不管你使用以上哪些APIs，你的应用必须在运行时检测3D Touch的可用性。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self<span class="selector-class">.traitCollection</span><span class="selector-class">.forceTouchCapability</span> == UIForceTouchCapabilityAvailable</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Home_Screen_Quick_Actions">Home Screen Quick Actions</h2><p>创建方式分为动态创建和静态创建2种</p>
+<h3 id="静态创建就是在info-plist里面创建">静态创建就是在info.plist里面创建</h3><p><img src="http://chuantu.biz/t2/18/1447436590x-1566679573.png" alt=""></p>
+<h3 id="动态创建">动态创建</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">多一步先判断  application.shortcutItems <span class="keyword">where</span> shortcutItems.isEmpty</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line"></div><div class="line"><span class="comment">// Override point for customization after application launch.</span></div><div class="line"><span class="keyword">var</span> shouldPerformAdditionalDelegateHandling = <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment">// If a shortcut was launched, display its information and take the appropriate action</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> shortcutItem = launchOptions?[<span class="type">UIApplicationLaunchOptionsShortcutItemKey</span>] <span class="keyword">as</span>? <span class="type">UIApplicationShortcutItem</span> &#123;</div><div class="line"></div><div class="line">launchedShortcutItem = shortcutItem</div><div class="line"></div><div class="line"><span class="comment">// This will block "performActionForShortcutItem:completionHandler" from being called.</span></div><div class="line">shouldPerformAdditionalDelegateHandling = <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Install initial versions of our two extra dynamic shortcuts.</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> shortcutItems = application.shortcutItems <span class="keyword">where</span> shortcutItems.isEmpty &#123;</div><div class="line"><span class="comment">// Construct the items.</span></div><div class="line"><span class="keyword">let</span> shortcut3 = <span class="type">UIMutableApplicationShortcutItem</span>(type: <span class="type">ShortcutIdentifier</span>.<span class="type">Third</span>.type, localizedTitle: <span class="string">"Play"</span>, localizedSubtitle: <span class="string">"Will Play an item"</span>, icon: <span class="type">UIApplicationShortcutIcon</span>(type: .<span class="type">Play</span>), userInfo: [</div><div class="line"><span class="type">AppDelegate</span>.applicationShortcutUserInfoIconKey: <span class="type">UIApplicationShortcutIconType</span>.<span class="type">Play</span>.rawValue</div><div class="line">]</div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">let</span> shortcut4 = <span class="type">UIMutableApplicationShortcutItem</span>(type: <span class="type">ShortcutIdentifier</span>.<span class="type">Fourth</span>.type, localizedTitle: <span class="string">"Pause"</span>, localizedSubtitle: <span class="string">"Will Pause an item"</span>, icon: <span class="type">UIApplicationShortcutIcon</span>(type: .<span class="type">Pause</span>), userInfo: [</div><div class="line"><span class="type">AppDelegate</span>.applicationShortcutUserInfoIconKey: <span class="type">UIApplicationShortcutIconType</span>.<span class="type">Pause</span>.rawValue</div><div class="line">]</div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">// Update the application providing the initial 'dynamic' shortcut items.</span></div><div class="line">application.shortcutItems = [shortcut3, shortcut4]</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">return</span> shouldPerformAdditionalDelegateHandling</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ShortcutIdentifier</span>: <span class="title">String</span> </span>&#123;</div><div class="line"><span class="keyword">case</span> <span class="type">First</span></div><div class="line"><span class="keyword">case</span> <span class="type">Second</span></div><div class="line"><span class="keyword">case</span> <span class="type">Third</span></div><div class="line"><span class="keyword">case</span> <span class="type">Fourth</span></div><div class="line"></div><div class="line"><span class="comment">// MARK: Initializers</span></div><div class="line"></div><div class="line"><span class="keyword">init</span>?(fullType: <span class="type">String</span>) &#123;</div><div class="line"><span class="keyword">guard</span> <span class="keyword">let</span> last = fullType.componentsSeparatedByString(<span class="string">"."</span>).last <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line"></div><div class="line"><span class="keyword">self</span>.<span class="keyword">init</span>(rawValue: last)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// MARK: Properties</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> type: <span class="type">String</span> &#123;</div><div class="line"><span class="keyword">return</span> <span class="type">NSBundle</span>.mainBundle().bundleIdentifier! + <span class="string">".<span class="subst">\(<span class="keyword">self</span>.rawValue)</span>"</span></div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>说明一下这些属性的意思</p>
+<ul>
+<li>localizedTitle  标题</li>
+<li>localizedSubtitle副标题</li>
+<li>type 独有的标志 等下点击跳转的识别就靠他了</li>
+<li>icon 图标可以用自己的也可以用系统的</li>
+<li>userInfo 你可以传一些信息进去</li>
+</ul>
+<h2 id="Peek_and_Pop_in_Storyboards">Peek and Pop in Storyboards</h2><p><img src="http://chuantu.biz/t2/18/1447438565x-1566679576.png" alt=""><br><img src="http://chuantu.biz/t2/18/1447438412x-1566679576.png" alt=""><br>选择那条蓝色的线 打开Attributes Inspector 设置看图<br>运行一下程序 点一下+号<br>peek一下将弹出预览框 咦好像显示的不太对啊。我们回到项目的MasterViewController.swif  用下面的代码替代一下项目的代码<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">你还需要在prepareForSegue添加跳转逻辑</div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepareForSegue</span><span class="params">(segue: UIStoryboardSegue, sender: AnyObject?)</span></span> &#123;</div><div class="line"><span class="keyword">if</span> segue.identifier == <span class="string">"showDetail"</span> &#123;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> indexPath = <span class="keyword">self</span>.tableView.indexPathForSelectedRow &#123;</div><div class="line"><span class="keyword">let</span> object = objects[indexPath.row] <span class="keyword">as</span>! <span class="type">NSDate</span></div><div class="line"><span class="keyword">let</span> controller = (segue.destinationViewController <span class="keyword">as</span>! <span class="type">UINavigationController</span>).topViewController <span class="keyword">as</span>! <span class="type">DetailViewController</span></div><div class="line">controller.detailItem = object</div><div class="line">controller.navigationItem.leftBarButtonItem = <span class="keyword">self</span>.splitViewController?.displayModeButtonItem()</div><div class="line">controller.navigationItem.leftItemsSupplementBackButton = <span class="literal">true</span></div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> <span class="keyword">let</span> cell = sender <span class="keyword">as</span>? <span class="type">UITableViewCell</span> <span class="keyword">where</span> segue.identifier == <span class="string">"showDetailPeek"</span> &#123;</div><div class="line"><span class="keyword">let</span> controller = (segue.destinationViewController <span class="keyword">as</span>! <span class="type">UINavigationController</span>).topViewController <span class="keyword">as</span>! <span class="type">DetailViewController</span></div><div class="line">controller.detailItem = cell.textLabel?.text</div><div class="line">controller.navigationItem.leftBarButtonItem = <span class="keyword">self</span>.splitViewController?.displayModeButtonItem()</div><div class="line">controller.navigationItem.leftItemsSupplementBackButton = <span class="literal">true</span></div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面那个if是正常的界面跳转<br>下面那个if是peek的预览页<br>在运行就能看到正常的界面<br>悲剧的是这个只能在iOS9.1下面才能用还是老老实实用用代码写吧</p>
+<h2 id="Peek_and_Pop_in_Code">Peek and Pop in Code</h2><p>想使用peek pop需要UIViewControllerPreviewingDelegate这个协议<br>iOS &gt; Source &gt; Swift File 创建一个MasterPreviewing.<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> UIKit</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MasterViewController</span>: <span class="title">UIViewControllerPreviewingDelegate</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint)</span></span> -&gt; <span class="type">UIViewController</span>? &#123;</div><div class="line"><span class="keyword">guard</span> <span class="keyword">let</span> viewController = <span class="keyword">self</span>.storyboard?.instantiateViewControllerWithIdentifier(<span class="string">"forceViewController"</span>) <span class="keyword">as</span>? <span class="type">ForceViewController</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line">viewController.preferredContentSize = <span class="type">CGSize</span>(width: <span class="number">0</span>, height: <span class="number">0</span>)</div><div class="line"><span class="keyword">return</span> viewController</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController)</span></span> &#123;</div><div class="line">showViewController(viewControllerToCommit, sender: <span class="keyword">self</span>)</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>MasterViewController遵循一下这个协议<br>peek协议<br>previewingContext(<em>:viewControllerForLocation:) 方法里面返回你想preview<br>ForceViewController。preferredContentSize设置为（0， 0）时 预览图将尽其所能显示到当前屏幕<br>pop协议<br>previewingContext(</em>:commitViewController:)<br>显示pop界面<br>还差一步Register 判断3D touch是否可用如果可以就注册preview  sourceView 就是可以进行peek pop的view</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> traitCollection<span class="selector-class">.forceTouchCapability</span> == <span class="selector-class">.Available</span> &#123;</div><div class="line">    self.registerForPreviewingWithDelegate(self, sourceView: forceButton)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后一步 在ForceViewController.swift 里面加入下面代码<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">override func previewActionItems<span class="function"><span class="params">()</span> -&gt;</span> [UIPreviewActionItem] &#123;</div><div class="line"><span class="keyword">let</span> regularAction = UIPreviewAction<span class="function"><span class="params">(title: <span class="string">"Regular"</span>, style: .Default)</span> &#123; <span class="params">(action: UIPreviewAction, vc: UIViewController)</span> -&gt;</span> Void <span class="keyword">in</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> destructiveAction = UIPreviewAction<span class="function"><span class="params">(title: <span class="string">"Destructive"</span>, style: .Destructive)</span> &#123; <span class="params">(action: UIPreviewAction, vc: UIViewController)</span> -&gt;</span> Void <span class="keyword">in</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> actionGroup = UIPreviewActionGroup(title: <span class="string">"Group..."</span>, style: .Default, actions: [regularAction, destructiveAction])</div><div class="line">    <span class="keyword">return</span> [regularAction, destructiveAction, actionGroup]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Detecting_Force_Through">Detecting Force Through</h2><p>检测压力<br>UITouch增加了2个属性force and maximumPossibleForce<br>这2个属性能帮你准确的检测点击的压力</p>
+<p>在ForceViewController类里面增加<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">touchesMoved</span><span class="params">(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> touch = touches.first <span class="keyword">where</span> traitCollection.forceTouchCapability == .<span class="type">Available</span> &#123;</div><div class="line">    <span class="keyword">self</span>.forceOutput.text = <span class="string">"<span class="subst">\(touch.force)</span>\n<span class="subst">\(touch.maximumPossibleForce)</span>"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里的属性和目前市面上所用的kg 什么的都没什么关系 是3D touch自有的 1.0表示平均接触施加的力的大小。？<br>人家是这么用的<br>基于 3D Touch 做一台同时可称多个较轻物体电子秤<br><a href="https://github.com/FlexMonkey/Plum-O-Meter" target="_blank" rel="external">https://github.com/FlexMonkey/Plum-O-Meter</a><br>结果几天后被下架了</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
+                  Search API
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS9/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS9</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
+<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
+<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
+<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
+<p>下面写一下简单得步骤：</p>
+<p>1 引入CoreSpotlight.framework</p>
+<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
+<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
+<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
+<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
 
           
         
@@ -1046,251 +1157,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
-                  Search API
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS9/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS9</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
-<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
-<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
-<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
-<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
-<p>下面写一下简单得步骤：</p>
-<p>1 引入CoreSpotlight.framework</p>
-<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
-<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
-<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
-<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/12/UIPopoverPresentationController/" itemprop="url">
-                  UIPopoverPresentationController
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS8/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>UIPopoverPresentationController是提供高级视图切换的类。它让管理present ViewController的过程变得简单。<br>先讲一些presentation基础知识，在iPad的设置页面，可以通过popOver弹出一个UIViewController，这个弹出的，可以和用户交互的Controller叫做PresentedViewController，而后面那个被部分遮挡的UIViewController叫做PresentingViewController<br>接下来我们就一步步的看UIPopoverPresentationController该如何使用</p>
-<h2 id="创建项目">创建项目</h2><p>创建ViewController 创建一个按钮 点击弹出列表页<br>创建ListTableVC 列表页</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">IBAction</span>)presentAction:(<span class="built_in">UIButton</span> *)sender &#123;</div><div class="line">    <span class="keyword">self</span>.vc = [[ListTableVC alloc] init];</div><div class="line">    <span class="keyword">self</span>.vc.modalPresentationStyle = <span class="built_in">UIModalPresentationPopover</span>;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.sourceView = sender;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.sourceRect = sender.bounds;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.permittedArrowDirections = <span class="built_in">UIPopoverArrowDirectionAny</span>;</div><div class="line">    <span class="keyword">self</span>.vc.preferredContentSize = <span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">200</span>);</div><div class="line">    [<span class="keyword">self</span> presentViewController:<span class="keyword">self</span>.vc animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>好像设置这些属性没用怎么回事，为什么还是全屏的<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.vc.modalPresentationStyle = <span class="built_in">UIModalPresentationPopover</span>;</div><div class="line"><span class="keyword">self</span>.vc.popoverPresentationController.sourceView = sender;</div><div class="line"><span class="keyword">self</span>.vc.popoverPresentationController.sourceRect = sender.bounds;</div><div class="line"><span class="keyword">self</span>.vc.popoverPresentationController.permittedArrowDirections = <span class="built_in">UIPopoverArrowDirectionAny</span>;</div><div class="line"><span class="keyword">self</span>.vc.preferredContentSize = <span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">200</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="UIPopoverPresentationControllerDelegate">UIPopoverPresentationControllerDelegate</h2><p>看看源文件里面有个UIPopoverPresentationControllerDelegate<uiadaptivepresentationcontrollerdelegate><br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* For iOS8.0, the only supported adaptive presentation styles are UIModalPresentationFullScreen and UIModalPresentationOverFullScreen. */</span></div><div class="line">- (<span class="built_in">UIModalPresentationStyle</span>)adaptivePresentationStyleForPresentationController:(<span class="built_in">UIPresentationController</span> *)controller;</div><div class="line"></div><div class="line"><span class="comment">// Returning UIModalPresentationNone will indicate that an adaptation should not happen.</span></div><div class="line">- (<span class="built_in">UIModalPresentationStyle</span>)adaptivePresentationStyleForPresentationController:(<span class="built_in">UIPresentationController</span> *)controller traitCollection:(<span class="built_in">UITraitCollection</span> *)traitCollection <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">8</span>_3);</div></pre></td></tr></table></figure></uiadaptivepresentationcontrollerdelegate></p>
-<p>adaptive 试试看<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()&lt;<span class="title">UIPopoverPresentationControllerDelegate</span>&gt;</span></div><div class="line"></div><div class="line">- (<span class="keyword">IBAction</span>)presentAction:(<span class="built_in">UIButton</span> *)sender &#123;</div><div class="line">    <span class="keyword">self</span>.vc = [[ListTableVC alloc] init];</div><div class="line">    <span class="keyword">self</span>.vc.modalPresentationStyle = <span class="built_in">UIModalPresentationPopover</span>;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.sourceView = sender;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.sourceRect = sender.bounds;</div><div class="line">    <span class="keyword">self</span>.vc.popoverPresentationController.permittedArrowDirections = <span class="built_in">UIPopoverArrowDirectionAny</span>;</div><div class="line">    <span class="comment">//    self.vc.popoverPresentationController.delegate = self;</span></div><div class="line">    <span class="keyword">self</span>.vc.preferredContentSize = <span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">200</span>);</div><div class="line">    [<span class="keyword">self</span> presentViewController:<span class="keyword">self</span>.vc animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">UIModalPresentationStyle</span>)adaptivePresentationStyleForPresentationController:(<span class="built_in">UIPresentationController</span> *)controller&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">UIModalPresentationNone</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>run<br><img src="http://i5.tietuku.com/16acb05d08a0c9bb.png" alt=""></p>
-<h2 id="DismissPopover">DismissPopover</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)popoverPresentationControllerShouldDismissPopover:(<span class="built_in">UIPopoverPresentationController</span> *)popoverPresentationController&#123;</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;   <span class="comment">//点击蒙版popover不消失， 默认yes</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/11/12/WatchOS/" itemprop="url">
                   WatchOS
                 </a>
@@ -1365,6 +1231,140 @@
 <p>为了能在iOS设备上处理这个信息<br>我们需要实现session(_:didReceiveMessage:)<br>InterfaceController.swift<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">session</span><span class="params">(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: <span class="params">([String : AnyObject])</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">    <span class="comment">//handle received message</span></div><div class="line">    <span class="keyword">let</span> value = message[<span class="string">"Value"</span>] <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">    <span class="comment">//use this to present immediately on the screen</span></div><div class="line">    dispatch_async(dispatch_get_main_queue()) &#123;</div><div class="line">        <span class="keyword">self</span>.messageLabel.setText(value)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//send a reply</span></div><div class="line">    replyHandler([<span class="string">"Value"</span>:<span class="string">"Yes"</span>])</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>iOS设备的VC里面实现这段代码<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> UIKit</div><div class="line"><span class="keyword">import</span> WatchConnectivity</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span>, <span class="title">WCSessionDelegate</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> session: <span class="type">WCSession</span>!</div><div class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">var</span> messageLabel: <span class="type">UILabel</span>!</div><div class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">var</span> sendButton: <span class="type">UIButton</span>!</div><div class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">sendMessage</span><span class="params">(sender: AnyObject)</span></span> &#123;</div><div class="line">        <span class="comment">//Send Message to WatchKit</span></div><div class="line">        <span class="keyword">let</span> messageToSend = [<span class="string">"Value"</span>:<span class="string">"Hi watch, can you talk to me?"</span>]</div><div class="line">        session.sendMessage(messageToSend, replyHandler: &#123; replyMessage <span class="keyword">in</span></div><div class="line">        <span class="comment">//handle the reply</span></div><div class="line">        <span class="keyword">let</span> value = replyMessage[<span class="string">"Value"</span>] <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">        <span class="comment">//use dispatch_asynch to present immediately on screen</span></div><div class="line">        dispatch_async(dispatch_get_main_queue()) &#123;</div><div class="line">            <span class="keyword">self</span>.messageLabel.text = value</div><div class="line">        &#125;</div><div class="line">        &#125;, errorHandler: &#123;error <span class="keyword">in</span></div><div class="line">        <span class="comment">// catch any errors here</span></div><div class="line">            <span class="built_in">print</span>(error)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.viewDidLoad()</div><div class="line">        <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></div><div class="line">        <span class="keyword">if</span> (<span class="type">WCSession</span>.isSupported()) &#123;</div><div class="line">            session = <span class="type">WCSession</span>.defaultSession()</div><div class="line">            session.delegate = <span class="keyword">self</span>;</div><div class="line">            session.activateSession()</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</div><div class="line">        <span class="comment">// Dispose of any resources that can be recreated.</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//Swift</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">session</span><span class="params">(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: <span class="params">([String : AnyObject])</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">        <span class="comment">//handle received message</span></div><div class="line">        <span class="keyword">let</span> value = message[<span class="string">"Value"</span>] <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">    dispatch_async(dispatch_get_main_queue()) &#123;</div><div class="line">        <span class="keyword">self</span>.messageLabel.text = value</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//send a reply</span></div><div class="line">        replyHandler([<span class="string">"Value"</span>:<span class="string">"Hello Watch"</span>])</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="Exploring_the_WCSessionDelegate_Protocol">Exploring the WCSessionDelegate Protocol</h2><p>我们接收消息的方法session(<em>:didReceiveMessage:)并没有:replyHandler这其实也就是说发出消息后并不需要回应<br>除了发送字典外我们还可以发送data<br>发送者调用sendMessageData(</em>:replyHandler:errorHandler:)<br>接收者以协议接收<br>session(<em>:didReceiveMessageData:)<br>session(</em>:didReceiveMessageData:replyHandler:)</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/HttpBasic/" itemprop="url">
+                  Http-网络基础
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络基础/" itemprop="url" rel="index">
+                    <span itemprop="name">网络基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>网络基础，大部分都参考自网上博客</p>
+<h2 id="TCP/IP五层网络结构模型">TCP/IP五层网络结构模型</h2><h3 id="应用层">应用层</h3><p>应用层决定了向用户提供应用服务时通信的活动。<br>TCP/IP 协议族内预存了各类通用的应用服务。比如，FTP（File Transfer Protocol，文件传输协议）和 DNS（Domain Name System，域名系统）服务就是其中两类。HTTP 协议也处于该层。</p>
+<h3 id="传输层">传输层</h3><p>负责主机中进程间的通信。在传输层有两个性质不同的协议：TCP和UDP</p>
+<h3 id="网络层">网络层</h3><p>网络层用来处理在网络上的流动的数据包。数据包是网络传输的最小数据单元。该层规定了通过怎样的路径到达对方的计算机，并把数据包传给对方。网络层的作用在于选择一条传输线路</p>
+<h3 id="数据链路层">数据链路层</h3><p>在物理层提供比特流服务的基础上，建立相邻结点之间的数据链路，通过差错控制提供数据帧（Frame）在信道上无差错的传输，并进行各电路上的动作系列。数据的单位称为帧（frame）</p>
+<h3 id="物理层">物理层</h3><p>物理层建立在物理通信介质的基础上，作为系统和通信介质的接口，用来实现数据链路实体间透明的比特 (bit) 流传输。只有该层为真实物理通信，其它各层为虚拟通信</p>
+<p><img src="http://img.hoop8.com/1607D/fnZl16at.png" alt=""></p>
+<h2 id="网络通信流程">网络通信流程</h2><p>举个例子说明一下，客户端发送一个http请求。<br><img src="http://img.hoop8.com/1607D/Da55tHhz.png" alt=""></p>
+<p>通信路程如下图<br><img src="http://img.hoop8.com/1607D/qkoofTOn.png" alt=""></p>
+<p>过程解析：</p>
+<h3 id="DNS解析">DNS解析</h3><p>DNS协议提供通过域名查找IP地址，或逆向从IP地址反查域名的服务。根据请求链接从DNS服务器查找到域名。</p>
+<h3 id="应用层封装">应用层封装</h3><p>应用层把请求封装成http请求报文。HTTP部分的内容，类似于下面这样：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</div><div class="line">　　<span class="attribute">Host</span>: www.google.com</div><div class="line">　　<span class="attribute">Connection</span>: keep-alive</div><div class="line">　　<span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows NT 6.1) ......</div><div class="line">　　<span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">　　<span class="attribute">Accept-Encoding</span>: gzip,deflate,sdch</div><div class="line">　　<span class="attribute">Accept-Language</span>: zh-CN,zh;q=0.8</div><div class="line">　　<span class="attribute">Accept-Charset</span>: GBK,utf-8;q=0.7,*;q=0.3</div><div class="line">　　<span class="attribute">Cookie</span>: ... ...</div></pre></td></tr></table></figure>
+<p>我们假定这个部分的长度为4960字节，它会被嵌在TCP数据包之中。</p>
+<h3 id="传输层建立”端口到端口”的通信">传输层建立”端口到端口”的通信</h3><p>传输层的UDP和TCP都使用了端口与上层应用程序进行通信，端口就是与应用程序的接口。不同的程序需要不同的端口。”端口”是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。</p>
+<p>TCP首部的源端口和目的端口包括源IP地址、源端口、目的IP地址、目的端口。<br>TCP数据包需要设置端口，接收方（Google）的HTTP端口默认是80，发送方（本机）的端口是一个随机生成的1024-65535之间的整数，假定为51775。<br>TCP数据包的标头长度为20字节，加上嵌入HTTP的数据包，总长度变为4980字节。<br>“传输层”的功能，就是建立”端口到端口”的通信。</p>
+<h3 id="网络层建立”主机到主机”的通信">网络层建立”主机到主机”的通信</h3><p>然后，TCP数据包再嵌入IP数据包。IP数据包需要设置双方的IP地址，这是已知的，发送方是192.168.1.100（本机），接收方是172.194.72.105（Google）。<br>IP数据包的标头长度为20字节，加上嵌入的TCP数据包，总长度变为5000字节。</p>
+<h3 id="数据链路层-1">数据链路层</h3><p>因为IP数据包是放在以太网数据包里发送的，所以我们必须同时知道两个地址，一个是对方的MAC地址，另一个是对方的IP地址。通常情况下，对方的IP地址是已知的（后文会解释），但是我们不知道它的MAC地址。</p>
+<p>所以，我们需要一种机制，能够从IP地址得到MAC地址。<br>这里又可以分成两种情况。第一种情况，如果两台主机不在同一个子网络，那么事实上没有办法得到对方的MAC地址，只能把数据包传送到两个子网络连接处的”网关”（gateway），让网关去处理。</p>
+<p>第二种情况，如果两台主机在同一个子网络，那么我们可以用ARP协议，得到对方的MAC地址。ARP协议也是发出一个数据包（包含在以太网数据包中），其中包含它所要查询主机的IP地址，在对方的MAC地址这一栏，填的是FF:FF:FF:FF:FF:FF，表示这是一个”广播”地址。它所在子网络的每一台主机，都会收到这个数据包，从中取出IP地址，与自身的IP地址进行比较。如果两者相同，都做出回复，向对方报告自己的MAC地址，否则就丢弃这个包。</p>
+<p>总之，有了ARP协议之后，我们就可以得到同一个子网络内的主机MAC地址，可以把数据包发送到任意一台主机之上了。</p>
+<h2 id="参考">参考</h2><p>图解http<br><a href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html" target="_blank" rel="external">互联网协议入门（一）</a><br><a href="http://www.ruanyifeng.com/blog/2012/06/internet_protocol_suite_part_ii.html" target="_blank" rel="external">互联网协议入门（二）</a> </p>
 
           
         
@@ -1502,7 +1502,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
+    NexT.Mist
   </a>
 </div>
 
@@ -1567,13 +1567,6 @@
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
-
-
 
   
 
