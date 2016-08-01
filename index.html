@@ -230,6 +230,140 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/31/Http基础知识1/" itemprop="url">
+                  Http-网络基础
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-31T18:33:44+08:00" content="2016-07-31">
+              2016-07-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络基础/" itemprop="url" rel="index">
+                    <span itemprop="name">网络基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>网络基础，大部分都参考自网上博客</p>
+<h2 id="TCP/IP五层网络结构模型">TCP/IP五层网络结构模型</h2><h3 id="应用层">应用层</h3><p>应用层决定了向用户提供应用服务时通信的活动。<br>TCP/IP 协议族内预存了各类通用的应用服务。比如，FTP（File Transfer Protocol，文件传输协议）和 DNS（Domain Name System，域名系统）服务就是其中两类。HTTP 协议也处于该层。</p>
+<h3 id="传输层">传输层</h3><p>负责主机中进程间的通信。在传输层有两个性质不同的协议：TCP和UDP</p>
+<h3 id="网络层">网络层</h3><p>网络层用来处理在网络上的流动的数据包。数据包是网络传输的最小数据单元。该层规定了通过怎样的路径到达对方的计算机，并把数据包传给对方。网络层的作用在于选择一条传输线路</p>
+<h3 id="数据链路层">数据链路层</h3><p>在物理层提供比特流服务的基础上，建立相邻结点之间的数据链路，通过差错控制提供数据帧（Frame）在信道上无差错的传输，并进行各电路上的动作系列。数据的单位称为帧（frame）</p>
+<h3 id="物理层">物理层</h3><p>物理层建立在物理通信介质的基础上，作为系统和通信介质的接口，用来实现数据链路实体间透明的比特 (bit) 流传输。只有该层为真实物理通信，其它各层为虚拟通信</p>
+<p><img src="http://img.hoop8.com/1607D/fnZl16at.png" alt=""></p>
+<h2 id="网络通信流程">网络通信流程</h2><p>举个例子说明一下，客户端发送一个http请求。<br><img src="http://img.hoop8.com/1607D/Da55tHhz.png" alt=""></p>
+<p>通信路程如下图<br><img src="http://img.hoop8.com/1607D/qkoofTOn.png" alt=""></p>
+<p>过程解析：</p>
+<h3 id="DNS解析">DNS解析</h3><p>DNS协议提供通过域名查找IP地址，或逆向从IP地址反查域名的服务。根据请求链接从DNS服务器查找到域名。</p>
+<h3 id="应用层封装">应用层封装</h3><p>应用层把请求封装成http请求报文。HTTP部分的内容，类似于下面这样：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</div><div class="line">　　<span class="attribute">Host</span>: www.google.com</div><div class="line">　　<span class="attribute">Connection</span>: keep-alive</div><div class="line">　　<span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows NT 6.1) ......</div><div class="line">　　<span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">　　<span class="attribute">Accept-Encoding</span>: gzip,deflate,sdch</div><div class="line">　　<span class="attribute">Accept-Language</span>: zh-CN,zh;q=0.8</div><div class="line">　　<span class="attribute">Accept-Charset</span>: GBK,utf-8;q=0.7,*;q=0.3</div><div class="line">　　<span class="attribute">Cookie</span>: ... ...</div></pre></td></tr></table></figure>
+<p>我们假定这个部分的长度为4960字节，它会被嵌在TCP数据包之中。</p>
+<h3 id="传输层建立”端口到端口”的通信">传输层建立”端口到端口”的通信</h3><p>传输层的UDP和TCP都使用了端口与上层应用程序进行通信，端口就是与应用程序的接口。不同的程序需要不同的端口。”端口”是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。</p>
+<p>TCP首部的源端口和目的端口包括源IP地址、源端口、目的IP地址、目的端口。<br>TCP数据包需要设置端口，接收方（Google）的HTTP端口默认是80，发送方（本机）的端口是一个随机生成的1024-65535之间的整数，假定为51775。<br>TCP数据包的标头长度为20字节，加上嵌入HTTP的数据包，总长度变为4980字节。<br>“传输层”的功能，就是建立”端口到端口”的通信。</p>
+<h3 id="网络层建立”主机到主机”的通信">网络层建立”主机到主机”的通信</h3><p>然后，TCP数据包再嵌入IP数据包。IP数据包需要设置双方的IP地址，这是已知的，发送方是192.168.1.100（本机），接收方是172.194.72.105（Google）。<br>IP数据包的标头长度为20字节，加上嵌入的TCP数据包，总长度变为5000字节。</p>
+<h3 id="数据链路层-1">数据链路层</h3><p>因为IP数据包是放在以太网数据包里发送的，所以我们必须同时知道两个地址，一个是对方的MAC地址，另一个是对方的IP地址。通常情况下，对方的IP地址是已知的（后文会解释），但是我们不知道它的MAC地址。</p>
+<p>所以，我们需要一种机制，能够从IP地址得到MAC地址。<br>这里又可以分成两种情况。第一种情况，如果两台主机不在同一个子网络，那么事实上没有办法得到对方的MAC地址，只能把数据包传送到两个子网络连接处的”网关”（gateway），让网关去处理。</p>
+<p>第二种情况，如果两台主机在同一个子网络，那么我们可以用ARP协议，得到对方的MAC地址。ARP协议也是发出一个数据包（包含在以太网数据包中），其中包含它所要查询主机的IP地址，在对方的MAC地址这一栏，填的是FF:FF:FF:FF:FF:FF，表示这是一个”广播”地址。它所在子网络的每一台主机，都会收到这个数据包，从中取出IP地址，与自身的IP地址进行比较。如果两者相同，都做出回复，向对方报告自己的MAC地址，否则就丢弃这个包。</p>
+<p>总之，有了ARP协议之后，我们就可以得到同一个子网络内的主机MAC地址，可以把数据包发送到任意一台主机之上了。</p>
+<h2 id="参考">参考</h2><p>图解http<br><a href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html" target="_blank" rel="external">互联网协议入门（一）</a><br><a href="http://www.ruanyifeng.com/blog/2012/06/internet_protocol_suite_part_ii.html" target="_blank" rel="external">互联网协议入门（二）</a> </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/09/音频处理Mp3/" itemprop="url">
                   音频处理-转MP3
                 </a>
@@ -774,8 +908,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/12/Http基础知识/" itemprop="url">
-                  Http-网络基础
+                <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
+                  Search API
                 </a>
               
             
@@ -802,8 +936,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络基础/" itemprop="url" rel="index">
-                    <span itemprop="name">网络基础</span>
+                  <a href="/categories/iOS9/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS9</span>
                   </a>
                 </span>
 
@@ -837,28 +971,19 @@
       
         
           
-            <p>网络基础，大部分都参考自网上博客</p>
-<h2 id="TCP/IP五层网络结构模型">TCP/IP五层网络结构模型</h2><h3 id="应用层">应用层</h3><p>应用层决定了向用户提供应用服务时通信的活动。<br>TCP/IP 协议族内预存了各类通用的应用服务。比如，FTP（File Transfer Protocol，文件传输协议）和 DNS（Domain Name System，域名系统）服务就是其中两类。HTTP 协议也处于该层。</p>
-<h3 id="传输层">传输层</h3><p>负责主机中进程间的通信。在传输层有两个性质不同的协议：TCP和UDP</p>
-<h3 id="网络层">网络层</h3><p>网络层用来处理在网络上的流动的数据包。数据包是网络传输的最小数据单元。该层规定了通过怎样的路径到达对方的计算机，并把数据包传给对方。网络层的作用在于选择一条传输线路</p>
-<h3 id="数据链路层">数据链路层</h3><p>在物理层提供比特流服务的基础上，建立相邻结点之间的数据链路，通过差错控制提供数据帧（Frame）在信道上无差错的传输，并进行各电路上的动作系列。数据的单位称为帧（frame）</p>
-<h3 id="物理层">物理层</h3><p>物理层建立在物理通信介质的基础上，作为系统和通信介质的接口，用来实现数据链路实体间透明的比特 (bit) 流传输。只有该层为真实物理通信，其它各层为虚拟通信</p>
-<p><img src="http://img.hoop8.com/1607D/fnZl16at.png" alt=""></p>
-<h2 id="网络通信流程">网络通信流程</h2><p>举个例子说明一下，客户端发送一个http请求。<br><img src="http://img.hoop8.com/1607D/Da55tHhz.png" alt=""></p>
-<p>通信路程如下图<br><img src="http://img.hoop8.com/1607D/qkoofTOn.png" alt=""></p>
-<p>过程解析：</p>
-<h3 id="DNS解析">DNS解析</h3><p>DNS协议提供通过域名查找IP地址，或逆向从IP地址反查域名的服务。根据请求链接从DNS服务器查找到域名。</p>
-<h3 id="应用层封装">应用层封装</h3><p>应用层把请求封装成http请求报文。HTTP部分的内容，类似于下面这样：</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</div><div class="line">　　<span class="attribute">Host</span>: www.google.com</div><div class="line">　　<span class="attribute">Connection</span>: keep-alive</div><div class="line">　　<span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows NT 6.1) ......</div><div class="line">　　<span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">　　<span class="attribute">Accept-Encoding</span>: gzip,deflate,sdch</div><div class="line">　　<span class="attribute">Accept-Language</span>: zh-CN,zh;q=0.8</div><div class="line">　　<span class="attribute">Accept-Charset</span>: GBK,utf-8;q=0.7,*;q=0.3</div><div class="line">　　<span class="attribute">Cookie</span>: ... ...</div></pre></td></tr></table></figure>
-<p>我们假定这个部分的长度为4960字节，它会被嵌在TCP数据包之中。</p>
-<h3 id="传输层建立”端口到端口”的通信">传输层建立”端口到端口”的通信</h3><p>传输层的UDP和TCP都使用了端口与上层应用程序进行通信，端口就是与应用程序的接口。不同的程序需要不同的端口。”端口”是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。</p>
-<p>TCP首部的源端口和目的端口包括源IP地址、源端口、目的IP地址、目的端口。<br>TCP数据包需要设置端口，接收方（Google）的HTTP端口默认是80，发送方（本机）的端口是一个随机生成的1024-65535之间的整数，假定为51775。<br>TCP数据包的标头长度为20字节，加上嵌入HTTP的数据包，总长度变为4980字节。<br>“传输层”的功能，就是建立”端口到端口”的通信。</p>
-<h3 id="网络层建立”主机到主机”的通信">网络层建立”主机到主机”的通信</h3><p>然后，TCP数据包再嵌入IP数据包。IP数据包需要设置双方的IP地址，这是已知的，发送方是192.168.1.100（本机），接收方是172.194.72.105（Google）。<br>IP数据包的标头长度为20字节，加上嵌入的TCP数据包，总长度变为5000字节。</p>
-<h3 id="数据链路层-1">数据链路层</h3><p>因为IP数据包是放在以太网数据包里发送的，所以我们必须同时知道两个地址，一个是对方的MAC地址，另一个是对方的IP地址。通常情况下，对方的IP地址是已知的（后文会解释），但是我们不知道它的MAC地址。</p>
-<p>所以，我们需要一种机制，能够从IP地址得到MAC地址。<br>这里又可以分成两种情况。第一种情况，如果两台主机不在同一个子网络，那么事实上没有办法得到对方的MAC地址，只能把数据包传送到两个子网络连接处的”网关”（gateway），让网关去处理。</p>
-<p>第二种情况，如果两台主机在同一个子网络，那么我们可以用ARP协议，得到对方的MAC地址。ARP协议也是发出一个数据包（包含在以太网数据包中），其中包含它所要查询主机的IP地址，在对方的MAC地址这一栏，填的是FF:FF:FF:FF:FF:FF，表示这是一个”广播”地址。它所在子网络的每一台主机，都会收到这个数据包，从中取出IP地址，与自身的IP地址进行比较。如果两者相同，都做出回复，向对方报告自己的MAC地址，否则就丢弃这个包。</p>
-<p>总之，有了ARP协议之后，我们就可以得到同一个子网络内的主机MAC地址，可以把数据包发送到任意一台主机之上了。</p>
-<h2 id="参考">参考</h2><p>图解http<br><a href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html" target="_blank" rel="external">互联网协议入门（一）</a><br><a href="http://www.ruanyifeng.com/blog/2012/06/internet_protocol_suite_part_ii.html" target="_blank" rel="external">互联网协议入门（二）</a> </p>
+            <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
+<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
+<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
+<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
+<p>下面写一下简单得步骤：</p>
+<p>1 引入CoreSpotlight.framework</p>
+<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
+<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
+<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
+<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
 
           
         
@@ -997,131 +1122,6 @@
 <h2 id="总结">总结</h2><p><a href="http://cdn5.raywenderlich.com/wp-content/uploads/2013/12/NSURLProtocolExample1.zip" target="_blank" rel="external">Finished Project</a></p>
 <h3 id="附加1">附加1</h3><p>重定向到github<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">NSURLRequest</span> *) canonicalRequestForRequest:(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">    <span class="built_in">NSMutableURLRequest</span> *mutableReqeust = [request mutableCopy];</div><div class="line">    mutableReqeust = [<span class="keyword">self</span> redirectHostInRequset:mutableReqeust];</div><div class="line">    <span class="keyword">return</span> mutableReqeust;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+(<span class="built_in">NSMutableURLRequest</span>*)redirectHostInRequset:(<span class="built_in">NSMutableURLRequest</span>*)request</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> ([request.URL host].length == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">NSString</span> *originUrlString = [request.URL absoluteString];</div><div class="line">    <span class="built_in">NSString</span> *originHostString = [request.URL host];</div><div class="line">    <span class="built_in">NSRange</span> hostRange = [originUrlString rangeOfString:originHostString];</div><div class="line">    <span class="keyword">if</span> (hostRange.location == <span class="built_in">NSNotFound</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//定向到github主页</span></div><div class="line">    <span class="built_in">NSString</span> *ip = <span class="string">@"github.com"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 替换域名</span></div><div class="line">    <span class="built_in">NSString</span> *urlString = [originUrlString stringByReplacingCharactersInRange:hostRange withString:ip];</div><div class="line">    <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:urlString];</div><div class="line">    request.URL = url;</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="附加2">附加2</h3><p>没有实现足够的回调方法导致各种奇葩问题。如connection:willSendRequest:redirectResponse: 内如果没有通过[self client]回传消息，那么需要重定向的网页就会出现问题:host不对或者造成跨域调用导致资源无法加载。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
-                  Search API
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS9/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS9</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
-<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
-<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
-<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
-<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
-<p>下面写一下简单得步骤：</p>
-<p>1 引入CoreSpotlight.framework</p>
-<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
-<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
-<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
-<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
 
           
         
