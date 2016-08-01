@@ -1,0 +1,625 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CoreAnimation," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="问题前不久做一个社交应用地图上有个脉冲波式的效果像这样做完打算收工时，不小心点了一下home键，又不小心重新进入app，悲剧发生了动画没了。这里介绍三种处理方式
+第一种简单粗暴直接重新添加
+[view.layer addAnimation:rotation forKey:@&quot;rotationAnimation&quot;];
+第二种根据Technical Q&amp;amp;A QA1673How to pause">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreAnimation的一些注意点">
+<meta property="og:url" content="http://yoursite.com/2015/11/12/CoreAnimation/index.html">
+<meta property="og:site_name" content="Leon">
+<meta property="og:description" content="问题前不久做一个社交应用地图上有个脉冲波式的效果像这样做完打算收工时，不小心点了一下home键，又不小心重新进入app，悲剧发生了动画没了。这里介绍三种处理方式
+第一种简单粗暴直接重新添加
+[view.layer addAnimation:rotation forKey:@&quot;rotationAnimation&quot;];
+第二种根据Technical Q&amp;amp;A QA1673How to pause">
+<meta property="og:image" content="https://github.com/shu223/PulsingHalo/blob/master/demo_.gif?raw=true">
+<meta property="og:updated_time" content="2016-03-07T16:35:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoreAnimation的一些注意点">
+<meta name="twitter:description" content="问题前不久做一个社交应用地图上有个脉冲波式的效果像这样做完打算收工时，不小心点了一下home键，又不小心重新进入app，悲剧发生了动画没了。这里介绍三种处理方式
+第一种简单粗暴直接重新添加
+[view.layer addAnimation:rotation forKey:@&quot;rotationAnimation&quot;];
+第二种根据Technical Q&amp;amp;A QA1673How to pause">
+<meta name="twitter:image" content="https://github.com/shu223/PulsingHalo/blob/master/demo_.gif?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> CoreAnimation的一些注意点 | Leon </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CoreAnimation的一些注意点
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/CoreAnimation/" itemprop="url" rel="index">
+                    <span itemprop="name">CoreAnimation</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题">问题</h2><p>前不久做一个社交应用地图上有个脉冲波式的效果像这样<br><img src="https://github.com/shu223/PulsingHalo/blob/master/demo_.gif?raw=true" alt=""><br>做完打算收工时，不小心点了一下home键，又不小心重新进入app，悲剧发生了动画没了。<br>这里介绍三种处理方式</p>
+<h2 id="第一种">第一种</h2><p>简单粗暴直接重新添加</p>
+<pre><code>[view.layer <span class="string">addAnimation:</span>rotation <span class="string">forKey:</span>@<span class="string">"rotationAnimation"</span>];
+</code></pre><h2 id="第二种">第二种</h2><p>根据Technical Q&amp;A QA1673<br><a href="https://developer.apple.com/library/ios/qa/qa1673/_index.html" target="_blank" rel="external">How to pause the animation of a layer tree</a></p>
+<pre><code>-(<span class="keyword">void</span>)pauseLayer:(<span class="built_in">CALayer</span>*)layer
+{
+    <span class="built_in">CFTimeInterval</span> pausedTime = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>];
+    layer<span class="variable">.speed</span> = <span class="number">0.0</span>;
+    layer<span class="variable">.timeOffset</span> = pausedTime;
+}
+
+-(<span class="keyword">void</span>)resumeLayer:(<span class="built_in">CALayer</span>*)layer
+{
+    <span class="built_in">CFTimeInterval</span> pausedTime = [layer timeOffset];
+    layer<span class="variable">.speed</span> = <span class="number">1.0</span>;
+    layer<span class="variable">.timeOffset</span> = <span class="number">0.0</span>;
+    layer<span class="variable">.beginTime</span> = <span class="number">0.0</span>;
+    <span class="built_in">CFTimeInterval</span> timeSincePause = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>] - pausedTime;
+    layer<span class="variable">.beginTime</span> = timeSincePause;
+}
+</code></pre><p>监听一下<br>UIKIT_EXTERN NSString <em>const UIApplicationDidEnterBackgroundNotification       NS_AVAILABLE_IOS(4_0);<br>UIKIT_EXTERN NSString </em>const UIApplicationWillEnterForegroundNotification<br>然后在</p>
+<pre><code><span class="tag">-</span> (void)<span class="tag">applicationWillEnterForeground</span>:(UIApplication *)<span class="tag">application</span>
+{
+    <span class="attr_selector">[self pauseLayer:layer]</span>;
+}
+<span class="tag">-</span> (void)<span class="tag">applicationDidEnterBackground</span>:(UIApplication *)<span class="tag">application</span>
+{
+    <span class="attr_selector">[self resumeLayer:layer]</span>;
+}
+</code></pre><h2 id="第三种">第三种</h2><p>直接设置removedOnCompletion = NO;<br>这种方法对于不会停止的动画还是很有用的</p>
+<h2 id="其他">其他</h2><p>对于UIView animation 照样有影响 你会看到动画直接走到结束 直接就调用finished里面的block，所以可能要注意一下</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CoreAnimation/" rel="tag">#CoreAnimation</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/12/Hello!/" rel="next" title="随想">
+                <i class="fa fa-chevron-left"></i> 随想
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/12/3DTouch/" rel="prev" title="3D touch">
+                3D touch <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Leon" />
+          <p class="site-author-name" itemprop="name">Leon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一种"><span class="nav-number">2.</span> <span class="nav-text">第一种</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二种"><span class="nav-number">3.</span> <span class="nav-text">第二种</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三种"><span class="nav-number">4.</span> <span class="nav-text">第三种</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

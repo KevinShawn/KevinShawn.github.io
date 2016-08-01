@@ -1,0 +1,460 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Chapter 9  Purely Functional Data Structures
+前言本文是《Functional Programming in Swift》中第九章的笔记，如果你感兴趣，请购买英文原版。1.Binary Search Trees2.Autocompletion Using Tries上一个章节我们介绍了枚举型 这一章我们要定义递归枚举型，并说明如何定义高效持久的数据结构。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Functional Programming in Swift（九）">
+<meta property="og:url" content="http://yoursite.com/backup/Functional Programming in Swift9.html">
+<meta property="og:site_name" content="Leon">
+<meta property="og:description" content="Chapter 9  Purely Functional Data Structures
+前言本文是《Functional Programming in Swift》中第九章的笔记，如果你感兴趣，请购买英文原版。1.Binary Search Trees2.Autocompletion Using Tries上一个章节我们介绍了枚举型 这一章我们要定义递归枚举型，并说明如何定义高效持久的数据结构。">
+<meta property="og:image" content="http://i11.tietuku.com/b736c55550b5e866.png">
+<meta property="og:updated_time" content="2016-02-15T11:04:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Functional Programming in Swift（九）">
+<meta name="twitter:description" content="Chapter 9  Purely Functional Data Structures
+前言本文是《Functional Programming in Swift》中第九章的笔记，如果你感兴趣，请购买英文原版。1.Binary Search Trees2.Autocompletion Using Tries上一个章节我们介绍了枚举型 这一章我们要定义递归枚举型，并说明如何定义高效持久的数据结构。">
+<meta name="twitter:image" content="http://i11.tietuku.com/b736c55550b5e866.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    Functional Programming in Swift（九） | Leon
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <p>Chapter 9  Purely Functional Data Structures</p>
+<h2 id="前言">前言</h2><p>本文是《Functional Programming in Swift》中第九章的笔记，如果你感兴趣，请购买英文原版。<br>1.Binary Search Trees<br>2.Autocompletion Using Tries<br>上一个章节我们介绍了枚举型 这一章我们要定义递归枚举型，并说明如何定义高效持久的数据结构。</p>
+<h2 id="Binary_Search_Trees">Binary Search Trees</h2><p>swift没有像NSSet这样的一个类，我们要用递归枚举来实现这个功能。我们的目的并不是定义一个完整的库，而是像大家展示如何使用递归枚举来定义一个高效的数据结构<br>我们要实现的内容有：<br>emptySet—返回一个空的set<br>isEmptySet—判断set是不是空的<br>setInsert—将元素插入到set<br>setContains—是否包含某个元素</p>
+<p>首先我们可能会想着用数组，四个操作实现如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">emptySet</span>&lt;T&gt;<span class="params">()</span></span> -&gt; <span class="type">Array</span>&lt;<span class="type">T</span>&gt; &#123;</div><div class="line">    <span class="keyword">return</span> []</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">isEmptySet</span>&lt;T&gt;<span class="params">(<span class="keyword">set</span>: [T])</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">set</span>.isEmpty</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">setInsert</span>&lt;T&gt;<span class="params">(x: T, <span class="keyword">set</span>:[T])</span></span> -&gt; [<span class="type">T</span>] &#123;</div><div class="line">    <span class="keyword">return</span> [x] + <span class="keyword">set</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">setContains</span>&lt;T: Equatable&gt;<span class="params">(x: T, <span class="keyword">set</span>: [T])</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">contains</span>(<span class="keyword">set</span>, x)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样实现的缺点：对于大的sets 这会引起性能问题<br>这里有些方式提高性能。比如说我们能确定数组被排序了，使用二进制搜索定位特定元素。<br>相反,我们将定义一个二叉搜索树来表示集合。我们可以建立一个树结构在传统C风格,保持指针在每个节点的子树。然而，在swift中我们也能直接定义类似的枚举型，采用和上一章仪的Box技巧</p>
+<p>这个定义说树的每个分支<br>1.一个Leaf没有关联值<br>2.一个节点有三个关联值 前一个节点  这个节点的值 下一个节点<br>在定义函数在树上之前，我们写几个数的例子<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Tree</span>&lt;<span class="title">T</span>&gt; &#123;</span></div><div class="line">    <span class="keyword">case</span> Leaf</div><div class="line">    <span class="keyword">case</span> Node(Box&lt;Tree&lt;T&gt;&gt;, T, Box&lt;Tree&lt;T&gt;&gt;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">let <span class="symbol">leaf:</span>Tree&lt;Int&gt; = Tree.Leaf</div><div class="line">let <span class="symbol">five:</span>Tree&lt;Int&gt; = Tree.Node(Box(leaf), <span class="number">5</span>, Box(leaf))</div></pre></td></tr></table></figure></p>
+<p>注意这个能编译但是跑起来会挂掉leaf的树是空的；five存储着5 但是左右的值都是空的。我们来写一个只要一个值就能构成树的函数<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">single</span>&lt;T&gt;<span class="params">(x: T)</span></span> -&gt; <span class="type">Tree</span>&lt;<span class="type">T</span>&gt; &#123;</div><div class="line">    <span class="keyword">return</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="type">Box</span>(<span class="type">Tree</span>.<span class="type">Leaf</span>), x, <span class="type">Box</span>(<span class="type">Tree</span>.<span class="type">Leaf</span>))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>就像我们在上一个章节看到的，我们写一个函数用siwtch..case来处理这个树。由于树本身是递归的，毫无疑问我们在树结构写的很多函数都应该是递归的。<br>下面写了一个count函数<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">count</span>&lt;T&gt;<span class="params">(tree: Tree&lt;T&gt;)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">switch</span> tree &#123;</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Leaf</span>: </div><div class="line">            <span class="keyword">return</span> <span class="number">0</span></div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, x, <span class="keyword">right</span>):</div><div class="line">            <span class="keyword">return</span> <span class="number">1</span> + <span class="built_in">count</span>(<span class="keyword">left</span>.unbox) + <span class="built_in">count</span>(<span class="keyword">right</span>.unbox)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果是leave的话直接返回0，如果是node的话我们计算存储在子节点的元素的数量<br>然后返回总和，再加上本节点的1<br>同样的我们写一个elements函数存储在树里面的数组元素<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">elements</span>&lt;T&gt;<span class="params">(tree: Tree&lt;T&gt;)</span></span> -&gt; [<span class="type">T</span>] &#123;</div><div class="line">    <span class="keyword">switch</span> tree &#123;</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Leaf</span>: </div><div class="line">            <span class="keyword">return</span> []</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, x, <span class="keyword">right</span>):</div><div class="line">            <span class="keyword">return</span> elements(<span class="keyword">left</span>.unbox) + [x] + elements(<span class="keyword">right</span>.unbox)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>回到主题上来，我们要实现上面的三个目的<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">emptySet</span>&lt;T&gt;<span class="params">()</span></span> -&gt; <span class="type">Tree</span>&lt;<span class="type">T</span>&gt; &#123;</div><div class="line">    <span class="keyword">return</span> <span class="type">Tree</span>.<span class="type">Leaf</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">isEmptySet</span>&lt;T&gt;<span class="params">(tree: Tree&lt;T&gt;)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">switch</span> tree &#123;</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Leaf</span>:</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="number">_</span>, <span class="number">_</span>, <span class="number">_</span>):</div><div class="line">            <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果我们试着写一个幼稚版的setInsert和setContains，然而,似乎我们并没有太多收获。如果我们局限于二叉搜索树,然而,我们可以执行得更好。(非空)树是一个二叉搜索树如果满足以下所有条件:<br>•left subtree的值比 根的值小<br>•right subtree的值比 根的值大<br>•left subtree 和 right subtree都是二叉搜索树<br>下面这个函数是用来判断Tree是不是二叉搜索树<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">isBST</span>&lt;T:Comparable&gt;<span class="params">(tree:Tree&lt;T&gt;)</span></span>-&gt;<span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">switch</span> tree &#123;</div><div class="line">        <span class="keyword">case</span> <span class="type">Tree</span>.<span class="type">Leaf</span>:</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, x, <span class="keyword">right</span>):</div><div class="line">            <span class="keyword">let</span> leftElements = elements(<span class="keyword">left</span>.unbox)</div><div class="line">            <span class="keyword">let</span> rightElements = elements(<span class="keyword">right</span>.unbox)</div><div class="line">            <span class="keyword">return</span>  all(leftElements) &#123; y <span class="keyword">in</span> y &lt; x &#125;</div><div class="line">                  &amp;&amp; all(rightElements) &#123; y <span class="keyword">in</span> y &gt; x &#125; </div><div class="line">                  &amp;&amp; isBST(<span class="keyword">left</span>.unbox)</div><div class="line">                  &amp;&amp; isBST(<span class="keyword">right</span>.unbox)</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">all</span>&lt;T&gt; <span class="params">(xs : [T], predicate : T -&gt; Bool)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> xs &#123;</div><div class="line">        <span class="keyword">if</span> !predicate(x) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>all这个函数自己看吧<br>二叉搜索树关键在于它采用一种高效的查找方式，类似于数组中的二叉树搜索。当我们遍历树，以确定是否一个元素在树。每一步我们可以排除掉一半剩余的元素例如,这是一个可能的setContains函数的定义,用来决定是否一个元素出现在树:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">setContains</span>&lt;T: Comparable&gt;<span class="params">(x: T, tree: Tree&lt;T&gt;)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">switch</span> tree &#123;</div><div class="line">        <span class="keyword">case</span> <span class="type">Tree</span>.<span class="type">Leaf</span>:</div><div class="line">            <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, y, <span class="keyword">right</span>) <span class="keyword">where</span> x == y:</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, y, <span class="keyword">right</span>) <span class="keyword">where</span> x &lt; y:</div><div class="line">            <span class="keyword">return</span> setContains(x, tree: <span class="keyword">left</span>.unbox)</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, y, <span class="keyword">right</span>) <span class="keyword">where</span> x &gt; y:</div><div class="line">            <span class="keyword">return</span> setContains(x, tree: <span class="keyword">right</span>.unbox)</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="built_in">assert</span>(<span class="literal">false</span>, <span class="string">"The impossible occurred"</span>)</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">setInsert</span>&lt;T: Comparable&gt;<span class="params">(x: T, tree: Tree&lt;T&gt;)</span></span> -&gt; <span class="type">Tree</span>&lt;<span class="type">T</span>&gt; &#123;</div><div class="line">    <span class="keyword">switch</span> tree &#123;</div><div class="line">        <span class="keyword">case</span> <span class="type">Tree</span>.<span class="type">Leaf</span>:</div><div class="line">            <span class="keyword">return</span> single(x)</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, y, <span class="keyword">right</span>) <span class="keyword">where</span> x == y:</div><div class="line">            <span class="keyword">return</span> tree</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, y, <span class="keyword">right</span>) <span class="keyword">where</span> x &lt; y:</div><div class="line">            <span class="keyword">return</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="type">Box</span>(setInsert(x, tree: <span class="keyword">left</span>.unbox)),</div><div class="line">                y, <span class="keyword">right</span>)</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, y, <span class="keyword">right</span>) <span class="keyword">where</span> x &gt; y:</div><div class="line">            <span class="keyword">return</span> <span class="type">Tree</span>.<span class="type">Node</span>(<span class="keyword">left</span>, y, <span class="type">Box</span>(setInsert(x, tree: <span class="keyword">right</span>.unbox)))</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="built_in">assert</span>(<span class="literal">false</span>, <span class="string">"The impossible occurred"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Autocompletion_Using_Tries">Autocompletion Using Tries</h2><p>我们已经见过二叉树，这最后一个章节将更进一步告诉你完全函数式的数据结构。基于历史搜索和当前输入文字为前缀。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">func</span> <span class="selector-tag">autocomplete</span>(<span class="attribute">history</span>: [String], <span class="attribute">textEntered</span>: String) <span class="selector-tag">-</span>&gt; <span class="selector-attr">[String]</span> &#123;</div><div class="line">    <span class="selector-tag">return</span> <span class="selector-tag">history</span><span class="selector-class">.filter</span> &#123;</div><div class="line">            string in string<span class="selector-class">.hasPrefix</span>(textEntered)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可惜这个函数不够高效。对于很多历史数据和长前缀，就太慢了。我们可以先分类好，使用二叉树搜索。然而我们要采用另一种方式<br>Tries也称为数字搜索树,是一种特殊排序好的树。一般来说，Tries用于查找一个字符串,它包含一个字符的列表。它可以更有效的将这些数据存储在一个反复分支在字符串的组成字符结构。<br>Tries 有每个字符的子树。比如说一个Tries存储着“cat,” “car,” “cart,”  “dog”<br>现在我们想知道care在不在里面<br><img src="http://i11.tietuku.com/b736c55550b5e866.png" alt=""></p>
+<p>沿着树查找c-&gt;a-&gt;r, 找不到e，所以care不在这个tries里面<br>那我们怎么在swift里面使用呢。首先尝试使用枚举<br>enum Trie {<br>    case Node([Character: Trie])<br>}</p>
+<p>还有2个方式来优化这个<br>1.给Node增加一点额外的信息<br>多添加几个可查找的前缀比如说有很多cart开头的 直接就加个cart的分支<br>给node增加一个Bool值。这个Bool值告诉我们这个字符是不是在节点上<br>2.再把Trie转换成泛型<br>enum Trie<t: hashable=""> {<br>    case Make(Bool, [T: Trie<t>])<br>}<br>再写自动完成函数之前我们先写点东西热身一下<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">func empty&lt;T: Hashable&gt;() -&gt; Trie&lt;T&gt; &#123;</div><div class="line">    <span class="keyword">return</span> Trie.Make(<span class="keyword">false</span>, [T: Trie&lt;T&gt;]())</div><div class="line">&#125;</div><div class="line"></div><div class="line">func elements&lt;T:Hashable&gt;(trie:Trie&lt;T&gt;)-&gt;<span class="string">[[T]]</span> &#123;</div><div class="line">    switch trie &#123;</div><div class="line">        case let Trie.Make(isElem, rest):</div><div class="line">            var result:<span class="string">[[T]]</span> = isElem ?<span class="string">[[]]</span>:[]</div><div class="line">            <span class="keyword">for</span> (key, value) <span class="keyword">in</span> rest &#123;</div><div class="line">                result += elements(value).map &#123;xs <span class="keyword">in</span></div><div class="line">                [key] + xs</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></t></t:></p>
+<p>下一步 我们来定义查找和插入。<br>我们先定义<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> decompose : (head: <span class="type">T</span>, tail: [<span class="type">T</span>])? &#123;</div><div class="line">        <span class="keyword">return</span> (<span class="built_in">count</span> &gt; <span class="number">0</span>) ? (<span class="keyword">self</span>[<span class="number">0</span>], <span class="type">Array</span>(<span class="keyword">self</span>[<span class="number">1</span>..&lt;<span class="built_in">count</span>])) : <span class="literal">nil</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个函数先判断数组有没有值如果没有return nil 否则返回一个元组（第一个元素， 其余）<br>再写一个查找的函数<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">lookup</span>&lt;T: Hashable&gt;<span class="params">(key: [T], trie: Trie&lt;T&gt;)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">switch</span> trie &#123;</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Trie</span>.<span class="type">Make</span>(isElem, rest):</div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> (head, tail) = key.decompose &#123;</div><div class="line">                <span class="keyword">if</span> <span class="keyword">let</span> subtrie = rest[head] &#123;</div><div class="line">                    <span class="keyword">return</span> lookup(tail, subtrie)</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">return</span> isElem</div><div class="line">            &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">withPrefix</span>&lt;T: Hashable&gt;<span class="params">(<span class="keyword">prefix</span>: [T], trie: Trie&lt;T&gt;)</span></span> -&gt; <span class="type">Trie</span>&lt;<span class="type">T</span>&gt;? &#123;</div><div class="line">    <span class="keyword">switch</span> trie &#123;</div><div class="line">    <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">Trie</span>.<span class="type">Make</span>(isElem, rest):</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> (head, tail) = <span class="keyword">prefix</span>.decompose &#123;</div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> remainder = rest[head] &#123;</div><div class="line">                <span class="keyword">return</span> withPrefix(tail, remainder)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> trie</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>和lookup的区别在于不返回bool值而是返回所需的数据<br>最后我们重新定义autoComplete函数采用高效的数据结构<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">autocomplete</span>&lt;T: Hashable&gt;<span class="params">(key: [T], trie: Trie&lt;T&gt;)</span></span> -&gt; [[<span class="type">T</span>]] &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> prefixTrie = withPrefix(key, trie) &#123;</div><div class="line">        <span class="keyword">return</span> elements(prefixTrie)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> []</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>为了完成这个库接下来还得自己写插入和删除</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Leon" />
+          <p class="site-author-name" itemprop="name">Leon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

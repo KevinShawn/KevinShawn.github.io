@@ -1,0 +1,457 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Chapter 7 The Value of Immutability
+前言1-6章的读书笔记已经有人写了可以在这边看http://chengway.in/functional-programming-in-swift/
+本文是《Functional Programming in Swift》中第七章的笔记，如果你感兴趣，请购买英文原版。1.Variables and References2.Va">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Functional Programming in Swift（七）">
+<meta property="og:url" content="http://yoursite.com/backup/Functional Programming in Swift.html">
+<meta property="og:site_name" content="Leon">
+<meta property="og:description" content="Chapter 7 The Value of Immutability
+前言1-6章的读书笔记已经有人写了可以在这边看http://chengway.in/functional-programming-in-swift/
+本文是《Functional Programming in Swift》中第七章的笔记，如果你感兴趣，请购买英文原版。1.Variables and References2.Va">
+<meta property="og:updated_time" content="2016-02-13T12:17:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Functional Programming in Swift（七）">
+<meta name="twitter:description" content="Chapter 7 The Value of Immutability
+前言1-6章的读书笔记已经有人写了可以在这边看http://chengway.in/functional-programming-in-swift/
+本文是《Functional Programming in Swift》中第七章的笔记，如果你感兴趣，请购买英文原版。1.Variables and References2.Va">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    Functional Programming in Swift（七） | Leon
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <p>Chapter 7 The Value of Immutability</p>
+<h2 id="前言">前言</h2><p>1-6章的读书笔记已经有人写了可以在这边看<br><a href="http://chengway.in/functional-programming-in-swift/" target="_blank" rel="external">http://chengway.in/functional-programming-in-swift/</a></p>
+<p>本文是《Functional Programming in Swift》中第七章的笔记，如果你感兴趣，请购买英文原版。<br>1.Variables and References<br>2.Value Types vs. Reference Types<br>3.Structs and Classes: Mutable or Not?<br>4.Objective-C<br>5.Discussion<br>swift有好几种机制来控制值会怎么变化。这个章节，我们要解释一下这些机制怎么工作的<br>区别一下值引用和类型引用，并讨论为什么少用可变类型会比较好</p>
+<h2 id="Variables_and_References">Variables and References</h2><p>在swift中有我们可以使用let 和 var来初始化变量<br><figure class="highlight zephir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x: <span class="keyword">Int</span> = <span class="number">1</span></div><div class="line"><span class="keyword">let</span> y: <span class="keyword">Int</span> = <span class="number">2</span></div></pre></td></tr></table></figure></p>
+<p>这2者之间最大的区别是var定义变量 let定义不可变的<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x = <span class="number">3</span> <span class="comment">// This is fine</span></div><div class="line">y = <span class="number">4</span> <span class="comment">// This is rejected by the compiler</span></div></pre></td></tr></table></figure></p>
+<p>为什么要有个不可变的类型呢。想一想当你读一个别人写的swift的类，里面有个不知道什么意思的x，这时候你更想要个let还是想要个var呢。明显我会想要个let，不可变的类型你不用担心x在哪里改变掉</p>
+<h2 id="Value_Types_vs-_Reference_Types">Value Types vs. Reference Types</h2><h3 id="结构体">结构体</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">var</span> structPoint = PointStruct(x: <span class="number">1</span>, y: <span class="number">2</span>)</div><div class="line"><span class="selector-tag">var</span> sameStructPoint = structPoint</div><div class="line">sameStructPoint<span class="selector-class">.x</span> = <span class="number">3</span></div><div class="line">structPoint.x<span class="comment">// 1</span></div></pre></td></tr></table></figure>
+<p>执行完以后structPoint还是PointStruct(x: 1, y: 2) sameStructPoint是PointStruct(x: 3, y: 2)。这个是我们讨论类型引用和值引用重要的一点：当structPoint赋值sameStructPoint值被拷贝了一份，所以structPoint修改的时候不会改变structPoint</p>
+<h3 id="类">类</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class PointClass &#123; </div><div class="line">    <span class="selector-tag">var</span> x: Int</div><div class="line">    <span class="selector-tag">var</span> y: Int</div><div class="line">    init(x: Int, y: Int) &#123; </div><div class="line">        self<span class="selector-class">.x</span> = x</div><div class="line">        self<span class="selector-class">.y</span> = y </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">var</span> classPoint = PointClass(x: <span class="number">1</span>, y: <span class="number">2</span>)</div><div class="line"><span class="selector-tag">var</span> sameClassPoint = classPoint</div><div class="line">sameClassPoint<span class="selector-class">.x</span> = <span class="number">3</span></div><div class="line">classPoint.x</div></pre></td></tr></table></figure>
+<p>这里sameClassPoint 和 classPoint都是PointClass(x: 3, y: 2)<br>当赋新值或是传递给函数 值类型是拷贝，而类型引用不是。对类型引用的任何改变，原版本也会改变<br>这里有一篇文章介绍值引用和类型引用可以看看<br><a href="https://www.objc.io/issues/16-swift/swift-classes-vs-structs/" target="_blank" rel="external">swift-classes-vs-structs</a><br>swift的值引用有很多 数组，字典，结构体，数字，布尔值。元组和枚举型<br>class是类型引用</p>
+<h2 id="Structs_and_Classes:_Mutable_or_Not?">Structs and Classes: Mutable or Not?</h2><p>上面的例子我们定义的都是可变的，当把let，var和混合类型一起用时还需要解释一下<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">struct PointStruct &#123;</div><div class="line">    <span class="built_in">var</span> <span class="symbol">x:In</span><span class="built_in">t</span></div><div class="line">    <span class="built_in">var</span> <span class="symbol">y:In</span><span class="built_in">t</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="PointStruct成员变量是可变的_PointStruct是不可变的">PointStruct成员变量是可变的 PointStruct是不可变的</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">let immutablePoint = PointStruct(<span class="string">x:</span> <span class="number">0</span>, <span class="string">y:</span> <span class="number">0</span>)</div><div class="line">immutablePoint = PointStruct(<span class="string">x:</span> <span class="number">2</span>, <span class="string">y:</span> <span class="number">2</span>)<span class="comment">//不能向一个不可变的东西重新赋值</span></div><div class="line">immutablePoint.x = <span class="number">10</span><span class="comment">// 虽然x是可变但是immutablePoint是不可变的</span></div></pre></td></tr></table></figure>
+<h3 id="PointStruct成员变量是可变的_PointStruct是可变的">PointStruct成员变量是可变的 PointStruct是可变的</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mutablePoint = <span class="type">PointStruct</span>(x: <span class="number">1</span>, y: <span class="number">1</span>)</div><div class="line">mutablePoint.x = <span class="number">3</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ImmutablePointStruct</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> x: <span class="type">Int</span></div><div class="line">    <span class="keyword">let</span> y: <span class="type">Int</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="PointStruct成员变量是不可变的_PointStruct是可变的">PointStruct成员变量是不可变的 PointStruct是可变的</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var immutablePoint2 = ImmutablePointStruct(<span class="string">x:</span> <span class="number">1</span>, <span class="string">y:</span> <span class="number">1</span>)</div><div class="line"><span class="comment">//immutablePoint2.x = 3 // Rejected!</span></div><div class="line">immutablePoint2 = ImmutablePointStruct(<span class="string">x:</span> <span class="number">2</span>, <span class="string">y:</span> <span class="number">2</span>)<span class="comment">// 本身还是可以改变</span></div></pre></td></tr></table></figure>
+<p>总结一下：当对象本身是不可变的时候，其成员变量也是不可变，对象本身可变，再看成员变量是否可变。</p>
+<h2 id="Objective-C">Objective-C</h2><p>oc编程者应该对可变不可变性很熟悉。苹果底层的很多数据结构都存在可变和不可变的版本<br>使用不可变的类型在大多数情况下都是默认的选择就想swift更倾向于值引用而不是类型引用<br>然而和swift相比,OC没有很方便的不可变的方法。我们可以用readonly属性 但是这没法我们不经意的修改</p>
+<h2 id="Discussion">Discussion</h2><p>尽量避免使用可变的 能帮助程序解耦，提高程序的结构性</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Leon" />
+          <p class="site-author-name" itemprop="name">Leon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

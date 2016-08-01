@@ -1,0 +1,597 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="WatchOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="WatchOS 如何和配对物交流数据。自从watchOS出来以后大家都在找寻找一种2者之间数据互通的方法今天介绍一下简单的连接框架 Watch Connectivity framework翻译自http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115
+前言Watch Connectivitycon">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WatchOS">
+<meta property="og:url" content="http://yoursite.com/2015/11/12/WatchOS/index.html">
+<meta property="og:site_name" content="Leon">
+<meta property="og:description" content="WatchOS 如何和配对物交流数据。自从watchOS出来以后大家都在找寻找一种2者之间数据互通的方法今天介绍一下简单的连接框架 Watch Connectivity framework翻译自http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115
+前言Watch Connectivitycon">
+<meta property="og:image" content="http://chuantu.biz/t2/19/1447515689x-1566679828.png">
+<meta property="og:image" content="http://chuantu.biz/t2/19/1447516155x1822610100.png">
+<meta property="og:image" content="http://chuantu.biz/t2/19/1447516336x1822610092.png">
+<meta property="og:updated_time" content="2015-11-14T16:06:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WatchOS">
+<meta name="twitter:description" content="WatchOS 如何和配对物交流数据。自从watchOS出来以后大家都在找寻找一种2者之间数据互通的方法今天介绍一下简单的连接框架 Watch Connectivity framework翻译自http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115
+前言Watch Connectivitycon">
+<meta name="twitter:image" content="http://chuantu.biz/t2/19/1447515689x-1566679828.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> WatchOS | Leon </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                WatchOS
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/WatchOS/" itemprop="url" rel="index">
+                    <span itemprop="name">WatchOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>WatchOS 如何和配对物交流数据。自从watchOS出来以后大家都在找寻找一种2者之间数据互通的方法<br>今天介绍一下简单的连接框架 Watch Connectivity framework<br>翻译自<a href="http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115" target="_blank" rel="external">http://code.tutsplus.com/tutorials/ios-9-an-introduction-to-3d-touch--cms-25115</a></p>
+<h2 id="前言">前言</h2><p>Watch Connectivity<br>connectivity可以做很多事情 发送消息 ，转换数据，甚至还可以转化文件夹<br>我建议你先看看 Apple’s documentation<br>这个教程将教你如何在watchOS和 iOS设备之间如何传递数据。我们将使用的API是sendMessage(<em>:replyHandler:errorHandler:)<br>有一点重要的细节需要注意<br>iOS设备和Watch在接收到sendMessage(</em>:replyHandler:errorHandler:) 表现得不一样<br>iOS设备将被系统唤醒， 而watchOS不会被唤醒</p>
+<h2 id="Project_Setup">Project Setup</h2><p><img src="http://chuantu.biz/t2/19/1447515689x-1566679828.png" alt=""></p>
+<h2 id="Creating_the_User_Interface">Creating the User Interface</h2><h3 id="iOS_App">iOS App</h3><p><img src="http://chuantu.biz/t2/19/1447516155x1822610100.png" alt=""></p>
+<h3 id="WatchApp">WatchApp</h3><p><img src="http://chuantu.biz/t2/19/1447516336x1822610092.png" alt=""></p>
+<h2 id="Using_the_Watch_Connectivity_Framework">Using the Watch Connectivity Framework</h2><p>要实现数据的互传我们还需要WCSession<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">InterfaceController</span>: <span class="type">WKInterfaceController</span>,<span class="type">WCSessionDelegate&#123;</span></span></div><div class="line">    <span class="keyword">var</span> session : WCSession!</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>调用WCSession.defaultSession()可以获取到session实例，下一步我们需要设置session的delegate和激活session<br>在我们构建之前我们先要调用WCSession.isSupported()来确认当期设备是否支持WCSession，在activateSession之前我们先要设置delegate<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">willActivate</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">super</span>.willActivate()</div><div class="line">    <span class="keyword">if</span> (<span class="type">WCSession</span>.isSupported()) &#123;</div><div class="line">        session = <span class="type">WCSession</span>.defaultSession()</div><div class="line">        session.delegate = <span class="keyword">self</span></div><div class="line">        session.activateSession()</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>现在WatchApp就能收到消息了。当session激活后我们只要用sendMessage(_:replyHandler:errorHandler:)就可以发送消息了第一个参数不能为空<br>replyHandler 成功回调<br>errorHandler失败回调<br>点击send按钮，watch就会发送一条hello iPhone的消息<br>InterfaceController.swift<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">sendMessage</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> messageToSend = [<span class="string">"Value"</span>:<span class="string">"Hello iPhone"</span>]</div><div class="line">    session.sendMessage(messageToSend, replyHandler: &#123; replyMessage <span class="keyword">in</span></div><div class="line">        <span class="comment">//handle and present the message on screen</span></div><div class="line">        <span class="keyword">let</span> value = replyMessage[<span class="string">"Value"</span>] <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">        <span class="keyword">self</span>.messageLabel.setText(value)</div><div class="line">    &#125;, errorHandler: &#123;error <span class="keyword">in</span></div><div class="line">        <span class="comment">// catch any errors here</span></div><div class="line">        <span class="built_in">print</span>(error)</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>为了能在iOS设备上处理这个信息<br>我们需要实现session(_:didReceiveMessage:)<br>InterfaceController.swift<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">session</span><span class="params">(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: <span class="params">([String : AnyObject])</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">    <span class="comment">//handle received message</span></div><div class="line">    <span class="keyword">let</span> value = message[<span class="string">"Value"</span>] <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">    <span class="comment">//use this to present immediately on the screen</span></div><div class="line">    dispatch_async(dispatch_get_main_queue()) &#123;</div><div class="line">        <span class="keyword">self</span>.messageLabel.setText(value)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//send a reply</span></div><div class="line">    replyHandler([<span class="string">"Value"</span>:<span class="string">"Yes"</span>])</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>iOS设备的VC里面实现这段代码<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> UIKit</div><div class="line"><span class="keyword">import</span> WatchConnectivity</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span>, <span class="title">WCSessionDelegate</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> session: <span class="type">WCSession</span>!</div><div class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">var</span> messageLabel: <span class="type">UILabel</span>!</div><div class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">var</span> sendButton: <span class="type">UIButton</span>!</div><div class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">sendMessage</span><span class="params">(sender: AnyObject)</span></span> &#123;</div><div class="line">        <span class="comment">//Send Message to WatchKit</span></div><div class="line">        <span class="keyword">let</span> messageToSend = [<span class="string">"Value"</span>:<span class="string">"Hi watch, can you talk to me?"</span>]</div><div class="line">        session.sendMessage(messageToSend, replyHandler: &#123; replyMessage <span class="keyword">in</span></div><div class="line">        <span class="comment">//handle the reply</span></div><div class="line">        <span class="keyword">let</span> value = replyMessage[<span class="string">"Value"</span>] <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">        <span class="comment">//use dispatch_asynch to present immediately on screen</span></div><div class="line">        dispatch_async(dispatch_get_main_queue()) &#123;</div><div class="line">            <span class="keyword">self</span>.messageLabel.text = value</div><div class="line">        &#125;</div><div class="line">        &#125;, errorHandler: &#123;error <span class="keyword">in</span></div><div class="line">        <span class="comment">// catch any errors here</span></div><div class="line">            <span class="built_in">print</span>(error)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.viewDidLoad()</div><div class="line">        <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></div><div class="line">        <span class="keyword">if</span> (<span class="type">WCSession</span>.isSupported()) &#123;</div><div class="line">            session = <span class="type">WCSession</span>.defaultSession()</div><div class="line">            session.delegate = <span class="keyword">self</span>;</div><div class="line">            session.activateSession()</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</div><div class="line">        <span class="comment">// Dispose of any resources that can be recreated.</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//Swift</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">session</span><span class="params">(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: <span class="params">([String : AnyObject])</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">        <span class="comment">//handle received message</span></div><div class="line">        <span class="keyword">let</span> value = message[<span class="string">"Value"</span>] <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">    dispatch_async(dispatch_get_main_queue()) &#123;</div><div class="line">        <span class="keyword">self</span>.messageLabel.text = value</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//send a reply</span></div><div class="line">        replyHandler([<span class="string">"Value"</span>:<span class="string">"Hello Watch"</span>])</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Exploring_the_WCSessionDelegate_Protocol">Exploring the WCSessionDelegate Protocol</h2><p>我们接收消息的方法session(<em>:didReceiveMessage:)并没有:replyHandler这其实也就是说发出消息后并不需要回应<br>除了发送字典外我们还可以发送data<br>发送者调用sendMessageData(</em>:replyHandler:errorHandler:)<br>接收者以协议接收<br>session(<em>:didReceiveMessageData:)<br>session(</em>:didReceiveMessageData:replyHandler:)</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/WatchOS/" rel="tag">#WatchOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/12/UIPopoverPresentationController/" rel="prev" title="UIPopoverPresentationController">
+                UIPopoverPresentationController <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Leon" />
+          <p class="site-author-name" itemprop="name">Leon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Project_Setup"><span class="nav-number">2.</span> <span class="nav-text">Project Setup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating_the_User_Interface"><span class="nav-number">3.</span> <span class="nav-text">Creating the User Interface</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS_App"><span class="nav-number">3.1.</span> <span class="nav-text">iOS App</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WatchApp"><span class="nav-number">3.2.</span> <span class="nav-text">WatchApp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using_the_Watch_Connectivity_Framework"><span class="nav-number">4.</span> <span class="nav-text">Using the Watch Connectivity Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exploring_the_WCSessionDelegate_Protocol"><span class="nav-number">5.</span> <span class="nav-text">Exploring the WCSessionDelegate Protocol</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

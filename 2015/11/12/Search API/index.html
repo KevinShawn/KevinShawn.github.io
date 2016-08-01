@@ -1,0 +1,602 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NSUserActivity       CoreSpotlight," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight参考自http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/
+简介iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：1.NSUse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Search API">
+<meta property="og:url" content="http://yoursite.com/2015/11/12/Search API/index.html">
+<meta property="og:site_name" content="Leon">
+<meta property="og:description" content="近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight参考自http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/
+简介iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：1.NSUse">
+<meta property="og:image" content="http://chuantu.biz/t2/20/1448818152x1822611380.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2015-11-29T17:46:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Search API">
+<meta name="twitter:description" content="近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight参考自http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/
+简介iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：1.NSUse">
+<meta name="twitter:image" content="http://chuantu.biz/t2/20/1448818152x1822611380.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Search API | Leon </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Search API
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS9/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS9</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
+<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
+<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
+<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
+<p>下面写一下简单得步骤：</p>
+<p>1 引入CoreSpotlight.framework</p>
+<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
+<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
+<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
+<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NSUserActivity-CoreSpotlight/" rel="tag">#NSUserActivity       CoreSpotlight</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/12/UIPopoverPresentationController/" rel="next" title="UIPopoverPresentationController">
+                <i class="fa fa-chevron-left"></i> UIPopoverPresentationController
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/12/NSURLProtocol/" rel="prev" title="NSURLProtocol">
+                NSURLProtocol <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Leon" />
+          <p class="site-author-name" itemprop="name">Leon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSUserActivity"><span class="nav-number">2.</span> <span class="nav-text">NSUserActivity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreSpotlight"><span class="nav-number">3.</span> <span class="nav-text">CoreSpotlight</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

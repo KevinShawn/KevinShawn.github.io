@@ -1,0 +1,456 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Chapter 8  The Value of Immutability
+前言本文是《Functional Programming in Swift》中第八章的笔记，如果你感兴趣，请购买英文原版。1.Introducing Enumerations2.Associated Values3.Adding Generics4.Optionals Revisited5.The Algebra of Da">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Functional Programming in Swift（八）">
+<meta property="og:url" content="http://yoursite.com/backup/Functional Programming in Swift8.html">
+<meta property="og:site_name" content="Leon">
+<meta property="og:description" content="Chapter 8  The Value of Immutability
+前言本文是《Functional Programming in Swift》中第八章的笔记，如果你感兴趣，请购买英文原版。1.Introducing Enumerations2.Associated Values3.Adding Generics4.Optionals Revisited5.The Algebra of Da">
+<meta property="og:updated_time" content="2016-02-14T09:23:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Functional Programming in Swift（八）">
+<meta name="twitter:description" content="Chapter 8  The Value of Immutability
+前言本文是《Functional Programming in Swift》中第八章的笔记，如果你感兴趣，请购买英文原版。1.Introducing Enumerations2.Associated Values3.Adding Generics4.Optionals Revisited5.The Algebra of Da">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    Functional Programming in Swift（八） | Leon
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <p>Chapter 8  The Value of Immutability</p>
+<h2 id="前言">前言</h2><p>本文是《Functional Programming in Swift》中第八章的笔记，如果你感兴趣，请购买英文原版。<br>1.Introducing Enumerations<br>2.Associated Values<br>3.Adding Generics<br>4.Optionals Revisited<br>5.The Algebra of Data Types<br>6.Why Use Enumerations?<br>这个章节我们要讨论的是枚举型</p>
+<h2 id="Introducing_Enumerations">Introducing Enumerations</h2><p>oc的字符串Encoding<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">NSStringEncoding</span> &#123;</span></div><div class="line">    NSASCIIStringEncoding = <span class="number">1</span>,</div><div class="line">    NSNEXTSTEPStringEncoding = <span class="number">2</span>,</div><div class="line">    NSJapaneseEUCStringEncoding = <span class="number">3</span>,    </div><div class="line">    NSUTF8StringEncoding = <span class="number">4</span>,</div><div class="line">    <span class="regexp">//</span> ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>枚举型允许编程者将数字和有意义的名字联系起来<br>然而在OC和其他C语言系中枚举型有一些缺陷。最值得注意的是这个NSStringEncoding并不足够-这些仅仅是数字比如说16 和一个合法的编码类型没什么联系。而且因为枚举型是数字，我们就可以计算它，这也成了一个缺陷</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSAssert</span>(<span class="built_in">NSASCIIStringEncoding</span> + <span class="built_in">NSNEXTSTEPStringEncoding</span> == <span class="built_in">NSJapaneseEUCStringEncoding</span>, <span class="string">@"Adds up..."</span>);</div></pre></td></tr></table></figure>
+<p>这种表达式显然毫无意义但是OC 编译器却能通过<br>简单的把枚举型定义为数字 和 swift中的函数式编程的一个核心原则“效利用类型排除无效的程序”是格格不入的<br>Swift里面也有枚举型但是和我们在oc中所见的不同<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Encoding</span> &#123;</span></div><div class="line">    <span class="keyword">case</span> ASCII</div><div class="line">    <span class="keyword">case</span> NEXTSTEP</div><div class="line">    <span class="keyword">case</span> JapaneseEUC</div><div class="line">    <span class="keyword">case</span> UTF8</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>编码的方式有很多种这里只是为了举个例子<br>对比OC 下面的代码在swift中是不被编译器接受<br>let myEncoding = Encoding.ASCII + Encoding.UTF8<br>在swift 枚举型创建了一个新的类型。<br>我们定义了一个函数从Encoding转换成NSStringEncoding<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">func toNSStringEncoding(<span class="string">encoding:</span> Encoding) -&gt; NSStringEncoding &#123;</div><div class="line">    <span class="keyword">switch</span> encoding &#123;</div><div class="line">    <span class="keyword">case</span> Encoding.<span class="string">ASCII:</span></div><div class="line">        <span class="keyword">return</span> NSASCIIStringEncoding</div><div class="line">    <span class="keyword">case</span> Encoding.<span class="string">NEXTSTEP:</span></div><div class="line">        <span class="keyword">return</span> NSNEXTSTEPStringEncoding</div><div class="line">    <span class="keyword">case</span> Encoding.<span class="string">JapaneseEUC:</span></div><div class="line">        <span class="keyword">return</span> NSJapaneseEUCStringEncoding</div><div class="line">    <span class="keyword">case</span> Encoding.<span class="string">UTF8:</span></div><div class="line">        <span class="keyword">return</span> NSUTF8StringEncoding</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注意写switch…case的时候要把所有情况都考虑到oc不会检查 siwft会检查</p>
+<h2 id="Associated_Values">Associated Values</h2><p>Swift的枚举型是可以带有附加信息的<br>举个读取文件的例子<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ReadFileResult</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Success</span>(<span class="type">String</span>)</div><div class="line">    <span class="keyword">case</span> <span class="type">Failure</span>(<span class="type">NSError</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> exampleSuccess: <span class="type">ReadFileResult</span> = <span class="type">ReadFileResult</span>.<span class="type">Success</span>( <span class="string">"File contents goes here"</span>)</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">readFile</span><span class="params">(path:String, encoding:Encoding)</span></span>-&gt;<span class="type">ReadFileResult</span> &#123;</div><div class="line">    <span class="keyword">do</span> &#123;</div><div class="line">        <span class="keyword">let</span> maybeString = <span class="keyword">try</span> <span class="type">NSString</span>(contentsOfFile: path, encoding: toNSStringEncoding(encoding)) <span class="keyword">as</span> <span class="type">String</span>?</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> string = maybeString &#123;</div><div class="line">            <span class="keyword">return</span> <span class="type">ReadFileResult</span>.<span class="type">Success</span>(string)</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">catch</span> <span class="keyword">let</span> error <span class="keyword">as</span> <span class="type">NSError</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">ReadFileResult</span>.<span class="type">Failure</span>(error)</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">assert</span>(<span class="literal">false</span>, <span class="string">"The impossible ocurred"</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">switch</span> readFile(<span class="string">"/Users/wouter/fpinswift/README.md"</span>, encoding: <span class="type">Encoding</span>.<span class="type">ASCII</span>) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">ReadFileResult</span>.<span class="type">Success</span>(contents):</div><div class="line">        <span class="built_in">print</span>(<span class="string">"File succesfully opened.."</span>)</div><div class="line">    <span class="keyword">case</span> <span class="keyword">let</span> <span class="type">ReadFileResult</span>.<span class="type">Failure</span>(error):</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Failed to open file. Error code: <span class="subst">\(error.code)</span>"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Adding_Generics">Adding Generics</h2><p>接下来我们来定义一个写文件的函数<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">WriteFileResult</span> &#123;</span></div><div class="line">    <span class="keyword">case</span> Success</div><div class="line">    <span class="keyword">case</span> Failure(NSError)</div><div class="line">&#125;</div><div class="line"></div><div class="line">func writeFile(<span class="symbol">contents:</span> String, <span class="symbol">path:</span> String, <span class="symbol">encoding:</span> Encoding) -&gt; Bool &#123;</div><div class="line">    <span class="keyword">do</span> &#123;</div><div class="line">        try contents.writeToFile(path, <span class="symbol">atomically:</span> <span class="literal">false</span>, <span class="symbol">encoding:</span> toNSStringEncoding(encoding))</div><div class="line">    &#125;</div><div class="line">    catch _ <span class="keyword">as</span> NSError &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样定义了一个write的枚举，有写一个read的枚举这样有点繁琐，其实我们可以直接用泛型</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Result</span>&lt;<span class="title">T</span>&gt; &#123;</span></div><div class="line">    <span class="keyword">case</span> Success(T)</div><div class="line">    <span class="keyword">case</span>  Failure(NSError)</div><div class="line">&#125;</div><div class="line"></div><div class="line">let result = Result.Success(<span class="number">1</span>)</div></pre></td></tr></table></figure>
+<p>Unfortunately, generic associated values are not supported by the current Swift compiler. But there is a workaround — defining a dummy wrapper Box<t><br>（现在编译器已经可以通过了）<br>可以定义一个wrapper，这样做的目的只是为了隐藏泛型<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Box</span>&lt;<span class="title">T</span>&gt; &#123;</span></div><div class="line">    let <span class="symbol">unbox:</span> T</div><div class="line">    init(_ <span class="symbol">value:</span> T) &#123;</div><div class="line">        <span class="keyword">self</span>.unbox = value</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Result</span>&lt;<span class="title">T</span>&gt; &#123;</span></div><div class="line">    <span class="keyword">case</span> Success(Box&lt;T&gt;)</div><div class="line">    <span class="keyword">case</span> Failure(NSError)</div><div class="line">&#125;</div><div class="line">let result = Result.Success(Box(<span class="number">1</span>))</div></pre></td></tr></table></figure></t></p>
+<h2 id="Optionals_Revisited">Optionals Revisited</h2><p>swift内建可选类型很像Result的枚举型，我们来看看内建函数<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Optional</span>&lt;<span class="title">T</span>&gt; &#123;</span></div><div class="line">    <span class="keyword">case</span> None</div><div class="line">    <span class="keyword">case</span> Some(T)</div><div class="line">/<span class="regexp">/ ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们也可以自定义可选类型<br><figure class="highlight rust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">func map&lt;T, U&gt;(f: T -&gt; U, result: <span class="built_in">Result</span>&lt;T&gt;) -&gt; <span class="built_in">Result</span>&lt;U&gt; &#123;</div><div class="line">switch result &#123;</div><div class="line">    case <span class="keyword">let</span> <span class="built_in">Result</span>.Success(<span class="keyword">box</span>):</div><div class="line">        <span class="keyword">return</span> <span class="built_in">Result</span>.Success(<span class="built_in">Box</span>(f(<span class="keyword">box</span>.unbox)))</div><div class="line">    case <span class="keyword">let</span> <span class="built_in">Result</span>.Failure(error):</div><div class="line">        <span class="keyword">return</span> <span class="built_in">Result</span>.Failure(error)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">func ??&lt;T&gt;(result:<span class="built_in">Result</span>&lt;T&gt;, handleError:NSError-&gt;T)-&gt;T &#123;</div><div class="line">    switch result &#123;</div><div class="line">        case <span class="keyword">let</span> <span class="built_in">Result</span>.Success(<span class="keyword">box</span>):</div><div class="line">            <span class="keyword">return</span> <span class="keyword">box</span>.unbox</div><div class="line">        case <span class="keyword">let</span> <span class="built_in">Result</span>.Failure(error):</div><div class="line">            <span class="keyword">return</span> handleError(error)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="The_Algebra_of_Data_Types">The Algebra of Data Types</h2><h3 id="如何定义一个加法">如何定义一个加法</h3><p>enum Add<t, u=""> {<br>    case InLeft(Box<t>)<br>    case InRight(Box<u>)<br>}<br>对泛型T和U，枚举型Add<t,u>有T值或者U值组成。正如名字所说<br>Add的枚举型 将T和U的值相加如果T有3种值，U有7个值，Add<t,u>就会有10种可能性</t,u></t,u></u></t></t,></p>
+<p>如何定义一个像0一样的结构体<br>enum Zero {<br>}<br>Add<t, zero="">这个枚举型的值就和T一样了</t,></p>
+<h3 id="如何定义一个乘法">如何定义一个乘法</h3><p>struct Times<t, u=""> {<br>let fst: T<br>let snd: U<br>}<br>（）是times的一个小单元<br>typealias One = ()<br>这段看不太懂啊</t,></p>
+<h2 id="Why_Use_Enumerations?">Why Use Enumerations?</h2><p>比起自定义的Result，我们还是更喜欢可选类型原因有很多：内建的语法糖很方便；接口定义将会更加熟悉迅速开发人员,你只有依靠现有的类型而不是定义你自己的枚举;有时NSError不值得额外的定义一个枚举。这章告诉我们如何使用枚举型来定义自己的类型满足自己的需要。通过这些类型精确,你可以充分利用swift的类型检查,防止许多错误,之前已经测试或运行你的程序。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Leon" />
+          <p class="site-author-name" itemprop="name">Leon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
