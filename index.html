@@ -230,6 +230,148 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/01/http基础知识2/" itemprop="url">
+                  Http与Https连接
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-01T23:23:54+08:00" content="2016-08-01">
+              2016-08-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络基础/" itemprop="url" rel="index">
+                    <span itemprop="name">网络基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>网络基础，大部分都参考自网上博客</p>
+<p><img src="http://img.hoop8.com/1607D/fnZl16at.png" alt=""></p>
+<h2 id="Http连接">Http连接</h2><h3 id="TCP工作原理">TCP工作原理</h3><p>http请求是基于TCP协议的<br>TCP的连接建立过程又称为TCP三次握手, 握手过程中使用TCP的标志flag,SYN (同步码)和 ACK(确认码)</p>
+<ul>
+<li>发送端首先发送一个SYN的数据包给对方。</li>
+<li>接收端收到后，回传一个带有SYN/ACK标志的数据包以传达确认信息。</li>
+<li>最后发送端再回传一个带有ACK标志的数据包，代表“握手”结束。</li>
+<li>若在握手过程中中断了，TCP协议会再次以相同的顺序发送相同的数据包。<br>三次握手如下图<br><img src="http://chuantu.biz/t5/24/1470066394x3738746553.png" alt=""></li>
+</ul>
+<h2 id="Https连接">Https连接</h2><h3 id="Https介绍">Https介绍</h3><p>通常Http直接和TCP通信。当使用了SSL时，则演变成和SSL通信，再由SSL和TCP通信了。<br>Http +加密+认证+完整性保护= HTTPS 也就是说Http+SSL=HTTPS<br><img src="http://chuantu.biz/t5/24/1470066611x3738746541.png" alt=""></p>
+<h3 id="Https连接-1">Https连接</h3><p>Https采用共享密钥加密和公开密钥两者加密并用的混合加密机制。</p>
+<ul>
+<li>共享密钥加密方式：<br>加密和解密共用一个密钥</li>
+<li>公开密钥加密方式：<br>公开密钥使用一对非对称的密钥。一把私有密钥，一把公开密钥。发送方使用对方的公开密钥进行加密处理。对方<br>收到被加密的信息后，用自己的私钥进行解密。这样就不需要进行密钥传输了。</li>
+</ul>
+<p><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a><br>SSL/TLS协议的基本过程是这样的：<br>（1） 客户端向服务器端索要并验证公钥。<br>（2） 双方协商生成”对话密钥”。<br>（3） 双方采用”对话密钥”进行加密通信。<br>上面过程的前两步，又称为”握手阶段”（handshake）。<br><img src="http://chuantu.biz/t5/24/1470067650x1964741964.png" alt="Https的安全通信进制"></p>
+<h4 id="客户端发出请求">客户端发出请求</h4><p>客户端通过发送Client Hello 报文开始SSL通信。报文中包含<br>（1） 支持的协议版本，比如TLS 1.0版。<br>（2） 一个客户端生成的随机数，稍后用于生成”对话密钥”，这个密码是明文的。<br>（3） 支持的加密方法，比如RSA公钥加密。<br>（4） 支持的压缩方法。</p>
+<h4 id="服务器回应">服务器回应</h4><p>（1） 确认使用的加密通信协议版本，<br>（2） 一个服务器生成的随机数，稍后用于生成”对话密钥”，这个密码是明文的。<br>（3） 确认使用的加密方法，比如RSA公钥加密。<br>（4） 服务器证书。</p>
+<h4 id="客户端回应">客户端回应</h4><p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。<br>（1） 一个随机数。该随机数用服务器公钥加密，防止被窃听。服务器可以用自己的私钥解开<br>（2） 编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。<br>（3） 客户端握手结束通知，表示客户端的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供服务器校验。</p>
+<p>连接完成以后就用三个随机数构成的会话密钥进行对称加密的通信</p>
+<h3 id="问题">问题</h3><ul>
+<li>为什么使用三个随机数的原因？<br>这是由于SSL/TLS设计，就假设服务器不相信所有的客户端都能够提供完全随机数，假如某个客户端提供的随机数不随机的话，就大大增加了“对话密钥”被破解的风险，所以由三组随机数组成最后的随机数，保证了随机数的随机性，以此来保证每次生成的“对话密钥”安全性。</li>
+<li>客户端验证数字证书的过程：<br><img src="http://chuantu.biz/t5/24/1470069954x1964741984.png" alt=""><br>首先，服务器的运营人员向数字证书认证机构提出公开密钥的申请。数字证书认证机构在判明提出申请者的身份后，会将已申请的公开密钥做数字签名，然后分配这个已签名的公开密钥，并将该公开密钥放入公钥证书后绑定在一起<br>服务器会将这份数字证书认证的公钥证书发送给客户端，以进行公开密钥加密方式通信。<br>接到证书的客户端可使用数字认证机构的公开密钥，对数字签名进行验证，验证通过则证明证书有效。<br>具体参考<br><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a><br><a href="http://oncenote.com/2014/10/21/Security-1-HTTPS/" target="_blank" rel="external">iOS安全系列之一：HTTPS</a></li>
+</ul>
+<h2 id="Http与Https区别">Http与Https区别</h2><ul>
+<li>Http优点：<br>1.简单快速:http协议简单,通信速度很快;<br>2.灵活:http协议允许传输任意类型的数据;<br>3.短连接:http协议限制每次连接只处理一个请求,服务器对客户端的请求作出响应后,马上断开连接.这种方式可以节省传输时间.</li>
+<li>Http缺点:<br>1.通信使用明文不加密，内容可能会被窃听;<br>2.不验证通信方的身份，因此有可能遭遇伪装;<br>3.无法证明报文的完整性，所以可能被篡改;</li>
+</ul>
+<p>Https的优点就是安全，<br>缺点就是慢：1.通信慢 2.加密解密会消耗客户端和服务端的资源，使负载增加</p>
+<h2 id="参考">参考</h2><p>图解http<br><a href="http://www.jianshu.com/p/cc756016243b" target="_blank" rel="external">深入浅出－iOS的TCP/IP协议族剖析&amp;&amp;Socket</a><br><a href="http://www.jianshu.com/p/13c09f4e6fac" target="_blank" rel="external">iOS开发探索-HTTP与HTTPS传输</a><br><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a><br><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a><br><a href="http://oncenote.com/2014/10/21/Security-1-HTTPS/" target="_blank" rel="external">iOS安全系列之一：HTTPS</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/31/Http基础知识1/" itemprop="url">
                   Http-网络基础
                 </a>
@@ -506,6 +648,149 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/12/CoreAnimation/" itemprop="url">
+                  CoreAnimation的一些注意点
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/CoreAnimation/" itemprop="url" rel="index">
+                    <span itemprop="name">CoreAnimation</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题">问题</h2><p>前不久做一个社交应用地图上有个脉冲波式的效果像这样<br><img src="https://github.com/shu223/PulsingHalo/blob/master/demo_.gif?raw=true" alt=""><br>做完打算收工时，不小心点了一下home键，又不小心重新进入app，悲剧发生了动画没了。<br>这里介绍三种处理方式</p>
+<h2 id="第一种">第一种</h2><p>简单粗暴直接重新添加</p>
+<pre><code>[view.layer <span class="string">addAnimation:</span>rotation <span class="string">forKey:</span>@<span class="string">"rotationAnimation"</span>];
+</code></pre><h2 id="第二种">第二种</h2><p>根据Technical Q&amp;A QA1673<br><a href="https://developer.apple.com/library/ios/qa/qa1673/_index.html" target="_blank" rel="external">How to pause the animation of a layer tree</a></p>
+<pre><code>-(<span class="keyword">void</span>)pauseLayer:(<span class="built_in">CALayer</span>*)layer
+{
+    <span class="built_in">CFTimeInterval</span> pausedTime = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>];
+    layer<span class="variable">.speed</span> = <span class="number">0.0</span>;
+    layer<span class="variable">.timeOffset</span> = pausedTime;
+}
+
+-(<span class="keyword">void</span>)resumeLayer:(<span class="built_in">CALayer</span>*)layer
+{
+    <span class="built_in">CFTimeInterval</span> pausedTime = [layer timeOffset];
+    layer<span class="variable">.speed</span> = <span class="number">1.0</span>;
+    layer<span class="variable">.timeOffset</span> = <span class="number">0.0</span>;
+    layer<span class="variable">.beginTime</span> = <span class="number">0.0</span>;
+    <span class="built_in">CFTimeInterval</span> timeSincePause = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>] - pausedTime;
+    layer<span class="variable">.beginTime</span> = timeSincePause;
+}
+</code></pre><p>监听一下<br>UIKIT_EXTERN NSString <em>const UIApplicationDidEnterBackgroundNotification       NS_AVAILABLE_IOS(4_0);<br>UIKIT_EXTERN NSString </em>const UIApplicationWillEnterForegroundNotification<br>然后在</p>
+<pre><code><span class="tag">-</span> (void)<span class="tag">applicationWillEnterForeground</span>:(UIApplication *)<span class="tag">application</span>
+{
+    <span class="attr_selector">[self pauseLayer:layer]</span>;
+}
+<span class="tag">-</span> (void)<span class="tag">applicationDidEnterBackground</span>:(UIApplication *)<span class="tag">application</span>
+{
+    <span class="attr_selector">[self resumeLayer:layer]</span>;
+}
+</code></pre><h2 id="第三种">第三种</h2><p>直接设置removedOnCompletion = NO;<br>这种方法对于不会停止的动画还是很有用的</p>
+<h2 id="其他">其他</h2><p>对于UIView animation 照样有影响 你会看到动画直接走到结束 直接就调用finished里面的block，所以可能要注意一下</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/12/3DTouch/" itemprop="url">
                   3D touch
                 </a>
@@ -603,149 +888,6 @@
 <h2 id="Detecting_Force_Through">Detecting Force Through</h2><p>检测压力<br>UITouch增加了2个属性force and maximumPossibleForce<br>这2个属性能帮你准确的检测点击的压力</p>
 <p>在ForceViewController类里面增加<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">touchesMoved</span><span class="params">(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> touch = touches.first <span class="keyword">where</span> traitCollection.forceTouchCapability == .<span class="type">Available</span> &#123;</div><div class="line">    <span class="keyword">self</span>.forceOutput.text = <span class="string">"<span class="subst">\(touch.force)</span>\n<span class="subst">\(touch.maximumPossibleForce)</span>"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这里的属性和目前市面上所用的kg 什么的都没什么关系 是3D touch自有的 1.0表示平均接触施加的力的大小。？<br>人家是这么用的<br>基于 3D Touch 做一台同时可称多个较轻物体电子秤<br><a href="https://github.com/FlexMonkey/Plum-O-Meter" target="_blank" rel="external">https://github.com/FlexMonkey/Plum-O-Meter</a><br>结果几天后被下架了</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/12/CoreAnimation/" itemprop="url">
-                  CoreAnimation的一些注意点
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/CoreAnimation/" itemprop="url" rel="index">
-                    <span itemprop="name">CoreAnimation</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="问题">问题</h2><p>前不久做一个社交应用地图上有个脉冲波式的效果像这样<br><img src="https://github.com/shu223/PulsingHalo/blob/master/demo_.gif?raw=true" alt=""><br>做完打算收工时，不小心点了一下home键，又不小心重新进入app，悲剧发生了动画没了。<br>这里介绍三种处理方式</p>
-<h2 id="第一种">第一种</h2><p>简单粗暴直接重新添加</p>
-<pre><code>[view.layer <span class="string">addAnimation:</span>rotation <span class="string">forKey:</span>@<span class="string">"rotationAnimation"</span>];
-</code></pre><h2 id="第二种">第二种</h2><p>根据Technical Q&amp;A QA1673<br><a href="https://developer.apple.com/library/ios/qa/qa1673/_index.html" target="_blank" rel="external">How to pause the animation of a layer tree</a></p>
-<pre><code>-(<span class="keyword">void</span>)pauseLayer:(<span class="built_in">CALayer</span>*)layer
-{
-    <span class="built_in">CFTimeInterval</span> pausedTime = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>];
-    layer<span class="variable">.speed</span> = <span class="number">0.0</span>;
-    layer<span class="variable">.timeOffset</span> = pausedTime;
-}
-
--(<span class="keyword">void</span>)resumeLayer:(<span class="built_in">CALayer</span>*)layer
-{
-    <span class="built_in">CFTimeInterval</span> pausedTime = [layer timeOffset];
-    layer<span class="variable">.speed</span> = <span class="number">1.0</span>;
-    layer<span class="variable">.timeOffset</span> = <span class="number">0.0</span>;
-    layer<span class="variable">.beginTime</span> = <span class="number">0.0</span>;
-    <span class="built_in">CFTimeInterval</span> timeSincePause = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>] - pausedTime;
-    layer<span class="variable">.beginTime</span> = timeSincePause;
-}
-</code></pre><p>监听一下<br>UIKIT_EXTERN NSString <em>const UIApplicationDidEnterBackgroundNotification       NS_AVAILABLE_IOS(4_0);<br>UIKIT_EXTERN NSString </em>const UIApplicationWillEnterForegroundNotification<br>然后在</p>
-<pre><code><span class="tag">-</span> (void)<span class="tag">applicationWillEnterForeground</span>:(UIApplication *)<span class="tag">application</span>
-{
-    <span class="attr_selector">[self pauseLayer:layer]</span>;
-}
-<span class="tag">-</span> (void)<span class="tag">applicationDidEnterBackground</span>:(UIApplication *)<span class="tag">application</span>
-{
-    <span class="attr_selector">[self resumeLayer:layer]</span>;
-}
-</code></pre><h2 id="第三种">第三种</h2><p>直接设置removedOnCompletion = NO;<br>这种方法对于不会停止的动画还是很有用的</p>
-<h2 id="其他">其他</h2><p>对于UIView animation 照样有影响 你会看到动画直接走到结束 直接就调用finished里面的block，所以可能要注意一下</p>
 
           
         
@@ -908,131 +1050,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
-                  Search API
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS9/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS9</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
-<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
-<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
-<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
-<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
-<p>下面写一下简单得步骤：</p>
-<p>1 引入CoreSpotlight.framework</p>
-<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
-<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
-<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
-<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/11/12/NSURLProtocol/" itemprop="url">
                   NSURLProtocol
                 </a>
@@ -1122,6 +1139,131 @@
 <h2 id="总结">总结</h2><p><a href="http://cdn5.raywenderlich.com/wp-content/uploads/2013/12/NSURLProtocolExample1.zip" target="_blank" rel="external">Finished Project</a></p>
 <h3 id="附加1">附加1</h3><p>重定向到github<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">NSURLRequest</span> *) canonicalRequestForRequest:(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">    <span class="built_in">NSMutableURLRequest</span> *mutableReqeust = [request mutableCopy];</div><div class="line">    mutableReqeust = [<span class="keyword">self</span> redirectHostInRequset:mutableReqeust];</div><div class="line">    <span class="keyword">return</span> mutableReqeust;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+(<span class="built_in">NSMutableURLRequest</span>*)redirectHostInRequset:(<span class="built_in">NSMutableURLRequest</span>*)request</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> ([request.URL host].length == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">NSString</span> *originUrlString = [request.URL absoluteString];</div><div class="line">    <span class="built_in">NSString</span> *originHostString = [request.URL host];</div><div class="line">    <span class="built_in">NSRange</span> hostRange = [originUrlString rangeOfString:originHostString];</div><div class="line">    <span class="keyword">if</span> (hostRange.location == <span class="built_in">NSNotFound</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//定向到github主页</span></div><div class="line">    <span class="built_in">NSString</span> *ip = <span class="string">@"github.com"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 替换域名</span></div><div class="line">    <span class="built_in">NSString</span> *urlString = [originUrlString stringByReplacingCharactersInRange:hostRange withString:ip];</div><div class="line">    <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:urlString];</div><div class="line">    request.URL = url;</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="附加2">附加2</h3><p>没有实现足够的回调方法导致各种奇葩问题。如connection:willSendRequest:redirectResponse: 内如果没有通过[self client]回传消息，那么需要重定向的网页就会出现问题:host不对或者造成跨域调用导致资源无法加载。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
+                  Search API
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS9/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS9</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>近几年苹果推出了一系列的搜索框架NSUserActivity,Web Markup,Core Spotlight今天我们来学习一下NSUserActivity,Core Spotlight<br>参考自<a href="http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/" target="_blank" rel="external">http://www.appcoda.com.tw/search-api-sfsafariviewcontroller/</a></p>
+<h2 id="简介">简介</h2><p>iOS 9 SDK 中新的搜索 API 包含下列 3 個主要元件：<br>1.NSUserActivity ，可以建立关键字及其他內容的索引<br>2.Web Markup ，针对 Spotlight 优化建立网络索引，支持 App 的「深度链接」（ Deep Linking ）和通用链接（ Universal Link ）。<br>3.Core Spotlight ，可以针对 App 的所有內容建立深度链接。</p>
+<h2 id="NSUserActivity">NSUserActivity</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSUserActivity</span> *myActivity = [[<span class="built_in">NSUserActivity</span> alloc] initWithActivityType:<span class="string">@"com.17youkong.SearchAPI"</span>];</div><div class="line">myActivity.title = <span class="string">@"SearchAPI"</span>;</div><div class="line">myActivity.eligibleForSearch = <span class="literal">YES</span>;</div><div class="line"><span class="comment">// 设置搜索内容</span></div><div class="line">myActivity.keywords = [<span class="built_in">NSSet</span> setWithArray:@[<span class="string">@"111"</span>, <span class="string">@"222"</span>, <span class="string">@"333"</span>, <span class="string">@"444"</span>]];</div><div class="line">[myActivity becomeCurrent];</div><div class="line"><span class="keyword">self</span>.userActivity = myActivity;<span class="comment">// 这句话很重要</span></div><div class="line"></div><div class="line"><span class="comment">// 如果你想根据搜索内容做点什么的话</span></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="keyword">nonnull</span> <span class="built_in">UIApplication</span> *)application continueUserActivity:(<span class="keyword">nonnull</span> <span class="built_in">NSUserActivity</span> *)userActivity restorationHandler:(<span class="keyword">nonnull</span> <span class="keyword">void</span> (^)(<span class="built_in">NSArray</span> * __<span class="keyword">nullable</span>))restorationHandler&#123;</div><div class="line">    <span class="built_in">NSString</span> *idetifier = userActivity.userInfo[<span class="string">@"kCSSearchableItemActivityIdentifier"</span>];</div><div class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://chuantu.biz/t2/20/1448818152x1822611380.png" alt=""></p>
+<h2 id="CoreSpotlight">CoreSpotlight</h2><p>参考自<a href="http://blog.csdn.net/mengxiangyue/article/details/46585159" target="_blank" rel="external">http://blog.csdn.net/mengxiangyue/article/details/46585159</a><br><img src="http://img.blog.csdn.net/20150621231031937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWVuZ3hpYW5neXVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>对于CoreSpotlight可以类比NSUserDefault，都是全局的存储空间。不同的是CoreSpotlight是系统的存储空间，每个App都能访问（可能这个访问有限制，目前还没有时间研究），但是NSUserDefault是每个App私有的。另外对于存储的内容CoreSpotlight存储的是item，即CSSearchableItem，而每个CSSearchableItem又有许多属性，这些属性是通过CSSearchableItemAttributeSet进行设置。具体都有神马属性，大家自己去看头文件吧。</p>
+<p>下面写一下简单得步骤：</p>
+<p>1 引入CoreSpotlight.framework</p>
+<p>2 创建CSSearchableItemAttributeSet、CSSearchableItem</p>
+<p>3 调用CSSearchableIndex.defaultSearchableIndex()的相关的方法对item进行操作。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
+<p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
+<p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
 
           
         
@@ -1434,7 +1576,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1451,7 +1593,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

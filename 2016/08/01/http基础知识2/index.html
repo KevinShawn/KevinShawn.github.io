@@ -1,0 +1,640 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Http,Https,TCP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="网络基础，大部分都参考自网上博客
+
+Http连接TCP工作原理http请求是基于TCP协议的TCP的连接建立过程又称为TCP三次握手, 握手过程中使用TCP的标志flag,SYN (同步码)和 ACK(确认码)
+
+发送端首先发送一个SYN的数据包给对方。
+接收端收到后，回传一个带有SYN/ACK标志的数据包以传达确认信息。
+最后发送端再回传一个带有ACK标志的数据包，代表“握手”结束。
+若在握手过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Http与Https连接">
+<meta property="og:url" content="http://yoursite.com/2016/08/01/http基础知识2/index.html">
+<meta property="og:site_name" content="Leon">
+<meta property="og:description" content="网络基础，大部分都参考自网上博客
+
+Http连接TCP工作原理http请求是基于TCP协议的TCP的连接建立过程又称为TCP三次握手, 握手过程中使用TCP的标志flag,SYN (同步码)和 ACK(确认码)
+
+发送端首先发送一个SYN的数据包给对方。
+接收端收到后，回传一个带有SYN/ACK标志的数据包以传达确认信息。
+最后发送端再回传一个带有ACK标志的数据包，代表“握手”结束。
+若在握手过">
+<meta property="og:image" content="http://img.hoop8.com/1607D/fnZl16at.png">
+<meta property="og:image" content="http://chuantu.biz/t5/24/1470066394x3738746553.png">
+<meta property="og:image" content="http://chuantu.biz/t5/24/1470066611x3738746541.png">
+<meta property="og:image" content="http://chuantu.biz/t5/24/1470067650x1964741964.png">
+<meta property="og:image" content="http://chuantu.biz/t5/24/1470069954x1964741984.png">
+<meta property="og:updated_time" content="2016-08-01T17:14:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Http与Https连接">
+<meta name="twitter:description" content="网络基础，大部分都参考自网上博客
+
+Http连接TCP工作原理http请求是基于TCP协议的TCP的连接建立过程又称为TCP三次握手, 握手过程中使用TCP的标志flag,SYN (同步码)和 ACK(确认码)
+
+发送端首先发送一个SYN的数据包给对方。
+接收端收到后，回传一个带有SYN/ACK标志的数据包以传达确认信息。
+最后发送端再回传一个带有ACK标志的数据包，代表“握手”结束。
+若在握手过">
+<meta name="twitter:image" content="http://img.hoop8.com/1607D/fnZl16at.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Http与Https连接 | Leon </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Http与Https连接
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-01T23:23:54+08:00" content="2016-08-01">
+              2016-08-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络基础/" itemprop="url" rel="index">
+                    <span itemprop="name">网络基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>网络基础，大部分都参考自网上博客</p>
+<p><img src="http://img.hoop8.com/1607D/fnZl16at.png" alt=""></p>
+<h2 id="Http连接">Http连接</h2><h3 id="TCP工作原理">TCP工作原理</h3><p>http请求是基于TCP协议的<br>TCP的连接建立过程又称为TCP三次握手, 握手过程中使用TCP的标志flag,SYN (同步码)和 ACK(确认码)</p>
+<ul>
+<li>发送端首先发送一个SYN的数据包给对方。</li>
+<li>接收端收到后，回传一个带有SYN/ACK标志的数据包以传达确认信息。</li>
+<li>最后发送端再回传一个带有ACK标志的数据包，代表“握手”结束。</li>
+<li>若在握手过程中中断了，TCP协议会再次以相同的顺序发送相同的数据包。<br>三次握手如下图<br><img src="http://chuantu.biz/t5/24/1470066394x3738746553.png" alt=""></li>
+</ul>
+<h2 id="Https连接">Https连接</h2><h3 id="Https介绍">Https介绍</h3><p>通常Http直接和TCP通信。当使用了SSL时，则演变成和SSL通信，再由SSL和TCP通信了。<br>Http +加密+认证+完整性保护= HTTPS 也就是说Http+SSL=HTTPS<br><img src="http://chuantu.biz/t5/24/1470066611x3738746541.png" alt=""></p>
+<h3 id="Https连接-1">Https连接</h3><p>Https采用共享密钥加密和公开密钥两者加密并用的混合加密机制。</p>
+<ul>
+<li>共享密钥加密方式：<br>加密和解密共用一个密钥</li>
+<li>公开密钥加密方式：<br>公开密钥使用一对非对称的密钥。一把私有密钥，一把公开密钥。发送方使用对方的公开密钥进行加密处理。对方<br>收到被加密的信息后，用自己的私钥进行解密。这样就不需要进行密钥传输了。</li>
+</ul>
+<p><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a><br>SSL/TLS协议的基本过程是这样的：<br>（1） 客户端向服务器端索要并验证公钥。<br>（2） 双方协商生成”对话密钥”。<br>（3） 双方采用”对话密钥”进行加密通信。<br>上面过程的前两步，又称为”握手阶段”（handshake）。<br><img src="http://chuantu.biz/t5/24/1470067650x1964741964.png" alt="Https的安全通信进制"></p>
+<h4 id="客户端发出请求">客户端发出请求</h4><p>客户端通过发送Client Hello 报文开始SSL通信。报文中包含<br>（1） 支持的协议版本，比如TLS 1.0版。<br>（2） 一个客户端生成的随机数，稍后用于生成”对话密钥”，这个密码是明文的。<br>（3） 支持的加密方法，比如RSA公钥加密。<br>（4） 支持的压缩方法。</p>
+<h4 id="服务器回应">服务器回应</h4><p>（1） 确认使用的加密通信协议版本，<br>（2） 一个服务器生成的随机数，稍后用于生成”对话密钥”，这个密码是明文的。<br>（3） 确认使用的加密方法，比如RSA公钥加密。<br>（4） 服务器证书。</p>
+<h4 id="客户端回应">客户端回应</h4><p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。<br>（1） 一个随机数。该随机数用服务器公钥加密，防止被窃听。服务器可以用自己的私钥解开<br>（2） 编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。<br>（3） 客户端握手结束通知，表示客户端的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供服务器校验。</p>
+<p>连接完成以后就用三个随机数构成的会话密钥进行对称加密的通信</p>
+<h3 id="问题">问题</h3><ul>
+<li>为什么使用三个随机数的原因？<br>这是由于SSL/TLS设计，就假设服务器不相信所有的客户端都能够提供完全随机数，假如某个客户端提供的随机数不随机的话，就大大增加了“对话密钥”被破解的风险，所以由三组随机数组成最后的随机数，保证了随机数的随机性，以此来保证每次生成的“对话密钥”安全性。</li>
+<li>客户端验证数字证书的过程：<br><img src="http://chuantu.biz/t5/24/1470069954x1964741984.png" alt=""><br>首先，服务器的运营人员向数字证书认证机构提出公开密钥的申请。数字证书认证机构在判明提出申请者的身份后，会将已申请的公开密钥做数字签名，然后分配这个已签名的公开密钥，并将该公开密钥放入公钥证书后绑定在一起<br>服务器会将这份数字证书认证的公钥证书发送给客户端，以进行公开密钥加密方式通信。<br>接到证书的客户端可使用数字认证机构的公开密钥，对数字签名进行验证，验证通过则证明证书有效。<br>具体参考<br><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a><br><a href="http://oncenote.com/2014/10/21/Security-1-HTTPS/" target="_blank" rel="external">iOS安全系列之一：HTTPS</a></li>
+</ul>
+<h2 id="Http与Https区别">Http与Https区别</h2><ul>
+<li>Http优点：<br>1.简单快速:http协议简单,通信速度很快;<br>2.灵活:http协议允许传输任意类型的数据;<br>3.短连接:http协议限制每次连接只处理一个请求,服务器对客户端的请求作出响应后,马上断开连接.这种方式可以节省传输时间.</li>
+<li>Http缺点:<br>1.通信使用明文不加密，内容可能会被窃听;<br>2.不验证通信方的身份，因此有可能遭遇伪装;<br>3.无法证明报文的完整性，所以可能被篡改;</li>
+</ul>
+<p>Https的优点就是安全，<br>缺点就是慢：1.通信慢 2.加密解密会消耗客户端和服务端的资源，使负载增加</p>
+<h2 id="参考">参考</h2><p>图解http<br><a href="http://www.jianshu.com/p/cc756016243b" target="_blank" rel="external">深入浅出－iOS的TCP/IP协议族剖析&amp;&amp;Socket</a><br><a href="http://www.jianshu.com/p/13c09f4e6fac" target="_blank" rel="external">iOS开发探索-HTTP与HTTPS传输</a><br><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a><br><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a><br><a href="http://oncenote.com/2014/10/21/Security-1-HTTPS/" target="_blank" rel="external">iOS安全系列之一：HTTPS</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Http/" rel="tag">#Http</a>
+          
+            <a href="/tags/Https/" rel="tag">#Https</a>
+          
+            <a href="/tags/TCP/" rel="tag">#TCP</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/31/Http基础知识1/" rel="next" title="Http-网络基础">
+                <i class="fa fa-chevron-left"></i> Http-网络基础
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Leon" />
+          <p class="site-author-name" itemprop="name">Leon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Http连接"><span class="nav-number">1.</span> <span class="nav-text">Http连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP工作原理"><span class="nav-number">1.1.</span> <span class="nav-text">TCP工作原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Https连接"><span class="nav-number">2.</span> <span class="nav-text">Https连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Https介绍"><span class="nav-number">2.1.</span> <span class="nav-text">Https介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Https连接-1"><span class="nav-number">2.2.</span> <span class="nav-text">Https连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端发出请求"><span class="nav-number">2.2.1.</span> <span class="nav-text">客户端发出请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器回应"><span class="nav-number">2.2.2.</span> <span class="nav-text">服务器回应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端回应"><span class="nav-number">2.2.3.</span> <span class="nav-text">客户端回应</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">2.3.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Http与Https区别"><span class="nav-number">3.</span> <span class="nav-text">Http与Https区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
