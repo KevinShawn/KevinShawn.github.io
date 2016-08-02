@@ -230,6 +230,157 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/03/Http相关知识3/" itemprop="url">
+                  Http相关知识
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-03T01:00:39+08:00" content="2016-08-03">
+              2016-08-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络基础/" itemprop="url" rel="index">
+                    <span itemprop="name">网络基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>网络基础，大部分都参考自网上博客</p>
+<h3 id="Http2-0">Http2.0</h3><p>Http2.0的目标是改善用户在使用web时的速度体验。</p>
+<h4 id="Http2-0特点">Http2.0特点</h4><ul>
+<li>多路复用 (Multiplexing)<br>多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。<br><img src="http://chuantu.biz/t5/24/1470157184x1964742004.png" alt=""></li>
+<li>新的二进制格式（Binary Format）<br>关键之一就是在 应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。<br><img src="http://chuantu.biz/t5/24/1470157077x1964742004.jpg" alt=""><br>HTTP/2 通信都在一个连接上完成，这个连接可以承载任意数量的双向数据流。<br>在过去， HTTP 性能优化的关键并不在于高带宽，而是低延迟。TCP 连接会随着时间进行自我「调谐」，起初会限制连接的最大速度，如果数据成功传输，会随着时间的推移提高传输的速度。这种调谐则被称为 TCP 慢启动。由于这种原因，让原本就具有突发性和短时性的 HTTP 连接变的十分低效。<br>HTTP/2 通过让所有数据流共用同一个连接，可以更有效地使用 TCP 连接，让高带宽也能真正的服务于 HTTP 的性能提升</li>
+<li>首部压缩（Header Compression）<br><img src="http://chuantu.biz/t5/24/1470157241x1964742004.png" alt=""></li>
+<li>服务端推送（Server Push）http2.0能通过push的方式将客户端需要的内容预先推送过去，所以也叫“cache push”。<br><img src="http://chuantu.biz/t5/24/1470157282x1964742004.png" alt=""></li>
+</ul>
+<h3 id="Socket连接">Socket连接</h3><p>　常用的Socket类型有两种：流式Socket（SOCK_STREAM）和数据报式Socket（SOCK_DGRAM）。流式是一种面向连接的 Socket，针对于面向连接的TCP服务应用；数据报式 Socket 是一种无连接的 Socket ，对应于无连接的UDP服务应用。</p>
+<h4 id="TCP_Socket连接">TCP Socket连接</h4><p>连接过程<br>1.创建客户端Socket<br>2.创建服务器Socket<br>3.连接到服务器(Socket编程)<br>4.发送数据给服务器<br>5.接收服务器返回的数据<br>6.关闭Socket : close(socketNumber)<br><img src="http://chuantu.biz/t5/24/1470152954x3738746571.jpg" alt="TCP Socket"></p>
+<h4 id="UDP_Socket连接">UDP Socket连接</h4><p>连接过程<br>1.创建客户端Socket<br>2.创建服务器Socket<br>3.发送数据给服务器<br>4.服务器接收到请求，开始处理请求<br>5.服务器处理完成后应答数据<br>不需要创建连接和关闭连接<br><img src="http://chuantu.biz/t5/24/1470153016x3738746571.jpg" alt="UDP Socket"></p>
+<h3 id="TCP和UDP">TCP和UDP</h3><p>传输层的核心协议是TCP和UDP。</p>
+<h4 id="TCP:">TCP:</h4><ul>
+<li>通信之前要建立连接，传输过程要保持连接，通信结束要关闭连接</li>
+<li>按顺序接收</li>
+<li>可靠服务<br>1.确认机制<br>2.超时重传机制</li>
+<li>协议复杂效率比较低</li>
+<li>只支持点对点传输</li>
+<li>面向字节流。发送方的TCP将应用程序交下来的数据视为无结构字节流，并且分割成TCP报文段进行传输<br><img src="http://chuantu.biz/t5/24/1470152826x3738746571.png" alt="TCP报文"></li>
+</ul>
+<h4 id="UDP">UDP</h4><ul>
+<li>通信不需要连接</li>
+<li>顺序发送数据，但是未必顺序接收</li>
+<li>不可靠服务</li>
+<li>协议简单效率高</li>
+<li>支持点到点和点到多点之间的通信</li>
+<li>UDP适用于传输短的报文数据。最大64K</li>
+<li>面向报文。发送方把应用程序发送的数据包装成UDP数据包，交付给网络层<br><img src="http://chuantu.biz/t5/24/1470152903x3738746571.png" alt="UDP报文"></li>
+</ul>
+<h3 id="ipv4和ipv6">ipv4和ipv6</h3><h4 id="什么是IPv4">什么是IPv4</h4><p>目前的全球因特网所采用的协议族是TCP/IP协议族。IP是TCP/IP协议族中网络层的协议，是TCP/IP协议族的核心协议。目前IP协议的版本号是4(简称为IPv4)，发展至今已经使用了30多年。<br>IPv4的地址位数为32位，也就是最多有2的32次方的电脑可以联到Internet上。<br>近十年来由于互联网的蓬勃发展，IP位址的需求量愈来愈大，使得IP位址的发放愈趋严格，各项资料显示全球IPv4位址可能在2005至2008年间全部发完。</p>
+<h4 id="什么是IPv6">什么是IPv6</h4><p>IPv6是下一版本的互联网协议，也可以说是下一代互联网的协议，它的提出最初是因为随着互联网的迅速发展，IPv4定义的有限地址空间将被耗尽，地址空间的不足必将妨碍互联网的进一步发展。为了扩大地址空间，拟通过IPv6重新定义地址空间。IPv6采用128位地址长度，几乎可以不受限制地提供地址。按保守方法估算IPv6实际可分配的地址，整个地球的每平方米面积上仍可分配1000多个地址。在IPv6的设计过程中除了一劳永逸地解决了地址短缺问题以外，还考虑了在IPv4中解决不好的其它问题，主要有端到端IP连接、服务质量（QoS）、安全性、多播、移动性、即插即用等。</p>
+<h4 id="IPv6与IPv4相比有什么特点和优点">IPv6与IPv4相比有什么特点和优点</h4><ul>
+<li>更大的地址空间。IPv4中规定IP地址长度为32，即有2^32-1个地址；而IPv6中IP地址的长度为128，即有2^128-1个地址。</li>
+<li>更小的路由表。IPv6的地址分配一开始就遵循聚类(Aggregation)的原则，这使得路由器能在路由表中用一条记录(Entry)表示一片子网，大大减小了路由器中路由表的长度，提高了路由器转发数据包的速度。</li>
+<li>增强的组播(Multicast)支持以及对流的支持(Flow-control)。这使得网络上的多媒体应用有了长足发展的机会，为服务质量(QoS)控制提供了良好的网络平台.</li>
+<li>加入了对自动配置(Auto-configuration)的支持。这是对DHCP协议的改进和扩展，使得网络(尤其是局域网)的管理更加方便和快捷.</li>
+<li>更高的安全性.在使用IPv6网络中用户可以对网络层的数据进行加密并对IP报文进行校验,这极大的增强了网络安全. </li>
+</ul>
+<p><a href="http://www.jianshu.com/p/dc456cf57e06" target="_blank" rel="external">TCP/IP（四）：TCP 与 UDP 协议简介</a><br><a href="http://w3.pku.edu.cn/network/ipv6/ipv4-ipv6.htm" target="_blank" rel="external">IPv4和IPv6</a><br><a href="http://mrpeak.cn/blog/http2/" target="_blank" rel="external">HTTP 2.0的那些事</a><br><a href="http://www.zhihu.com/question/34074946" target="_blank" rel="external">HTTP/2.0 相比1.0有哪些重大改进</a><br><a href="https://www.gitbook.com/book/ye11ow/http2-explained/details" target="_blank" rel="external">http2讲解</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/01/http基础知识2/" itemprop="url">
                   Http与Https连接
                 </a>
@@ -648,149 +799,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/12/CoreAnimation/" itemprop="url">
-                  CoreAnimation的一些注意点
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/CoreAnimation/" itemprop="url" rel="index">
-                    <span itemprop="name">CoreAnimation</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="问题">问题</h2><p>前不久做一个社交应用地图上有个脉冲波式的效果像这样<br><img src="https://github.com/shu223/PulsingHalo/blob/master/demo_.gif?raw=true" alt=""><br>做完打算收工时，不小心点了一下home键，又不小心重新进入app，悲剧发生了动画没了。<br>这里介绍三种处理方式</p>
-<h2 id="第一种">第一种</h2><p>简单粗暴直接重新添加</p>
-<pre><code>[view.layer <span class="string">addAnimation:</span>rotation <span class="string">forKey:</span>@<span class="string">"rotationAnimation"</span>];
-</code></pre><h2 id="第二种">第二种</h2><p>根据Technical Q&amp;A QA1673<br><a href="https://developer.apple.com/library/ios/qa/qa1673/_index.html" target="_blank" rel="external">How to pause the animation of a layer tree</a></p>
-<pre><code>-(<span class="keyword">void</span>)pauseLayer:(<span class="built_in">CALayer</span>*)layer
-{
-    <span class="built_in">CFTimeInterval</span> pausedTime = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>];
-    layer<span class="variable">.speed</span> = <span class="number">0.0</span>;
-    layer<span class="variable">.timeOffset</span> = pausedTime;
-}
-
--(<span class="keyword">void</span>)resumeLayer:(<span class="built_in">CALayer</span>*)layer
-{
-    <span class="built_in">CFTimeInterval</span> pausedTime = [layer timeOffset];
-    layer<span class="variable">.speed</span> = <span class="number">1.0</span>;
-    layer<span class="variable">.timeOffset</span> = <span class="number">0.0</span>;
-    layer<span class="variable">.beginTime</span> = <span class="number">0.0</span>;
-    <span class="built_in">CFTimeInterval</span> timeSincePause = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>] - pausedTime;
-    layer<span class="variable">.beginTime</span> = timeSincePause;
-}
-</code></pre><p>监听一下<br>UIKIT_EXTERN NSString <em>const UIApplicationDidEnterBackgroundNotification       NS_AVAILABLE_IOS(4_0);<br>UIKIT_EXTERN NSString </em>const UIApplicationWillEnterForegroundNotification<br>然后在</p>
-<pre><code><span class="tag">-</span> (void)<span class="tag">applicationWillEnterForeground</span>:(UIApplication *)<span class="tag">application</span>
-{
-    <span class="attr_selector">[self pauseLayer:layer]</span>;
-}
-<span class="tag">-</span> (void)<span class="tag">applicationDidEnterBackground</span>:(UIApplication *)<span class="tag">application</span>
-{
-    <span class="attr_selector">[self resumeLayer:layer]</span>;
-}
-</code></pre><h2 id="第三种">第三种</h2><p>直接设置removedOnCompletion = NO;<br>这种方法对于不会停止的动画还是很有用的</p>
-<h2 id="其他">其他</h2><p>对于UIView animation 照样有影响 你会看到动画直接走到结束 直接就调用finished里面的block，所以可能要注意一下</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/11/12/3DTouch/" itemprop="url">
                   3D touch
                 </a>
@@ -1050,6 +1058,149 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/12/CoreAnimation/" itemprop="url">
+                  CoreAnimation的一些注意点
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/CoreAnimation/" itemprop="url" rel="index">
+                    <span itemprop="name">CoreAnimation</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题">问题</h2><p>前不久做一个社交应用地图上有个脉冲波式的效果像这样<br><img src="https://github.com/shu223/PulsingHalo/blob/master/demo_.gif?raw=true" alt=""><br>做完打算收工时，不小心点了一下home键，又不小心重新进入app，悲剧发生了动画没了。<br>这里介绍三种处理方式</p>
+<h2 id="第一种">第一种</h2><p>简单粗暴直接重新添加</p>
+<pre><code>[view.layer <span class="string">addAnimation:</span>rotation <span class="string">forKey:</span>@<span class="string">"rotationAnimation"</span>];
+</code></pre><h2 id="第二种">第二种</h2><p>根据Technical Q&amp;A QA1673<br><a href="https://developer.apple.com/library/ios/qa/qa1673/_index.html" target="_blank" rel="external">How to pause the animation of a layer tree</a></p>
+<pre><code>-(<span class="keyword">void</span>)pauseLayer:(<span class="built_in">CALayer</span>*)layer
+{
+    <span class="built_in">CFTimeInterval</span> pausedTime = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>];
+    layer<span class="variable">.speed</span> = <span class="number">0.0</span>;
+    layer<span class="variable">.timeOffset</span> = pausedTime;
+}
+
+-(<span class="keyword">void</span>)resumeLayer:(<span class="built_in">CALayer</span>*)layer
+{
+    <span class="built_in">CFTimeInterval</span> pausedTime = [layer timeOffset];
+    layer<span class="variable">.speed</span> = <span class="number">1.0</span>;
+    layer<span class="variable">.timeOffset</span> = <span class="number">0.0</span>;
+    layer<span class="variable">.beginTime</span> = <span class="number">0.0</span>;
+    <span class="built_in">CFTimeInterval</span> timeSincePause = [layer convertTime:<span class="built_in">CACurrentMediaTime</span>() fromLayer:<span class="literal">nil</span>] - pausedTime;
+    layer<span class="variable">.beginTime</span> = timeSincePause;
+}
+</code></pre><p>监听一下<br>UIKIT_EXTERN NSString <em>const UIApplicationDidEnterBackgroundNotification       NS_AVAILABLE_IOS(4_0);<br>UIKIT_EXTERN NSString </em>const UIApplicationWillEnterForegroundNotification<br>然后在</p>
+<pre><code><span class="tag">-</span> (void)<span class="tag">applicationWillEnterForeground</span>:(UIApplication *)<span class="tag">application</span>
+{
+    <span class="attr_selector">[self pauseLayer:layer]</span>;
+}
+<span class="tag">-</span> (void)<span class="tag">applicationDidEnterBackground</span>:(UIApplication *)<span class="tag">application</span>
+{
+    <span class="attr_selector">[self resumeLayer:layer]</span>;
+}
+</code></pre><h2 id="第三种">第三种</h2><p>直接设置removedOnCompletion = NO;<br>这种方法对于不会停止的动画还是很有用的</p>
+<h2 id="其他">其他</h2><p>对于UIView animation 照样有影响 你会看到动画直接走到结束 直接就调用finished里面的block，所以可能要注意一下</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/12/Search API/" itemprop="url">
                   Search API
                 </a>
@@ -1126,144 +1277,6 @@
 <figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CSSearchableItemAttributeSet *<span class="keyword">set</span> = [[CSSearchableItemAttributeSet <span class="comment">alloc] initWithItemContentType:@</span><span class="comment">"com.17youkong.SearchAPI"</span><span class="comment">]</span>;</div><div class="line"><span class="keyword">set</span>.title <span class="comment">= @</span><span class="comment">"1111"</span>;</div><div class="line"><span class="keyword">set</span>.contentDescription <span class="comment">= [NSString stringWithFormat:@</span><span class="comment">"a easy way to open"</span><span class="comment">]</span>;</div><div class="line">UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@<span class="string">"icon.png"</span>]];</div><div class="line"><span class="keyword">set</span>.thumbnailData <span class="comment">= UIImagePNGRepresentation(thumbImage)</span>;<span class="comment">//beta 1 there is a bug</span></div><div class="line">CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:@<span class="string">"111"</span>                                                                                                                                    domainIdentifier:@<span class="string">"com.kdanmobile.CoreSpotlightDemo"</span>                                                                                                        attributeSet:<span class="keyword">set</span>];</div><div class="line">[[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item] completionHandler:^(NSError * _Nullable error) &#123;</div><div class="line"></div><div class="line">&#125;];</div><div class="line">![](http:<span class="comment">//i12.tietuku.com/9f47c7e0d17cd1a9.png)</span></div></pre></td></tr></table></figure>
 <p>最后需要提到的就是索引的删除。CoreSpotlight给我们提供了三个方法来进行删除分别是：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)identifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler; </div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteSearchableItemsWithDomainIdentifiers:(<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)domainIdentifiers completionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)deleteAllSearchableItemsWithCompletionHandler:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">NSError</span> * __<span class="keyword">nullable</span> error))completionHandler;</div></pre></td></tr></table></figure></p>
 <p>根据identifier来删除，根据domain来删除以及删除所有的索引。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/12/NSURLProtocol/" itemprop="url">
-                  NSURLProtocol
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T01:18:47+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Foundation/" itemprop="url" rel="index">
-                    <span itemprop="name">Foundation</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>NSURLProtocol</p>
-<h2 id="前言">前言</h2><p>翻译自<a href="http://www.raywenderlich.com/59982/nsurlprotocol-tutorial" target="_blank" rel="external">http://www.raywenderlich.com/59982/nsurlprotocol-tutorial</a><br>NSURLProtocol也是苹果众多黑魔法中的一种，使用它可以轻松地重定义整个URL Loading System。当你注册自定义NSURLProtocol后，就有机会对所有的请求进行统一的处理.<br>这个教程中我们可以学到如何定义一个协议处理器来修改URL schemes.它将添加一个缓存层，通过Core Data来存储可恢复的数据。启用它一个普通的浏览器就能缓存网页，可供离线使用。<br>在学这个教程之前我们需要先知道一些网络基础和NSURLConnection怎么工作的。<br><a href="http://www.raywenderlich.com/?p=51127" target="_blank" rel="external">网络基础</a><br><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/URLLoadingSystem/Tasks/UsingNSURLConnection.html" target="_blank" rel="external">官方文档</a></p>
-<h2 id="What_Is_NSURLProtocol?">What Is NSURLProtocol?</h2><p>我们得知道URL Loading System才能发现iOS系统是怎么处理app的URL请求.URL Loading System包括了NSURL，NSURLRequest，NSURLConnection或是NSURLSession。<br>当你接收到响应后，你讲收到metadata 和 data.NSURLResponse封装了metadata。metadata里面将告诉我们MIME文本编码类型，可能接收到的数据的长度。NSURLRequest会创建一个NSURLProtocol的子类，这就是你自定义的Protocol。注意不要去直接初始化NSURLProtocol。这个名字听起来很像个协议，但却是个类</p>
-<h2 id="When_To_Use_NSURLProtocol?">When To Use NSURLProtocol?</h2><p>怎么使用NSURLProtocol让你的app变得更快更好？<br>1.Provide Custom Responses For Your Network Requests:<br>为你的请求提供自定义的响应<br>2.Skip Network Activity and Provide Local Data:<br>跳过网络请求，提供本地数据<br>3.Redirect Your Network Requests:<br>重定向网络请求<br>4.Change the User-agent of Your Requests:<br>改变你的用户代理请求<br>5.Use Your Own Networking Protocol:<br>使用自己的网络协议</p>
-<h2 id="Getting_Started">Getting Started</h2><p>我们要做的app是一个有缓存功能的例子，做完这个例子我们就知道怎么使用NSURLProtocol处理网络请求。<br><a href="http://cdn3.raywenderlich.com/wp-content/uploads/2013/12/NSURLProtocolExample.zip" target="_blank" rel="external">Start Project</a><br>这里还要提醒一下在info.plist里面<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>NSAllowsArbitraryLoads<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>打开项目,打开Main.storyboard我们可以看到一个UIWebView，UITextFiled，UIButton<br>打开BrowserViewController.m. 输入网站，点击sendRequest发出网络请求</p>
-<h2 id="Intercepting_network_requests">Intercepting network requests</h2><p>现在开始截取NSURLRequest请求。创建NSURLProtocol，点击 File\New\File…. 选择 Objective-C class 点击 Next 按钮. 输入 MyURLProtocol subclass那边选择 NSURLProtocol. 打开MyURLProtocol<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">BOOL</span>)canInitWithRequest:(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">NSUInteger</span> requestCount = <span class="number">0</span>;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Request #%u: URL = %@"</span>, requestCount++, request.URL.absoluteString);</div><div class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>每次请求都会调用+canInitWithRequest方法 通过return YES或者NO来决定是否摇出来这个请求<br>还有一步不要忘了在Appdelegate.m中注册NSURLProtocol<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</div><div class="line">    [<span class="built_in">NSURLProtocol</span> registerClass:[MyURLProtocol <span class="keyword">class</span>]];</div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>输入网址就可以开始截取请求了</p>
-<h2 id="Custom_URL_Loading">Custom URL Loading</h2><p>每个NSURLProtocol都有个NSURLProtocolClient，通过这client你可以传回数据<br>打开MyURLProtocol.m添加<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@interface</span> MyURLProtocol () &lt;NSURLConnectionDelegate&gt;</div><div class="line"><span class="variable">@property</span> (nonatomic, strong) NSURLConnection *connection;</div><div class="line"><span class="variable">@end</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">+ (BOOL)<span class="string">canInitWithRequest:</span>(NSURLRequest *)request &#123;</div><div class="line">    <span class="keyword">static</span> NSUInteger requestCount = <span class="number">0</span>;</div><div class="line">    NSLog(@<span class="string">'Request #%u: URL = %@'</span>, requestCount++, request.URL.absoluteString);</div><div class="line">    <span class="keyword">return</span> YES;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (NSURLRequest *)<span class="string">canonicalRequestForRequest:</span>(NSURLRequest *)request &#123;</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (BOOL)<span class="string">requestIsCacheEquivalent:</span>(NSURLRequest *)a <span class="string">toRequest:</span>(NSURLRequest *)b &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">super</span> <span class="string">requestIsCacheEquivalent:</span>a <span class="string">toRequest:</span>b];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)startLoading &#123;</div><div class="line">    self.connection = [NSURLConnection <span class="string">connectionWithRequest:</span>self.request <span class="string">delegate:</span>self];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)stopLoading &#123;</div><div class="line">    [self.connection cancel];</div><div class="line">    self.connection = nil;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>+canonicalRequestForRequest:这个方法是NSURLProtocol必须实现的方法。在这个方法中我们至少需要返回一个request。<br>在这个方法里面，你可以直接返回request你也可以对request请求进行修改增加头部返回请的请求。</p>
-<p>+requestIsCacheEquivalent:toRequest: 用于判断你的自定义reqeust是否相同，这里返回默认实现即可。它的主要应用场景是某些直接使用缓存而非再次请求网络的地方。</p>
-<p>-startLoading  -stopLoading实现请求和取消流程。</p>
-<p>打开MyURLProtocol.m<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-</span> (void)<span class="selector-tag">connection</span><span class="selector-pseudo">:(NSURLConnection</span> *)<span class="selector-tag">connection</span> <span class="selector-tag">didReceiveResponse</span><span class="selector-pseudo">:(NSURLResponse</span> *)<span class="selector-tag">response</span> &#123;</div><div class="line">    <span class="selector-attr">[self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed]</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">-</span> (void)<span class="selector-tag">connection</span><span class="selector-pseudo">:(NSURLConnection</span> *)<span class="selector-tag">connection</span> <span class="selector-tag">didReceiveData</span><span class="selector-pseudo">:(NSData</span> *)<span class="selector-tag">data</span> &#123;</div><div class="line">    <span class="selector-attr">[self.client URLProtocol:self didLoadData:data]</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">-</span> (void)<span class="selector-tag">connectionDidFinishLoading</span><span class="selector-pseudo">:(NSURLConnection</span> *)<span class="selector-tag">connection</span> &#123;</div><div class="line">    <span class="selector-attr">[self.client URLProtocolDidFinishLoading:self]</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">-</span> (void)<span class="selector-tag">connection</span><span class="selector-pseudo">:(NSURLConnection</span> *)<span class="selector-tag">connection</span> <span class="selector-tag">didFailWithError</span><span class="selector-pseudo">:(NSError</span> *)<span class="selector-tag">error</span> &#123;</div><div class="line">    <span class="selector-attr">[self.client URLProtocol:self didFailWithError:error]</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这几个NSURLConnection的协议大家都很熟悉，在这些协议中收到请求后通过client进行转发</p>
-<h2 id="Squashing_the_Infinite_Loop_with_Tag">Squashing the Infinite Loop with Tag</h2><p>为什么会出现无限循环呢。<br>当UIWebView发起请求，在 +canInitWithRequest:判断是否能发起请求，如果能的话就开始-startLoading。这个方法里面又有个请求，又会回到 +canInitWithRequest:一直循环下去。那我们该怎么解决这个问题呢？<br>可以通过+setProperty:forKey:inRequest:标示那些已经处理过的request，然后在+canInitWithRequest:中查询该request是否已经处理过了，如果是则返回NO。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">BOOL</span>)canInitWithRequest:(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">NSUInteger</span> requestCount = <span class="number">0</span>;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Request #%u: URL = %@"</span>, requestCount++, request);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> ([<span class="built_in">NSURLProtocol</span> propertyForKey:<span class="string">@"MyURLProtocolHandledKey"</span> inRequest:request]) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)startLoading &#123;</div><div class="line">    <span class="built_in">NSMutableURLRequest</span> *newRequest = [<span class="keyword">self</span>.request mutableCopy];</div><div class="line">    [<span class="built_in">NSURLProtocol</span> setProperty:@YES forKey:<span class="string">@"MyURLProtocolHandledKey"</span> inRequest:newRequest];</div><div class="line">    <span class="keyword">self</span>.connection = [<span class="built_in">NSURLConnection</span> connectionWithRequest:newRequest delegate:<span class="keyword">self</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样就好了，下一步就开始缓存数据</p>
-<h2 id="Implementing_the_Local_Cache">Implementing the Local Cache</h2><p>接下来我们用coreData来做数据缓存。打开NSURLProtocolExample.xcdatamodeld<br>修改Entity为CachedURLResponse增加Attribute<br>点击File\New\File 在点击Core Data\NSManagedObject创建CachedURLResponse<br><img src="http://i11.tietuku.com/5d0c402e200efb18.png" alt=""><br>打开MyURLProtocol.h 添加属性<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableData</span> *mutableData;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSURLResponse</span> *response;</div></pre></td></tr></table></figure></p>
-<p>修改以下协议<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)connection:(<span class="built_in">NSURLConnection</span> *)connection didReceiveResponse:(<span class="built_in">NSURLResponse</span> *)response &#123;</div><div class="line">    [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didReceiveResponse:response cacheStoragePolicy:<span class="built_in">NSURLCacheStorageNotAllowed</span>];</div><div class="line">    <span class="keyword">self</span>.response = response;</div><div class="line">    <span class="keyword">self</span>.mutableData = [[<span class="built_in">NSMutableData</span> alloc] init];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)connection:(<span class="built_in">NSURLConnection</span> *)connection didReceiveData:(<span class="built_in">NSData</span> *)data &#123;</div><div class="line">    [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didLoadData:data];</div><div class="line">    [<span class="keyword">self</span>.mutableData appendData:data];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)connectionDidFinishLoading:(<span class="built_in">NSURLConnection</span> *)connection &#123;</div><div class="line">    [<span class="keyword">self</span>.client URLProtocolDidFinishLoading:<span class="keyword">self</span>];</div><div class="line">    [<span class="keyword">self</span> saveCachedResponse];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>#import AppDelegate.h和CachedURLResponse.h文件添加保存方法<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)saveCachedResponse &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"saving cached response"</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 1.</span></div><div class="line">    AppDelegate *delegate = [[<span class="built_in">UIApplication</span> sharedApplication] delegate];</div><div class="line">    <span class="built_in">NSManagedObjectContext</span> *context = delegate.managedObjectContext;</div><div class="line"></div><div class="line">    <span class="comment">// 2.</span></div><div class="line">    CachedURLResponse *cachedResponse = [<span class="built_in">NSEntityDescription</span> insertNewObjectForEntityForName:<span class="string">@"CachedURLResponse"</span></div><div class="line">    inManagedObjectContext:context];</div><div class="line">    cachedResponse.data = <span class="keyword">self</span>.mutableData;</div><div class="line">    cachedResponse.url = <span class="keyword">self</span>.request.URL.absoluteString;</div><div class="line">    cachedResponse.timestamp = [<span class="built_in">NSDate</span> date];</div><div class="line">    cachedResponse.mimeType = <span class="keyword">self</span>.response.MIMEType;</div><div class="line">    cachedResponse.encoding = <span class="keyword">self</span>.response.textEncodingName;</div><div class="line"></div><div class="line">    <span class="comment">// 3.</span></div><div class="line">    <span class="built_in">NSError</span> *error;</div><div class="line">    <span class="built_in">BOOL</span> <span class="keyword">const</span> success = [context save:&amp;error];</div><div class="line">    <span class="keyword">if</span> (!success) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Could not cache the response."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="Retrieving_the_Cached_Response">Retrieving the Cached Response</h2><p>最后一步我们来恢复刚才保存的数据<br>打开MyURLProtocol.m<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">- (CachedURLResponse *)cachedResponseForCurrentRequest &#123;</div><div class="line">    <span class="comment">// 1.</span></div><div class="line">    AppDelegate *delegate = [[<span class="built_in">UIApplication</span> sharedApplication] delegate];</div><div class="line">    <span class="built_in">NSManagedObjectContext</span> *context = delegate.managedObjectContext;</div><div class="line"></div><div class="line">    <span class="comment">// 2.</span></div><div class="line">    <span class="built_in">NSFetchRequest</span> *fetchRequest = [[<span class="built_in">NSFetchRequest</span> alloc] init];</div><div class="line">    <span class="built_in">NSEntityDescription</span> *entity = [<span class="built_in">NSEntityDescription</span> entityForName:<span class="string">@"CachedURLResponse"</span></div><div class="line">    inManagedObjectContext:context];</div><div class="line">    [fetchRequest setEntity:entity];</div><div class="line"></div><div class="line">    <span class="comment">// 3.</span></div><div class="line">    <span class="built_in">NSPredicate</span> *predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"url == %@"</span>, <span class="keyword">self</span>.request.URL.absoluteString];</div><div class="line">    [fetchRequest setPredicate:predicate];</div><div class="line"></div><div class="line">    <span class="comment">// 4.</span></div><div class="line">    <span class="built_in">NSError</span> *error;</div><div class="line">    <span class="built_in">NSArray</span> *result = [context executeFetchRequest:fetchRequest error:&amp;error];</div><div class="line"></div><div class="line">    <span class="comment">// 5.</span></div><div class="line">    <span class="keyword">if</span> (result &amp;&amp; result.count &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> result[<span class="number">0</span>];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)startLoading &#123;</div><div class="line"><span class="comment">// 1.</span></div><div class="line">    CachedURLResponse *cachedResponse = [<span class="keyword">self</span> cachedResponseForCurrentRequest];</div><div class="line">    <span class="keyword">if</span> (cachedResponse) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"serving response from cache"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// 2.</span></div><div class="line">        <span class="built_in">NSData</span> *data = cachedResponse.data;</div><div class="line">        <span class="built_in">NSString</span> *mimeType = cachedResponse.mimeType;</div><div class="line">        <span class="built_in">NSString</span> *encoding = cachedResponse.encoding;</div><div class="line"></div><div class="line">        <span class="comment">// 3.</span></div><div class="line">        <span class="built_in">NSURLResponse</span> *response = [[<span class="built_in">NSURLResponse</span> alloc] initWithURL:<span class="keyword">self</span>.request.URL</div><div class="line">        MIMEType:mimeType</div><div class="line">        expectedContentLength:data.length</div><div class="line">        textEncodingName:encoding];</div><div class="line"></div><div class="line">        <span class="comment">// 4.</span></div><div class="line">        [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didReceiveResponse:response cacheStoragePolicy:<span class="built_in">NSURLCacheStorageNotAllowed</span>];</div><div class="line">        [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didLoadData:data];</div><div class="line">        [<span class="keyword">self</span>.client URLProtocolDidFinishLoading:<span class="keyword">self</span>];</div><div class="line">    &#125; </div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 5.</span></div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"serving response from NSURLConnection"</span>);</div><div class="line"></div><div class="line">        <span class="built_in">NSMutableURLRequest</span> *newRequest = [<span class="keyword">self</span>.request mutableCopy];</div><div class="line">        [<span class="built_in">NSURLProtocol</span> setProperty:@YES forKey:<span class="string">@"MyURLProtocolHandledKey"</span> inRequest:newRequest];</div><div class="line"></div><div class="line">        <span class="keyword">self</span>.connection = [<span class="built_in">NSURLConnection</span> connectionWithRequest:newRequest delegate:<span class="keyword">self</span>];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>1.我们先查找当前请求有没有本地缓存响应<br>2.把相关数据取出<br>3.创建一个NSURLResponse<br>4.传入NSURLCacheStorageNotAllowed的原因是我们自己控制缓存，接下来我们就可以通过client将response发出去<br>5.如果没有缓存就正常加载</p>
-<h2 id="总结">总结</h2><p><a href="http://cdn5.raywenderlich.com/wp-content/uploads/2013/12/NSURLProtocolExample1.zip" target="_blank" rel="external">Finished Project</a></p>
-<h3 id="附加1">附加1</h3><p>重定向到github<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">NSURLRequest</span> *) canonicalRequestForRequest:(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">    <span class="built_in">NSMutableURLRequest</span> *mutableReqeust = [request mutableCopy];</div><div class="line">    mutableReqeust = [<span class="keyword">self</span> redirectHostInRequset:mutableReqeust];</div><div class="line">    <span class="keyword">return</span> mutableReqeust;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+(<span class="built_in">NSMutableURLRequest</span>*)redirectHostInRequset:(<span class="built_in">NSMutableURLRequest</span>*)request</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> ([request.URL host].length == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">NSString</span> *originUrlString = [request.URL absoluteString];</div><div class="line">    <span class="built_in">NSString</span> *originHostString = [request.URL host];</div><div class="line">    <span class="built_in">NSRange</span> hostRange = [originUrlString rangeOfString:originHostString];</div><div class="line">    <span class="keyword">if</span> (hostRange.location == <span class="built_in">NSNotFound</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//定向到github主页</span></div><div class="line">    <span class="built_in">NSString</span> *ip = <span class="string">@"github.com"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 替换域名</span></div><div class="line">    <span class="built_in">NSString</span> *urlString = [originUrlString stringByReplacingCharactersInRange:hostRange withString:ip];</div><div class="line">    <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:urlString];</div><div class="line">    request.URL = url;</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="附加2">附加2</h3><p>没有实现足够的回调方法导致各种奇葩问题。如connection:willSendRequest:redirectResponse: 内如果没有通过[self client]回传消息，那么需要重定向的网页就会出现问题:host不对或者造成跨域调用导致资源无法加载。</p>
 
           
         
@@ -1538,6 +1551,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1576,7 +1593,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

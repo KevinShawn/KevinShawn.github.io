@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="NSURLProtocol," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -84,21 +84,12 @@
 
 
 
-<meta name="description" content="NSURLProtocol
-前言翻译自http://www.raywenderlich.com/59982/nsurlprotocol-tutorialNSURLProtocol也是苹果众多黑魔法中的一种，使用它可以轻松地重定义整个URL Loading System。当你注册自定义NSURLProtocol后，就有机会对所有的请求进行统一的处理.这个教程中我们可以学到如何定义一个协议处理器来修改">
-<meta property="og:type" content="article">
-<meta property="og:title" content="NSURLProtocol">
-<meta property="og:url" content="http://yoursite.com/2015/11/12/NSURLProtocol/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Leon">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Leon">
-<meta property="og:description" content="NSURLProtocol
-前言翻译自http://www.raywenderlich.com/59982/nsurlprotocol-tutorialNSURLProtocol也是苹果众多黑魔法中的一种，使用它可以轻松地重定义整个URL Loading System。当你注册自定义NSURLProtocol后，就有机会对所有的请求进行统一的处理.这个教程中我们可以学到如何定义一个协议处理器来修改">
-<meta property="og:image" content="http://i11.tietuku.com/5d0c402e200efb18.png">
-<meta property="og:updated_time" content="2016-02-25T16:11:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NSURLProtocol">
-<meta name="twitter:description" content="NSURLProtocol
-前言翻译自http://www.raywenderlich.com/59982/nsurlprotocol-tutorialNSURLProtocol也是苹果众多黑魔法中的一种，使用它可以轻松地重定义整个URL Loading System。当你注册自定义NSURLProtocol后，就有机会对所有的请求进行统一的处理.这个教程中我们可以学到如何定义一个协议处理器来修改">
-<meta name="twitter:image" content="http://i11.tietuku.com/5d0c402e200efb18.png">
+<meta name="twitter:title" content="Leon">
 
 
 
@@ -116,7 +107,7 @@
   };
 </script>
 
-  <title> NSURLProtocol | Leon </title>
+  <title> Leon </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -137,7 +128,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +207,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
   
@@ -236,7 +229,10 @@
             
             
               
-                NSURLProtocol
+                
+                <a class="post-title-link" href="/2015/11/12/NSURLProtocol/" itemprop="url">
+                  NSURLProtocol
+                </a>
               
             
           </h1>
@@ -295,7 +291,9 @@
       
 
       
-        <p>NSURLProtocol</p>
+        
+          
+            <p>NSURLProtocol</p>
 <h2 id="前言">前言</h2><p>翻译自<a href="http://www.raywenderlich.com/59982/nsurlprotocol-tutorial" target="_blank" rel="external">http://www.raywenderlich.com/59982/nsurlprotocol-tutorial</a><br>NSURLProtocol也是苹果众多黑魔法中的一种，使用它可以轻松地重定义整个URL Loading System。当你注册自定义NSURLProtocol后，就有机会对所有的请求进行统一的处理.<br>这个教程中我们可以学到如何定义一个协议处理器来修改URL schemes.它将添加一个缓存层，通过Core Data来存储可恢复的数据。启用它一个普通的浏览器就能缓存网页，可供离线使用。<br>在学这个教程之前我们需要先知道一些网络基础和NSURLConnection怎么工作的。<br><a href="http://www.raywenderlich.com/?p=51127" target="_blank" rel="external">网络基础</a><br><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/URLLoadingSystem/Tasks/UsingNSURLConnection.html" target="_blank" rel="external">官方文档</a></p>
 <h2 id="What_Is_NSURLProtocol?">What Is NSURLProtocol?</h2><p>我们得知道URL Loading System才能发现iOS系统是怎么处理app的URL请求.URL Loading System包括了NSURL，NSURLRequest，NSURLConnection或是NSURLSession。<br>当你接收到响应后，你讲收到metadata 和 data.NSURLResponse封装了metadata。metadata里面将告诉我们MIME文本编码类型，可能接收到的数据的长度。NSURLRequest会创建一个NSURLProtocol的子类，这就是你自定义的Protocol。注意不要去直接初始化NSURLProtocol。这个名字听起来很像个协议，但却是个类</p>
 <h2 id="When_To_Use_NSURLProtocol?">When To Use NSURLProtocol?</h2><p>怎么使用NSURLProtocol让你的app变得更快更好？<br>1.Provide Custom Responses For Your Network Requests:<br>为你的请求提供自定义的响应<br>2.Skip Network Activity and Provide Local Data:<br>跳过网络请求，提供本地数据<br>3.Redirect Your Network Requests:<br>重定向网络请求<br>4.Change the User-agent of Your Requests:<br>改变你的用户代理请求<br>5.Use Your Own Networking Protocol:<br>使用自己的网络协议</p>
@@ -322,58 +320,40 @@
 <h3 id="附加1">附加1</h3><p>重定向到github<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">NSURLRequest</span> *) canonicalRequestForRequest:(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">    <span class="built_in">NSMutableURLRequest</span> *mutableReqeust = [request mutableCopy];</div><div class="line">    mutableReqeust = [<span class="keyword">self</span> redirectHostInRequset:mutableReqeust];</div><div class="line">    <span class="keyword">return</span> mutableReqeust;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+(<span class="built_in">NSMutableURLRequest</span>*)redirectHostInRequset:(<span class="built_in">NSMutableURLRequest</span>*)request</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> ([request.URL host].length == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">NSString</span> *originUrlString = [request.URL absoluteString];</div><div class="line">    <span class="built_in">NSString</span> *originHostString = [request.URL host];</div><div class="line">    <span class="built_in">NSRange</span> hostRange = [originUrlString rangeOfString:originHostString];</div><div class="line">    <span class="keyword">if</span> (hostRange.location == <span class="built_in">NSNotFound</span>) &#123;</div><div class="line">        <span class="keyword">return</span> request;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//定向到github主页</span></div><div class="line">    <span class="built_in">NSString</span> *ip = <span class="string">@"github.com"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 替换域名</span></div><div class="line">    <span class="built_in">NSString</span> *urlString = [originUrlString stringByReplacingCharactersInRange:hostRange withString:ip];</div><div class="line">    <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:urlString];</div><div class="line">    request.URL = url;</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="附加2">附加2</h3><p>没有实现足够的回调方法导致各种奇葩问题。如connection:willSendRequest:redirectResponse: 内如果没有通过[self client]回传消息，那么需要重定向的网页就会出现问题:host不对或者造成跨域调用导致资源无法加载。</p>
 
-      
-    </div>
-
-    <div>
-      
+          
         
       
     </div>
 
     <div>
       
-        
+    </div>
 
+    <div>
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/NSURLProtocol/" rel="tag">#NSURLProtocol</a>
-          
-        </div>
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/12/WatchOS/" rel="prev" title="WatchOS">
-                WatchOS <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
@@ -381,10 +361,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -404,17 +380,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -464,17 +431,6 @@
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What_Is_NSURLProtocol?"><span class="nav-number">2.</span> <span class="nav-text">What Is NSURLProtocol?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#When_To_Use_NSURLProtocol?"><span class="nav-number">3.</span> <span class="nav-text">When To Use NSURLProtocol?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Getting_Started"><span class="nav-number">4.</span> <span class="nav-text">Getting Started</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intercepting_network_requests"><span class="nav-number">5.</span> <span class="nav-text">Intercepting network requests</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Custom_URL_Loading"><span class="nav-number">6.</span> <span class="nav-text">Custom URL Loading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Squashing_the_Infinite_Loop_with_Tag"><span class="nav-number">7.</span> <span class="nav-text">Squashing the Infinite Loop with Tag</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementing_the_Local_Cache"><span class="nav-number">8.</span> <span class="nav-text">Implementing the Local Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Retrieving_the_Cached_Response"><span class="nav-number">9.</span> <span class="nav-text">Retrieving the Cached Response</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#附加1"><span class="nav-number">10.1.</span> <span class="nav-text">附加1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附加2"><span class="nav-number">10.2.</span> <span class="nav-text">附加2</span></a></li></ol></li></ol></div>
-            
-          </div>
-        </section>
       
 
     </div>
@@ -578,10 +534,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
 
   
 
