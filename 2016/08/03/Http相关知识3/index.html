@@ -85,19 +85,20 @@
 
 
 <meta name="description" content="网络基础，大部分都参考自网上博客
-Http2.0Http2.0的目标是改善用户在使用web时的速度体验。
-Http2.0特点
-多路复用 (Multiplexing)多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。
-新的二进制格式（Binary Format）关键之一就是在 应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。HTTP/2 通信都在">
+Http现状问题一：线头阻塞线头阻塞是下一个HTTP请求要等待收到上一个请求的服务器的响应。为了解决这个便出现了HTTP管线化技术(HTTP Pipelining)。
+HTTP Pipelining是把多个HTTP请求放到一个TCP连接中一一发送，不需要等待服务器的响应，客户端还是按发送的顺序接收响应。
+
+1.HTTP pipelining可以吧多个http请求输">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Http相关知识">
 <meta property="og:url" content="http://yoursite.com/2016/08/03/Http相关知识3/index.html">
 <meta property="og:site_name" content="Leon">
 <meta property="og:description" content="网络基础，大部分都参考自网上博客
-Http2.0Http2.0的目标是改善用户在使用web时的速度体验。
-Http2.0特点
-多路复用 (Multiplexing)多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。
-新的二进制格式（Binary Format）关键之一就是在 应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。HTTP/2 通信都在">
+Http现状问题一：线头阻塞线头阻塞是下一个HTTP请求要等待收到上一个请求的服务器的响应。为了解决这个便出现了HTTP管线化技术(HTTP Pipelining)。
+HTTP Pipelining是把多个HTTP请求放到一个TCP连接中一一发送，不需要等待服务器的响应，客户端还是按发送的顺序接收响应。
+
+1.HTTP pipelining可以吧多个http请求输">
+<meta property="og:image" content="http://chuantu.biz/t5/25/1470239678x1964742004.png">
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470157184x1964742004.png">
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470157077x1964742004.jpg">
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470157241x1964742004.png">
@@ -106,15 +107,15 @@ Http2.0特点
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470153016x3738746571.jpg">
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470152826x3738746571.png">
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470152903x3738746571.png">
-<meta property="og:updated_time" content="2016-08-02T17:21:06.000Z">
+<meta property="og:updated_time" content="2016-08-03T16:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Http相关知识">
 <meta name="twitter:description" content="网络基础，大部分都参考自网上博客
-Http2.0Http2.0的目标是改善用户在使用web时的速度体验。
-Http2.0特点
-多路复用 (Multiplexing)多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。
-新的二进制格式（Binary Format）关键之一就是在 应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。HTTP/2 通信都在">
-<meta name="twitter:image" content="http://chuantu.biz/t5/24/1470157184x1964742004.png">
+Http现状问题一：线头阻塞线头阻塞是下一个HTTP请求要等待收到上一个请求的服务器的响应。为了解决这个便出现了HTTP管线化技术(HTTP Pipelining)。
+HTTP Pipelining是把多个HTTP请求放到一个TCP连接中一一发送，不需要等待服务器的响应，客户端还是按发送的顺序接收响应。
+
+1.HTTP pipelining可以吧多个http请求输">
+<meta name="twitter:image" content="http://chuantu.biz/t5/25/1470239678x1964742004.png">
 
 
 
@@ -312,6 +313,23 @@ Http2.0特点
 
       
         <p>网络基础，大部分都参考自网上博客</p>
+<h3 id="Http现状">Http现状</h3><h4 id="问题一：线头阻塞">问题一：线头阻塞</h4><p>线头阻塞是下一个HTTP请求要等待收到上一个请求的服务器的响应。为了解决这个便出现了HTTP管线化技术(HTTP Pipelining)。</p>
+<p>HTTP Pipelining是把多个HTTP请求放到一个TCP连接中一一发送，不需要等待服务器的响应，客户端还是按发送的顺序接收响应。</p>
+<ul>
+<li>1.HTTP pipelining可以吧多个http请求输出到一个socket连接(倘若是基于socket的话，更确切的说应该是输出到一个传输层连接，在tcp ip中即为TCP连接)中去，然后等到对应的响应。只支持Http1.1以上，不支持1.0</li>
+<li>2.线管化请求在页面加载方面有着很大的提升，特别是高延迟的连接</li>
+<li>3.由于一个TCP包可以容纳几个HTTP请求, HTTP流水线传输的TCP数据包更少，减少网络负载。</li>
+<li>4.只有幂等的请求（GET，HEAD, PUT, DELETE）能使用pipelining，非幂等请求比如POST不能使用，因为请求之间可能会存在先后依赖关系。</li>
+<li><ol>
+<li>绝大部分的http代理服务器不支持pipelining。</li>
+</ol>
+</li>
+<li><ol>
+<li>head of line blocking并没有完全得到解决，server的response还是要求依次返回，遵循FIFO(first in first out)原则。也就是说如果请求1的response没有回来，2，3，4，5的response也不会被送回来。<br><img src="http://chuantu.biz/t5/25/1470239678x1964742004.png" alt=""></li>
+</ol>
+</li>
+</ul>
+<h4 id="问题二：连接无法复用">问题二：连接无法复用</h4><p>http1.0协议头里可以设置Connection:Keep-Alive。在header里设置Keep-Alive可以在一定时间内复用连接，具体复用时间的长短可以由服务器控制，一般在15s左右。到http1.1之后Connection的默认值就是Keep-Alive，如果要关闭连接复用需要显式的设置Connection:Close。一段时间内的连接复用对PC端浏览器的体验帮助很大，因为大部分的请求在集中在一小段时间以内。但对移动app来说，成效不大，app端的请求比较分散且时间跨度相对较大。所以移动端app一般会从应用层寻求其它解决方案，基于tcp的长链接，http long-polling，http streaming， web socket</p>
 <h3 id="Http2-0">Http2.0</h3><p>Http2.0的目标是改善用户在使用web时的速度体验。</p>
 <h4 id="Http2-0特点">Http2.0特点</h4><ul>
 <li>多路复用 (Multiplexing)<br>多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。<br><img src="http://chuantu.biz/t5/24/1470157184x1964742004.png" alt=""></li>
@@ -504,7 +522,7 @@ Http2.0特点
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Http2-0"><span class="nav-number">1.</span> <span class="nav-text">Http2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Http2-0特点"><span class="nav-number">1.1.</span> <span class="nav-text">Http2.0特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Socket连接"><span class="nav-number">2.</span> <span class="nav-text">Socket连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP_Socket连接"><span class="nav-number">2.1.</span> <span class="nav-text">TCP Socket连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDP_Socket连接"><span class="nav-number">2.2.</span> <span class="nav-text">UDP Socket连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP和UDP"><span class="nav-number">3.</span> <span class="nav-text">TCP和UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP:"><span class="nav-number">3.1.</span> <span class="nav-text">TCP:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDP"><span class="nav-number">3.2.</span> <span class="nav-text">UDP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipv4和ipv6"><span class="nav-number">4.</span> <span class="nav-text">ipv4和ipv6</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是IPv4"><span class="nav-number">4.1.</span> <span class="nav-text">什么是IPv4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是IPv6"><span class="nav-number">4.2.</span> <span class="nav-text">什么是IPv6</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPv6与IPv4相比有什么特点和优点"><span class="nav-number">4.3.</span> <span class="nav-text">IPv6与IPv4相比有什么特点和优点</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Http现状"><span class="nav-number">1.</span> <span class="nav-text">Http现状</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一：线头阻塞"><span class="nav-number">1.1.</span> <span class="nav-text">问题一：线头阻塞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二：连接无法复用"><span class="nav-number">1.2.</span> <span class="nav-text">问题二：连接无法复用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Http2-0"><span class="nav-number">2.</span> <span class="nav-text">Http2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Http2-0特点"><span class="nav-number">2.1.</span> <span class="nav-text">Http2.0特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Socket连接"><span class="nav-number">3.</span> <span class="nav-text">Socket连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP_Socket连接"><span class="nav-number">3.1.</span> <span class="nav-text">TCP Socket连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDP_Socket连接"><span class="nav-number">3.2.</span> <span class="nav-text">UDP Socket连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP和UDP"><span class="nav-number">4.</span> <span class="nav-text">TCP和UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP:"><span class="nav-number">4.1.</span> <span class="nav-text">TCP:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDP"><span class="nav-number">4.2.</span> <span class="nav-text">UDP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipv4和ipv6"><span class="nav-number">5.</span> <span class="nav-text">ipv4和ipv6</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是IPv4"><span class="nav-number">5.1.</span> <span class="nav-text">什么是IPv4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是IPv6"><span class="nav-number">5.2.</span> <span class="nav-text">什么是IPv6</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPv6与IPv4相比有什么特点和优点"><span class="nav-number">5.3.</span> <span class="nav-text">IPv6与IPv4相比有什么特点和优点</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
