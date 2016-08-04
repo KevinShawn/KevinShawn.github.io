@@ -107,7 +107,7 @@ HTTP Pipelining是把多个HTTP请求放到一个TCP连接中一一发送，不�
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470153016x3738746571.jpg">
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470152826x3738746571.png">
 <meta property="og:image" content="http://chuantu.biz/t5/24/1470152903x3738746571.png">
-<meta property="og:updated_time" content="2016-08-04T15:40:22.000Z">
+<meta property="og:updated_time" content="2016-08-04T15:46:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Http相关知识">
 <meta name="twitter:description" content="网络基础，大部分都参考自网上博客
@@ -330,7 +330,7 @@ HTTP Pipelining是把多个HTTP请求放到一个TCP连接中一一发送，不�
 </li>
 </ul>
 <h4 id="问题二：连接无法复用">问题二：连接无法复用</h4><p>http1.0协议头里可以设置Connection:Keep-Alive。在header里设置Keep-Alive可以在一定时间内复用连接，具体复用时间的长短可以由服务器控制，一般在15s左右。到http1.1之后Connection的默认值就是Keep-Alive，如果要关闭连接复用需要显式的设置Connection:Close。一段时间内的连接复用对PC端浏览器的体验帮助很大，因为大部分的请求在集中在一小段时间以内。但对移动app来说，成效不大，app端的请求比较分散且时间跨度相对较大。所以移动端app一般会从应用层寻求其它解决方案，基于tcp的长链接，http long-polling，http streaming， web socket</p>
-<h3 id="Http_Content-Range">Http Content-Range</h3><p>Content-Range可以用来做获取文件的指定字节数<br>客户端请求报文：Range: bytes=200-299<br>服务器的响应报文会有下面这行：<br>HTTP/1.1 206 OK<br>表示处理请求成功，响应报文还有这一行<br>Content-Range: bytes 200-299/403</p>
+<h3 id="Http_Content-Range">Http Content-Range</h3><p>Content-Range可以用来做获取文件的指定字节数<br>客户端请求报文：Range: bytes=200-299<br>服务器的响应报文会有下面这行：<br>HTTP/1.1 206 OK<br>Content-Range: bytes 200-299/403<br>206表示处理请求成功，<br>200-299指定的文件区间 403是总长度</p>
 <h3 id="Http2-0">Http2.0</h3><p>Http2.0的目标是改善用户在使用web时的速度体验。</p>
 <h4 id="Http2-0特点">Http2.0特点</h4><ul>
 <li>多路复用 (Multiplexing)<br>多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。<br><img src="http://chuantu.biz/t5/24/1470157184x1964742004.png" alt=""></li>
