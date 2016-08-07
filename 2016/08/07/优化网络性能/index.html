@@ -1,0 +1,692 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="优化," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="网络请求App必不可缺的部分，如何优化App的网络请求对App来说也是很重要。
+前言网络请求的过程
+
+DNS查找
+发送Http报文
+TCP握手
+TLS(HTTPS)握手
+接收回调报文
+
+影响网络性能有：
+
+DNS查找问题：（1）DNS劫持（2）DNS解析慢
+网络带宽：指两个端点之间通信通道每秒钟可以传输的位数。
+网络延迟：指的是网络包在两个端点间一次往返所需要的时间。
+
+如何优化DNSDNS解析会">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS网络性能优化">
+<meta property="og:url" content="http://yoursite.com/2016/08/07/优化网络性能/index.html">
+<meta property="og:site_name" content="Leon">
+<meta property="og:description" content="网络请求App必不可缺的部分，如何优化App的网络请求对App来说也是很重要。
+前言网络请求的过程
+
+DNS查找
+发送Http报文
+TCP握手
+TLS(HTTPS)握手
+接收回调报文
+
+影响网络性能有：
+
+DNS查找问题：（1）DNS劫持（2）DNS解析慢
+网络带宽：指两个端点之间通信通道每秒钟可以传输的位数。
+网络延迟：指的是网络包在两个端点间一次往返所需要的时间。
+
+如何优化DNSDNS解析会">
+<meta property="og:updated_time" content="2016-08-07T09:23:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS网络性能优化">
+<meta name="twitter:description" content="网络请求App必不可缺的部分，如何优化App的网络请求对App来说也是很重要。
+前言网络请求的过程
+
+DNS查找
+发送Http报文
+TCP握手
+TLS(HTTPS)握手
+接收回调报文
+
+影响网络性能有：
+
+DNS查找问题：（1）DNS劫持（2）DNS解析慢
+网络带宽：指两个端点之间通信通道每秒钟可以传输的位数。
+网络延迟：指的是网络包在两个端点间一次往返所需要的时间。
+
+如何优化DNSDNS解析会">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS网络性能优化 | Leon </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS网络性能优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-07T16:19:14+08:00" content="2016-08-07">
+              2016-08-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>网络请求App必不可缺的部分，如何优化App的网络请求对App来说也是很重要。</p>
+<h2 id="前言">前言</h2><p>网络请求的过程</p>
+<ol>
+<li>DNS查找</li>
+<li>发送Http报文</li>
+<li>TCP握手</li>
+<li>TLS(HTTPS)握手</li>
+<li>接收回调报文</li>
+</ol>
+<p>影响网络性能有：</p>
+<ol>
+<li>DNS查找问题：（1）DNS劫持（2）DNS解析慢</li>
+<li>网络带宽：指两个端点之间通信通道每秒钟可以传输的位数。</li>
+<li>网络延迟：指的是网络包在两个端点间一次往返所需要的时间。</li>
+</ol>
+<h2 id="如何优化">如何优化</h2><h3 id="DNS">DNS</h3><p>DNS解析会面临的2个问题(1）DNS劫持（2）DNS解析慢,如果能够在本地维护一份IP列表，自己解析出DNS而不去查询，那这2个问题也就迎刃而解。</p>
+<p><a href="http://mrpeak.cn/ios/2016/01/22/dnsmapping" target="_blank" rel="external">iOS网络请求优化之DNS映射</a></p>
+<p><a href="http://www.jianshu.com/p/d945454e3abc" target="_blank" rel="external">DNS解析</a></p>
+<h3 id="减少请求宽带">减少请求宽带</h3><p>减少带宽归根结底就是减少请求的数据量，使用高效的数据交换格式，压缩每个请求和响应的负载。</p>
+<ul>
+<li>响应压缩</li>
+</ul>
+<p>客户端请求时在Http头 通常会默认<br>Accept-Encoding: gzip, deflate<br>告示服务器，客户端可以接受使用gzip或者DEFLATE压缩的负载。这样通过响应负载压缩来提升性能的关键就在于服务器是否支持压缩。<br>如果想要手动禁用Accept-Encoding直接用NSMutableURLRequest [request addValue:@”” forHttpHeaderField::@”Accept-Encoding”];</p>
+<ul>
+<li>请求压缩</li>
+</ul>
+<p>请求压缩是客户端压缩，服务器还要解压缩。<br>广域网无线传输速率通常是非对称的，发送给设备的数据提供更大的带宽，对设备发出的设备提供很小的带宽。<br>与响应压缩一样，客户端不应把cpu时间浪费在本身已经压缩的内容上。然而代表预先压缩的数据的Base64数据常常会从请求压缩中获益。<br>以下代码是请求压缩例子。<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[request <span class="keyword">addValue:@"gzip" </span>forHttpHeaderField::@<span class="string">"Accept-Encoding"</span>]<span class="comment">;</span></div><div class="line">NSData *compressData = [requestData rawDeflatedData]<span class="comment">;</span></div><div class="line">[request setHttpBody:compressData]<span class="comment">;</span></div><div class="line">reqSize = [compressed length]<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>  先加入libz.dylib</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import "NSData+CRC32.h"</span></div><div class="line"><span class="meta">#include &lt;zlib.h&gt;</span></div><div class="line"></div><div class="line">@implementation NSData (CRC32)</div><div class="line"></div><div class="line">- (uint32_t)crc32;</div><div class="line">&#123;</div><div class="line">	uLong crc = crc32(<span class="number">0</span>, Z_NULL, <span class="number">0</span>);</div><div class="line">	<span class="keyword">return</span> crc32(crc, self.bytes, self.<span class="built_in">length</span>);</div><div class="line">&#125;</div><div class="line">- (NSData *)rawDeflatedData;</div><div class="line">&#123;</div><div class="line">	z_stream <span class="keyword">stream</span>;</div><div class="line">	<span class="keyword">stream</span>.avail_in = self.<span class="built_in">length</span>;</div><div class="line">	<span class="keyword">stream</span>.next_in = (uint8_t *) self.bytes;</div><div class="line">	<span class="keyword">stream</span>.zalloc = Z_NULL;</div><div class="line">	<span class="keyword">stream</span>.zfree = Z_NULL;</div><div class="line">	<span class="keyword">stream</span>.opaque = Z_NULL;</div><div class="line">	</div><div class="line">	deflateInit2(&amp;<span class="keyword">stream</span>, <span class="number">9</span>, Z_DEFLATED, <span class="number">-15</span>, <span class="number">9</span>, Z_DEFAULT_STRATEGY);</div><div class="line">	</div><div class="line">	NSUInteger maxSize = deflateBound(&amp;<span class="keyword">stream</span>, self.<span class="built_in">length</span>);</div><div class="line">	</div><div class="line">	uint8_t *outputData = malloc(maxSize);</div><div class="line">	<span class="keyword">stream</span>.next_out = outputData;</div><div class="line">	<span class="keyword">stream</span>.avail_out = maxSize;</div><div class="line"></div><div class="line">	while(<span class="keyword">stream</span>.avail_out &gt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="type">int</span> ret = deflate(&amp;<span class="keyword">stream</span>, Z_FINISH);</div><div class="line">		<span class="keyword">if</span> (ret != Z_OK)</div><div class="line">			<span class="keyword">break</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	deflateEnd(&amp;<span class="keyword">stream</span>);</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> [NSData dataWithBytesNoCopy:outputData <span class="built_in">length</span>:maxSize - <span class="keyword">stream</span>.avail_out];</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="降低请求延迟">降低请求延迟</h3><p>网络延迟包括</p>
+<p>1.手机与运营商网络建立连接的时间</p>
+<p>2.建立TCP连接的时间</p>
+<p>3.SSL连接的时间</p>
+<p>4.发送与接收HTTP请求的时间</p>
+<p>我们可以通过通过一些技术降低多个请求的延迟。<br>降低请求延迟有两项最佳实践</p>
+<ul>
+<li>Keep-Alive<br>Http1.0协议头里可以设置Connection:Keep-Alive。在header里设置Keep-Alive可以在一定时间内复用连接，具体复用时间的长短可以由服务器控制，一般在15s左右。到http1.1之后Connection的默认值就是Keep-Alive，如果要关闭连接复用需要显式的设置。但是app得请求比较分散效果不好</li>
+<li>Http Pipelining<br>不过pipelining只能适用于http1.1，所以要看服务器的配置<br>[request setHTTPShouldUsePipelining:YES];</li>
+</ul>
+<p>AFURLRequestSerialization默认是关闭的<br>@property (nonatomic, assign) BOOL HTTPShouldUsePipelining;</p>
+<h3 id="避免频繁的网络请求，多使用缓存">避免频繁的网络请求，多使用缓存</h3><h4 id="判断服务器资源是否发生改变">判断服务器资源是否发生改变</h4><ul>
+<li><p>利用HTTP 304<br>在客户端第一次请求某一个URL时，服务器端的返回状态会是200，内容是你请求的资源，同时有一个Last-Modified的属性标记此文件在服务期端最后被修改的时间，格式类似这样：<br>Last-Modified: Fri, 12 May 2006 18:53:33 GMT<br>客户端第二次请求此URL时，根据 HTTP 协议的规定，浏览器会向服务器传送 If-Modified-Since 报头，询问该时间之后文件是否有被修改过：<br>If-Modified-Since: Fri, 12 May 2006 18:53:33 GMT<br>如 果服务器端的资源没有变化，则自动返回 HTTP 304 （Not Changed.）状态码，内容为空，这样就节省了传输数据量。当服务器端代码发生改变或者重启服务器时，则重新发出资源，返回和第一次请求时类似。 从而保证不向客户端重复发出资源，也保证当服务器有变化时，客户端能够得到最新的资源。 </p>
+</li>
+<li><p>利用ETag</p>
+<p>什么是”Etag”?<br>HTTP 协议规格说明定义ETag为“被请求变量的实体值” 。 另一种说法是，ETag是一个可以与Web资源关联的记号（token）。典型的Web资源可以一个Web页，但也可能是JSON或XML文档。服务器单 独负责判断记号是什么及其含义，并在HTTP响应头中将其传送到客户端，以下是服务器端返回的格式：<br>ETag: “50b1c1d4f775c61:df3”<br>客户端的查询更新格式是这样的：<br>If-None-Match: W/“50b1c1d4f775c61:df3”<br>如果ETag没改变，则返回状态304然后不返回，这也和Last-Modified一样。</p>
+</li>
+</ul>
+<p>Last-Modified和Etags如何帮助提高性能?<br>开发者会把Last-Modified 和ETags请求的http报头一起使用，这样可利用客户端的缓存。因为服务器首先产生 Last-Modified/Etag标记，服务器可在稍后使用它来判断页面是否已经被修改。本质上，客户端通过将该记号传回服务器要求服务器验证其（客户端）缓存。<br>过程如下: </p>
+<ol>
+<li>客户端请求一个页面（A）。 </li>
+<li>服务器返回页面A，并在给A加上一个Last-Modified/ETag。 </li>
+<li>客户端展现该页面，并将页面连同Last-Modified/ETag一起缓存。 </li>
+<li>客户再次请求页面A，并将上次请求时服务器返回的Last-Modified/ETag一起传递给服务器。 </li>
+<li>服务器检查该Last-Modified或ETag，并判断出该页面自上次客户端请求之后还未被修改，直接返回响应304和一个空的响应体。<br>需要。</li>
+</ol>
+<h4 id="增量更新">增量更新</h4><p>对于一些活动记录历史订单之类的接口，可以使用增量更新的方法。<br>和If-Modified-Since方法类似：<br>请求时传个时间参数：<br>第一次时间传空把服务器所有数据拉下来。<br>第二次时间传的是上次更新的时间，服务器的回调是上次更新时间和当前时间的变化量<br>返回结果类似</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">json</span></div><div class="line">&#123;</div><div class="line">	<span class="attribute">adde</span>:[];</div><div class="line">	<span class="attribute">update</span>:[];</div><div class="line">	<span class="attribute">delete</span>:[]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>参考<br><a href="http://mrpeak.cn/ios/2016/01/22/dnsmapping" target="_blank" rel="external">iOS网络请求优化之DNS映射</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/优化/" rel="tag">#优化</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/03/Http相关知识3/" rel="next" title="Http相关知识">
+                <i class="fa fa-chevron-left"></i> Http相关知识
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Leon" />
+          <p class="site-author-name" itemprop="name">Leon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何优化"><span class="nav-number">2.</span> <span class="nav-text">如何优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">2.1.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减少请求宽带"><span class="nav-number">2.2.</span> <span class="nav-text">减少请求宽带</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#降低请求延迟"><span class="nav-number">2.3.</span> <span class="nav-text">降低请求延迟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免频繁的网络请求，多使用缓存"><span class="nav-number">2.4.</span> <span class="nav-text">避免频繁的网络请求，多使用缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#判断服务器资源是否发生改变"><span class="nav-number">2.4.1.</span> <span class="nav-text">判断服务器资源是否发生改变</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增量更新"><span class="nav-number">2.4.2.</span> <span class="nav-text">增量更新</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
